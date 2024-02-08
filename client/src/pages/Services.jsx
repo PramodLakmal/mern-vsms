@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function Services() {
   return (
-    <div>Services</div>
+    <div className='min-h-screen'>Services</div>
   )
 }

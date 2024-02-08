@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function SignUp() {
   return (
-    <div>SignUp</div>
+    <div className='min-h-screen'>SignUp</div>
   )
 }
