@@ -10,6 +10,7 @@ import employeeRoutes from "./routes/employee.route.js";
 import leaveRoutes from "./routes/leave.route.js";
 import salaryRoutes from "./routes/salary.route.js";
 import authRoutes from "./routes/auth.route.js";
+import cookieParser from "cookie-parser";
 
 
 dotenv.config();
@@ -26,6 +27,7 @@ mongoose
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 
 
