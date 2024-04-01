@@ -51,3 +51,12 @@ export const updateUser = async (req, res, next) => {
         }
 
 };
+
+export const signout = (req, res, next) => {
+    try {
+      res.clearCookie('access_token');
+      res.status(200).json({ message: 'Signout successful' });
+    } catch (error) {
+      next(error);
+    }
+};    
