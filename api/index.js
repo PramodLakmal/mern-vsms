@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/user.route.js";
 import employeeRoutes from "./routes/employee.route.js";
+import leaveRoutes from "./routes/leave.route.js";
+import salaryRoutes from "./routes/salary.route.js";
 
 dotenv.config();
 
@@ -25,3 +27,5 @@ app.listen(3000, () => {
 
 app.use("/api/user", userRoutes);
 app.use("/api/employee", employeeRoutes);
+app.use("/api/leave", leaveRoutes);
+app.use("/api/salary", salaryRoutes);
