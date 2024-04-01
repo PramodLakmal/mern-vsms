@@ -15,7 +15,7 @@ export default function OAuth() {
         const provider = new GoogleAuthProvider();
         provider.setCustomParameters({ prompt: 'select_account' });
         try {
-            const resultFromGoogle = await signInWithPopup(auth, provider);
+            const resultFromGoogle = await signInWithPopup(auth, provider)
             const res = await fetch('api/auth/google', {
                 method: 'POST',
                 headers: {
