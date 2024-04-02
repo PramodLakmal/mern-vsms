@@ -4,6 +4,7 @@ import DashSidebar from '../components/DashSidebar';
 import DashProfile from '../components/DashProfile';
 import CuAgentDashFeedback from '../components/CuAgentDashFeedback';
 import DashUsers from '../components/DashUsers';
+import AdminDashboardComponenet from '../components/AdminDashboardComponenet';
 
 export default function Dashboard() {
   const location = useLocation();
@@ -28,6 +29,8 @@ export default function Dashboard() {
       {tab === 'feedbacks' && <CuAgentDashFeedback/>}
       {/* User List.... */}
       {tab === 'users' && <DashUsers/>}
+      {/* Admin Dashboard */}
+      {tab === 'dash' && <AdminDashboardComponenet/>}
     </div>
   )
 }
