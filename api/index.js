@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
+import expenserouter from "./routes/expense.route.js";
+import incomerouter from "./routes/expense.route.js";
 
 dotenv.config();
 
@@ -26,6 +28,8 @@ app.listen(3000, () => {
 
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/Expense", expenserouter);
+app.use("/api/Income", incomerouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
