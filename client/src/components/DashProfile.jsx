@@ -12,7 +12,7 @@ import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 
 export default function DashProfile() {
-    const {currentUser, error} = useSelector((state) => state.user);
+    const {currentUser, error, loading} = useSelector((state) => state.user);
     const [imageFile, setImageFile] = useState(null);
     const [imageFileUrl, setImageFileUrl] = useState(null);
     const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -178,7 +178,10 @@ export default function DashProfile() {
             <TextInput type='email' id='email' placeholder='Email' defaultValue={currentUser.email} onChange={handleChange}/> 
             <TextInput type='password' id='password' placeholder='Password' onChange={handleChange}/>
 
-            <Button type='submit' gradientDuoTone='purpleToBlue' outline>Update</Button> 
+            <Button type='submit' gradientDuoTone='purpleToBlue' outline disabled= {loading || imageFileUploading}>
+              {loading ? 'Loading...' : 'Update'}
+            </Button> 
+           
         </form>
         <div className="text-red-500 flex justify-between mt-5">
         <span onClick={()=>setShowModal(true)} className='cursor-pointer'>Delete Account</span>
