@@ -20,6 +20,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "https://img.freepik.com/premium-photo/purple-purple-image-man-with-white-shirt-front_745528-2351.jpg",
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    
+    },
   },
   { timestamps: true }
 );
