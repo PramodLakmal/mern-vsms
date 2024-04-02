@@ -1,10 +1,11 @@
 import {Sidebar} from 'flowbite-react';
-import {HiUser, HiArrowSmRight, HiDocumentText} from 'react-icons/hi';
+import {HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup} from 'react-icons/hi';
 import {Link, useLocation} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import { signoutSuccess } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+
 
 
 
@@ -40,14 +41,21 @@ export default function DashSidebar() {
         <Sidebar.Items>
             <Sidebar.ItemGroup>
                 <Link to='/dashboard?tab=profile'>
-                <Sidebar.Item active= {tab === 'profile'} icon={HiUser} label={currentUser.isAdmin ? 'Admin' : 'User'} labelColor='dark' as='div'>
+                <Sidebar.Item active= {tab === 'profile'} icon={HiUser} label={currentUser.isAdmin ? 'Admin' : currentUser.isCustomerServiceAgent ? 'CuAgent' : 'User'} labelColor='dark' as='div'>
                     Profile
                 </Sidebar.Item>
                 </Link>
-                {currentUser.isAdmin &&(
+                {currentUser.isCustomerServiceAgent &&(
                 <Link to='/dashboard?tab=feedbacks'>
                 <Sidebar.Item active= {tab === 'feedbacks'} icon={HiDocumentText} as='div'>
                     Feedbacks    
+                </Sidebar.Item>
+                </Link>
+              )}
+              {currentUser.isAdmin &&(
+                <Link to='/dashboard?tab=users'>
+                <Sidebar.Item active= {tab === 'users'} icon={HiOutlineUserGroup} as='div'>
+                    View Users    
                 </Sidebar.Item>
                 </Link>
               )}

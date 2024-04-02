@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema(
       default: false,
     
     },
+    isCustomerServiceAgent: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
