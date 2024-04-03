@@ -5,7 +5,7 @@ import { errorHandler } from "../utils/error.js";
 
 
 export const signup = async (req, res, next) => {
-        const { username, email, password } = req.body;
+        const {phoneNumber, address, fullName, username, email, password } = req.body;
 
         if (!username || !email || !password || username === "" || email === "" || password === "") {
             next(errorHandler(400, 'All fields are required'));
@@ -14,6 +14,9 @@ export const signup = async (req, res, next) => {
         const hashPassword = bcryptjs.hashSync(password, 10);
 
         const newUser = new User({
+            address,
+            phoneNumber,
+            fullName,
             username,
             email,
             password: hashPassword,
@@ -69,6 +72,7 @@ export const google = async (req, res, next) => {
             const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
             const hashPassword = bcryptjs.hashSync(generatedPassword, 10);
             const newUser = new User({
+                fullName: name,
                 username: name.toLowerCase().split(' ').join('') + Math.random().toString(9).slice(-4),
                 email,
                 password: hashPassword,
