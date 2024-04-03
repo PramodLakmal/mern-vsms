@@ -61,6 +61,15 @@ export default function SignUp() {
         {/* Right */}
         <div className='flex-1'>
           <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+
+          <div>
+              <Label value= 'Your Full Name'/>
+              <TextInput
+                type='text'
+                placeholder='Full Name'
+                id='fullName' onChange={handleChange}/>
+            </div>
+    
             <div>
               <Label value= 'Your username'/>
               <TextInput
@@ -75,6 +84,21 @@ export default function SignUp() {
                 placeholder='name@company.com'
                 id='email'  onChange={handleChange}/>
             </div>
+            <div>
+              <Label value= 'Your Phone Number'/>
+              <TextInput
+                type='phone'
+                placeholder='07xxxxxxxx'
+                id='phoneNumber' onChange={handleChange}/>
+            </div>
+            <div>
+              <Label value= 'Your Address'/>
+              <TextInput
+                type='text'
+                placeholder='Address'
+                id='address' onChange={handleChange}/>
+            </div>
+            
             <div>
               <Label value= 'Your password'/>
               <TextInput
