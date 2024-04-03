@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/user.route.js";
 
+import AppointmentRoutes from "./routes/appointment.route.js";
+
 import serviceRoutes from "./routes/service.route.js";
 import emergencyRouter from "./routes/emergency.route.js";
 
@@ -11,6 +13,7 @@ import leaveRoutes from "./routes/leave.route.js";
 import salaryRoutes from "./routes/salary.route.js";
 import authRoutes from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
+
 
 
 dotenv.config();
@@ -43,6 +46,8 @@ app.use("/api/user", userRoutes);
 
 app.use("/api/service", serviceRoutes);
 app.use('/api/emergencies', emergencyRouter);
+
+app.use("/api/appoitment", AppointmentRoutes);
 
 app.use("/api/employee", employeeRoutes);
 app.use("/api/leave", leaveRoutes);
