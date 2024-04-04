@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { signInStart, signInSuccess, signInFailure  } from '../redux/user/userSlice';
 import OAuth from '../components/OAuth';
+import { set } from 'mongoose';
+
 
 
 export default function Feedback() {
@@ -11,6 +13,32 @@ export default function Feedback() {
   const {loading, error: errorMessage} = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [pubishError, setPublishError] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('/api/feedback/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();  
+      if (!res.ok) {
+        setPublishError(data.message);
+      } 
+      
+      if (res.ok){
+        setPublishError(null)
+        navigate('/feedback/feedbackSuccess');
+      }
+        
+    } catch (error) {
+      setPublishError('Failed to publish feedback');
+    }
+  }  
   
   return (
     <div className='min-h-screen mt-20 '>
@@ -34,13 +62,13 @@ export default function Feedback() {
         {/* Right */}
         <div className='flex-1'>
           <div className='p-6 text-center'><h1 className='dark:text-white text-3xl font-semibold'>Give Your Honnest Feedback Here</h1></div>
-          <form className='flex flex-col gap-4'>
+          <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
           <Label value= 'Your Name'/>
             <div> 
               <TextInput
                 type='text'
                 placeholder='Write your name here'
-                id='feedbackName'/>
+                id='feedbackName' onChange={(e) => setFormData({...formData, feedbackName: e.target.value})}/>
             </div>
 
             <Label value= 'Your Feedback'/>
@@ -48,7 +76,7 @@ export default function Feedback() {
               <Textarea className='h-40'
                 type='text'
                 placeholder='Write your feedback here'
-                id='feedback'/>
+                id='feedback' onChange={(e)=> setFormData({...formData, feedback:e.target.value})}/>
             </div>
 
             
@@ -59,6 +87,7 @@ export default function Feedback() {
                           <span className='pl-3'>Looding...</span></>
                           ) : ('Submit Feedback')}
             </Button>
+            {pubishError && <Alert className='mt-5' color='failure'>{pubishError}</Alert>}
           </form>
         
         </div>
