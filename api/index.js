@@ -13,9 +13,8 @@ import employeeRoutes from "./routes/employee.route.js";
 import leaveRoutes from "./routes/leave.route.js";
 import salaryRoutes from "./routes/salary.route.js";
 import authRoutes from "./routes/auth.route.js";
+import feedbackRoutes from "./routes/feedback.route.js";
 import cookieParser from "cookie-parser";
-
-
 
 dotenv.config();
  // This line is important!
@@ -51,6 +50,7 @@ app.use("/api/employee", employeeRoutes);
 app.use("/api/leave", leaveRoutes);
 app.use("/api/salary", salaryRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/feedback", feedbackRoutes);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
