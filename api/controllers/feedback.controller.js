@@ -20,7 +20,9 @@ export const create = async (req, res, next) => {
 
 export const getFeedbacks = async (req, res, next) => {
     try {
-        const feedbacks = await Feedback.find();
+        const feedbacks = await Feedback.find().sort({ createdAt: -1 });
+
+        
 
         const totalFeedbacks = await Feedback.find().countDocuments();
         const now = new Date();
