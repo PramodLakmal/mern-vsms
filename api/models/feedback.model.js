@@ -1,14 +1,19 @@
 import mongoose from 'mongoose';
 
+
 const FeedbackSchema = new mongoose.Schema({
 
     userId: {
         type: String,
         required: true
     },
-    feedbackName: {
+    currentUser: {
         type: String,
         required: true
+    },
+    feedbackName: {
+        type: String,
+        required: false
     },
     feedback: {
         type: String,

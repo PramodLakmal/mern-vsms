@@ -2,13 +2,13 @@ import { Alert, Button, Label, Spinner, TextInput, Textarea } from 'flowbite-rea
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { signInStart, signInSuccess, signInFailure  } from '../redux/user/userSlice';
-import OAuth from '../components/OAuth';
 import { set } from 'mongoose';
 
 
 
+
 export default function Feedback() {
+  const { currentUser } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
   const {loading, error: errorMessage} = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -66,9 +66,8 @@ export default function Feedback() {
           <Label value= 'Your Name'/>
             <div> 
               <TextInput
-                type='text'
-                placeholder='Write your name here'
-                id='feedbackName' onChange={(e) => setFormData({...formData, feedbackName: e.target.value})}/>
+                defaultValue={currentUser.fullName}
+                id='currentUser' onChange={(e) => setFormData({...formData, currentUser: currentUser.username})}/>
             </div>
 
             <Label value= 'Your Feedback'/>
