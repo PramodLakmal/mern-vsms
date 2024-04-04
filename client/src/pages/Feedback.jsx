@@ -77,7 +77,6 @@ export default function Feedback() {
                 placeholder='Write your feedback here'
                 id='feedback' onChange={(e)=> setFormData({...formData, feedback:e.target.value})}/>
             </div>
-
             
             <Button className='' gradientDuoTone='purpleToPink' type='submit' disabled={loading}>
               {
