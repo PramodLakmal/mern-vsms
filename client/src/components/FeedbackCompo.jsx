@@ -11,7 +11,7 @@ export default function FeedbackCompo({feedback, onEdit, onDelete}) {
     const [isEditing, setIsEditing] = useState(false);
     const [editedFeedback, setEditedFeedback] = useState(feedback.feedback);
     const [feedbacks, setFeedbacks] = useState([{}]);
-    
+
     console.log(user);
 
 
