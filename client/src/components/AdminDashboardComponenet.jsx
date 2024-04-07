@@ -1,6 +1,6 @@
 import React from 'react'
 import {useEffect, useState} from 'react';
-import { HiAnnotation, HiArrowNarrowUp, HiOutlineUserGroup } from 'react-icons/hi';
+import { HiAnnotation, HiArrowNarrowUp, HiOutlineCog, HiOutlineUserGroup } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {Button, Table} from 'flowbite-react';
@@ -12,6 +12,8 @@ export default function AdminDashboardComponenet() {
     const [totalFeedbacks, setTotalFeedbacks] = useState(0);
     const [feedbacks, setFeedbacks] = useState([]);
     const [lastMonthUsers, setLastMonthUsers] = useState(0);
+    const [lastMonthFeedbacks, setLastMonthFeedbacks] = useState(0);
+    const [userFeedbacks, setUserFeedbacks] = useState([]);
 
     const { currentUser } = useSelector((state) => state.user);
     useEffect(() => {
@@ -34,19 +36,26 @@ export default function AdminDashboardComponenet() {
 
         const fetchFeedbacks = async () => {
             try {
-                
+                const res = await fetch(`/api/feedback/getfeedbacks?limit=5`);
+                const data = await res.json();
+                if (res.ok) {
+                    setFeedbacks(data.feedbacks);
+                    setTotalFeedbacks(data.totalFeedbacks);
+                    setLastMonthFeedbacks(data.lastMonthFeedbacks);
+                    setUserFeedbacks(data.feedbacks);
+                }
             } catch (error) {
-               
+                console.log(error.message);
             }
         };
 
         if (currentUser.isAdmin) {
-            fetchUsers();
             fetchFeedbacks();
         }
     
 
-    }, [currentUser]);    
+    }, [currentUser]); 
+    
   return (
     <div className='p-3 md:mx-auto'>
         <div className='flex-wrap flex gap-4 justify-center'>
@@ -73,8 +82,8 @@ export default function AdminDashboardComponenet() {
         <div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
             <div className='flex justify-between'>
                 <div>
-                    <h3 className='text-gray-500 text-md uppercase'>Total Users</h3>
-                    <p className='text-2xl '>{totalUsers}</p>
+                    <h3 className='text-gray-500 text-md uppercase'>Total Feedbacks</h3>
+                    <p className='text-2xl '>{totalFeedbacks}</p>
                     
                 </div>
                 <HiAnnotation className='bg-indigo-600 text-white rounded-full text-5xl p-3 shadow-lg'/>
@@ -83,7 +92,7 @@ export default function AdminDashboardComponenet() {
             <div className='flex gap-2 text-sm'>
                     <span className='text-green-500 flex items-center'>
                         <HiArrowNarrowUp/>
-                        {lastMonthUsers}
+                        {lastMonthFeedbacks}
                     </span>
                     <div className='text-gray-500'>Users joined last month</div>
                 </div>
@@ -92,11 +101,11 @@ export default function AdminDashboardComponenet() {
         <div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
             <div className='flex justify-between'>
                 <div>
-                    <h3 className='text-gray-500 text-md uppercase'>Total Users</h3>
-                    <p className='text-2xl '>{totalUsers}</p>
+                    <h3 className='text-gray-500 text-md uppercase'>Total Services Done</h3>
+                    <p className='text-2xl '>{totalFeedbacks}</p>
                     
                 </div>
-                <HiOutlineUserGroup className='bg-teal-600 text-white rounded-full text-5xl p-3 shadow-lg'/>
+                <HiOutlineCog className='bg-green-800 text-white rounded-full text-5xl p-3 shadow-lg'/>
                 
             </div>
             <div className='flex gap-2 text-sm'>
@@ -104,7 +113,7 @@ export default function AdminDashboardComponenet() {
                         <HiArrowNarrowUp/>
                         {lastMonthUsers}
                     </span>
-                    <div className='text-gray-500'>Users joined last month</div>
+                    <div className='text-gray-500'>Services did in last month</div>
                 </div>
         </div>
 
@@ -138,9 +147,12 @@ export default function AdminDashboardComponenet() {
                   </Table.Row>
                 </Table.Body>
               ))}
+
+              
           </Table>
         </div>
         </div>
+
 
     </div>
   )
