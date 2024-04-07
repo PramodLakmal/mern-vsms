@@ -18,6 +18,10 @@ const FeedbackSchema = new mongoose.Schema({
     feedback: {
         type: String,
         required: true
+    },
+    feedbackId: {
+        type: String,
+        required: false
     }
 }, {timestamps: true}
 

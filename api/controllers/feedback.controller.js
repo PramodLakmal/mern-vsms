@@ -1,3 +1,4 @@
+import e from "express";
 import Feedback from "../models/feedback.model.js";
 import { errorHandler } from "../utils/error.js";
 
@@ -45,5 +46,37 @@ export const getFeedbacks = async (req, res, next) => {
     
     } catch (error) {
         next(errorHandler(500, 'Failed to fetch feedbacks'));
+    }
+};
+
+export const editFeedbacks = async (req, res, next) => {
+    try {
+        const feedback = await Feedback.findById(req.params.feedbackId);
+        if(!feedback){
+            return next(errorHandler(404, 'Feedback not found'));
+        }
+        if(feedback.userId !== req.user.id){
+            return next(errorHandler(403, 'You are not allowed to edit this feedback'));
+        }
+        const updatedFeedback = await Feedback.findByIdAndUpdate(req.params.feedbackId, { feedback: req.body.feedback }, { new: true });
+        res.status(200).json(updatedFeedback);
+    } catch (error) {
+        next(errorHandler(500, 'Failed to update feedback'));
+    }
+};
+
+export const deleteFeedbacks = async (req, res, next) => {
+    try {
+        const feedback = await Feedback.findById(req.params.feedbackId);
+        if(!feedback){
+            return next(errorHandler(404, 'Feedback not found'));
+        }
+        if(feedback.userId !== req.user.id){
+            return next(errorHandler(403, 'You are not allowed to delete this feedback'));
+        }
+        await Feedback.findByIdAndDelete(req.params.feedbackId);
+        res.status(200).json({ message: 'Feedback deleted successfully' });
+    } catch (error) {
+        next(errorHandler(500, 'Failed to delete feedback'));
     }
 };
