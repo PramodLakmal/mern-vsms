@@ -23,6 +23,7 @@ export default function Feedback() {
     const [lastMonthFeedbacks, setLastMonthFeedbacks] = useState(0);
     const [userFeedbacks, setUserFeedbacks] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [feedbackToDelete, setFeedbackToDelete] = useState(null);
   console.log(feedback);
 
   const handleSubmit = async (e) => {
@@ -112,7 +113,7 @@ const handleDelete = async (feedbackId) => {
           method: 'DELETE',
       });
       if (res.ok) {
-          setFeedbacks(feedbacks.filter((f) => f._id !== feedbackId));
+          setFeedbacks(feedbacks.filter((f) => f._id !== feedback._id));
       }
   } catch (error) {
       console.log(error.message);
