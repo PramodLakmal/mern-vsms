@@ -113,7 +113,7 @@ const handleDelete = async (feedbackId) => {
           method: 'DELETE',
       });
       if (res.ok) {
-          setFeedbacks(feedbacks.filter((f) => f._id !== feedback._id));
+          setFeedbacks(feedbacks.filter((f) => f._id !== feedbackId));
       }
   } catch (error) {
       console.log(error.message);
