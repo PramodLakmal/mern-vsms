@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import BookNow from "./pages/Book";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         </Route>
         <Route path="services" element={<Services />} />
+        <Route path="/book" element={<BookNow />} />
       </Routes>
       <Footer />
     </BrowserRouter>
