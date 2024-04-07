@@ -23,6 +23,7 @@ export default function Feedback() {
     const [lastMonthFeedbacks, setLastMonthFeedbacks] = useState(0);
     const [userFeedbacks, setUserFeedbacks] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [feedbackToDelete, setFeedbackToDelete] = useState(null);
   console.log(feedback);
 
   const handleSubmit = async (e) => {
