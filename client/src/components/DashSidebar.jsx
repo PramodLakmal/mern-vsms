@@ -5,6 +5,7 @@ import {useEffect, useState} from 'react';
 import { signoutSuccess } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { RiCoupon2Fill } from "react-icons/ri";
 
 
 
@@ -74,6 +75,16 @@ export default function DashSidebar() {
                 </Link>
               )}
               </div>
+
+              <Link to="/dashboard?tab=coupons">
+                <Sidebar.Item
+                  active={tab === "coupons"}
+                  icon={RiCoupon2Fill}
+                  as="div"
+                >
+                  Coupons
+                </Sidebar.Item>
+              </Link>
 
               <div>
                 <Sidebar.Item icon={HiArrowSmRight} className='cursor-pointer' onClick={handleSignout}>
