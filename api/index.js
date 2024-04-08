@@ -16,6 +16,7 @@ import authRoutes from "./routes/auth.route.js";
 import expenserouter from "./routes/expense.route.js";
 import incomerouter from "./routes/expense.route.js";
 import feedbackRoutes from "./routes/feedback.route.js";
+import couponRoutes from "./routes/coupon.route.js";
 import cookieParser from "cookie-parser";
 
 
@@ -56,6 +57,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/Expense", expenserouter);
 app.use("/api/Income", incomerouter);
 app.use("/api/feedback", feedbackRoutes);
+app.use("/api/coupon", couponRoutes)
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
