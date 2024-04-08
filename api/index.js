@@ -5,7 +5,7 @@ import userRoutes from "./routes/user.route.js";
 
 import serviceRoutes from "./routes/service.route.js";
 import emergencyRouter from "./routes/emergency.route.js";
-
+import PostRoutes from "./routes/post.route.js";
 import employeeRoutes from "./routes/employee.route.js";
 import leaveRoutes from "./routes/leave.route.js";
 import salaryRoutes from "./routes/salary.route.js";
