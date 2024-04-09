@@ -88,6 +88,17 @@ export default function FeedbackCompo({feedback, onEdit, onDelete}) {
         {currentUser && currentUser._id === feedback.userId && (
         <div className='flex justify-end'>
             <button type='button' onClick={handleEdit} className='text-xs text-gray-500 hover:text-blue-500'>Edit</button>
+
+            {!currentUser.isCustomerServiceAgent && (
+            <div className='flex ml-2'>
+            <button type='button' onClick={()=> onDelete(feedback._id)} className='text-xs text-gray-500 hover:text-red-500'>Delete</button>
+            </div>
+            )}
+            
+        </div>
+         )}
+         {currentUser.isCustomerServiceAgent && (
+        <div className='flex justify-end'>
             <div className='flex ml-2'>
             <button type='button' onClick={()=> onDelete(feedback._id)} className='text-xs text-gray-500 hover:text-red-500'>Delete</button>
             </div>
