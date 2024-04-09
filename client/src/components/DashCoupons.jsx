@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Table, Toast } from "flowbite-react";
 import { HiOutlineExclamationCircle, HiCheck, HiX } from "react-icons/hi";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DashCoupons = () => {
   const [coupons, setCoupons] = useState([]);
@@ -226,9 +225,8 @@ const DashCoupons = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 relative bg-gray-50 dark:bg-gray-800">
+    <div className="container mx-auto p-4 relative">
       <ToastContainer />
-
 
       <Button
         onClick={handleAddModalOpen}

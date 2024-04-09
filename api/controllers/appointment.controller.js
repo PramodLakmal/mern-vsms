@@ -82,3 +82,14 @@ export {
     deleteAppointment,
     updateAppointment
 };
+
+export const getAppointmentsByUser = async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const appointments = await Appointment.find({ userId }).populate('serviceId').exec();
+      res.status(200).json({ appointments });
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to fetch appointments', error: error.message });
+    }
+  };
+  

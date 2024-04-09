@@ -26,6 +26,40 @@ const appointmentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false,
+    },
+    serviceId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Service",
+      required: false,
+    },
+    isPaid: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    amount: {
+      type: Number,
+      required: false,
+    },
+    completed: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    cancelled: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    refunded: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
   },
   { timestamps: true }
 );
