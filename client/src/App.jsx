@@ -11,6 +11,7 @@ import Services from "./pages/Services";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
 import Feedback from "./pages/Feedback";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 export default function App() {
   return (
@@ -21,12 +22,15 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
-        <Route element={<PrivateRoute />}> {/* PrivateRoute is a placeholder */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="feedback" element={<Feedback/>}/>
+        <Route element={<PrivateRoute />}>
+          {" "}
+          {/* PrivateRoute is a placeholder */}
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="feedback" element={<Feedback />} />
         </Route>
         <Route path="services" element={<Services />} />
         <Route path="/book" element={<BookNow />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Table, Toast } from "flowbite-react";
 import { HiOutlineExclamationCircle, HiCheck, HiX } from "react-icons/hi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DashCoupons = () => {
   const [coupons, setCoupons] = useState([]);
@@ -42,9 +44,9 @@ const DashCoupons = () => {
         data.coupons.map((coupon) => {
           checkIfCouponIsExpired(coupon);
           return {
-           ...coupon,
+            ...coupon,
             expiryDate: coupon.expiryDate
-             ? new Date(coupon.expiryDate).toLocaleDateString()
+              ? new Date(coupon.expiryDate).toLocaleDateString()
               : "",
           };
         })
@@ -55,10 +57,15 @@ const DashCoupons = () => {
   };
 
   const showToast = (message) => {
-    setToastMessage(message);
-    setTimeout(() => {
-      setToastMessage("");
-    }, 5000); // Hide toast after 5 seconds
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   const handleAddModalOpen = () => {
@@ -86,18 +93,18 @@ const DashCoupons = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({...coupon, isActive: false }),
+        body: JSON.stringify({ ...coupon, isActive: false }),
       })
-       .then((response) => response.json())
-       .then((data) => {
+        .then((response) => response.json())
+        .then((data) => {
           // Update the coupon in the state
           setCoupons(
             coupons.map((c) =>
-              c._id === coupon._id? {...c, isActive: false } : c
+              c._id === coupon._id ? { ...c, isActive: false } : c
             )
           );
         })
-       .catch((error) => {
+        .catch((error) => {
           console.error("Error updating coupon:", error);
         });
     }
@@ -129,7 +136,7 @@ const DashCoupons = () => {
     const expiryDate = new Date(coupon.expiryDate);
     expiryDate.setDate(expiryDate.getDate() + 1);
     setUpdatedCoupon({
-     ...coupon,
+      ...coupon,
       expiryDate: expiryDate.toISOString().split("T")[0],
     });
     setShowUpdateModal(true);
@@ -188,98 +195,111 @@ const DashCoupons = () => {
   };
 
   const handleInputChange = (e, target = "new") => {
-    const { name, value, type, checked }= e.target;
+    const { name, value, type, checked } = e.target;
     if (name === "discountAmount") {
       const newValue = Math.max(0, parseFloat(value));
       if (target === "new") {
         setNewCoupon((prevState) => ({
-         ...prevState,
-          [name]: type === "checkbox"? checked : newValue,
+          ...prevState,
+          [name]: type === "checkbox" ? checked : newValue,
         }));
       } else {
         setUpdatedCoupon((prevState) => ({
-         ...prevState,
-          [name]: type === "checkbox"? checked : newValue,
+          ...prevState,
+          [name]: type === "checkbox" ? checked : newValue,
         }));
       }
     } else {
       if (target === "new") {
         setNewCoupon((prevState) => ({
-         ...prevState,
-          [name]: type === "checkbox"? checked : value,
+          ...prevState,
+          [name]: type === "checkbox" ? checked : value,
         }));
       } else {
         setUpdatedCoupon((prevState) => ({
-         ...prevState,
-          [name]: type === "checkbox"? checked : value,
+          ...prevState,
+          [name]: type === "checkbox" ? checked : value,
         }));
       }
     }
   };
 
   return (
-    <div className="container mx-auto p-4 relative bg-gray-50 dark:bg-gray-800">
-    {toastMessage && (
-      <div className="flex flex-col gap-4 absolute top-14 right-4 z-50">
-        <Toast className="bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
-          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
-            <HiCheck className="h-5 w-5" />
-          </div>
-          <div className="ml-3 text-sm font-normal">{toastMessage}</div>
-        </Toast>
-      </div>
-    )}
-  
-    <Button onClick={handleAddModalOpen} className="mb-4 bg-blue-500 text-white hover:bg-blue-700">
-      Add Coupon
-    </Button>
-  
-    <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">All Coupons</h2>
-  
-    {coupons && coupons.length > 0? (
-      <Table className="w-full table-auto">
-        <thead>
-          <tr className="text-left text-gray-600 dark:text-gray-400">
-            <th>Code</th>
-            <th>Discount Type</th>
-            <th>Discount Amount</th>
-            <th>Expiry Date</th>
-            <th>Usage Limit</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {coupons.map((coupon) => (
-            <tr key={coupon._id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
-              <td>{coupon.code}</td>
-              <td>{coupon.discountType}</td>
-              <td>{coupon.discountAmount}</td>
-              <td>{coupon.expiryDate}</td>
-              <td>{coupon.usageLimit}</td>
-              <td>
-  <div className={`inline-flex h-6 px-2 rounded-lg ${coupon.isActive ? 'bg-green-200' : 'bg-red-200'} text-xs font-medium items-center text-black`}>
-    {coupon.isActive ? <HiCheck className="h-4 w-4 text-green-600" /> : <HiX className="h-4 w-4 text-red-600" />}
-    {coupon.isActive ? 'Active' : 'Inactive'}
-  </div>
-</td>
-              <td>
-                <div className="flex flex-row">
-                  <Button onClick={() => handleUpdateModalOpen(coupon)} className="mr-2 bg-blue-500 text-white hover:bg-blue-700">
-                    Update
-                  </Button>
-                  <Button onClick={() => handleDeleteCoupon(coupon._id)} className="bg-red-500 text-white hover:bg-red-700">
-                    Delete
-                  </Button>
-                </div>
-              </td>
+    <div className="container mx-auto p-4 relative">
+      <ToastContainer />
+
+      <Button
+        onClick={handleAddModalOpen}
+        className="mb-4 bg-blue-500 text-white hover:bg-blue-700"
+      >
+        Add Coupon
+      </Button>
+
+      <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">
+        All Coupons
+      </h2>
+
+      {coupons && coupons.length > 0 ? (
+        <Table className="w-full table-auto">
+          <thead>
+            <tr className="text-left text-gray-600 dark:text-gray-400">
+              <th>Code</th>
+              <th>Discount Type</th>
+              <th>Discount Amount</th>
+              <th>Expiry Date</th>
+              <th>Usage Limit</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-    ) : (
-      <p className="text-gray-600 dark:text-gray-400">No coupons found</p>
-    )}
+          </thead>
+          <tbody>
+            {coupons.map((coupon) => (
+              <tr
+                key={coupon._id}
+                className="hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <td>{coupon.code}</td>
+                <td>{coupon.discountType}</td>
+                <td>{coupon.discountAmount}</td>
+                <td>{coupon.expiryDate}</td>
+                <td>{coupon.usageLimit}</td>
+                <td>
+                  <div
+                    className={`inline-flex h-6 px-2 rounded-lg ${
+                      coupon.isActive ? "bg-green-200" : "bg-red-200"
+                    } text-xs font-medium items-center text-black`}
+                  >
+                    {coupon.isActive ? (
+                      <HiCheck className="h-4 w-4 text-green-600" />
+                    ) : (
+                      <HiX className="h-4 w-4 text-red-600" />
+                    )}
+                    {coupon.isActive ? "Active" : "Inactive"}
+                  </div>
+                </td>
+                <td>
+                  <div className="flex flex-row">
+                    <Button
+                      onClick={() => handleUpdateModalOpen(coupon)}
+                      className="mr-2 bg-blue-500 text-white hover:bg-blue-700"
+                    >
+                      Update
+                    </Button>
+                    <Button
+                      onClick={() => handleDeleteCoupon(coupon._id)}
+                      className="bg-red-500 text-white hover:bg-red-700"
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      ) : (
+        <p className="text-gray-600 dark:text-gray-400">No coupons found</p>
+      )}
       <Modal
         show={showConfirmationDialog}
         onClose={handleConfirmationDialogClose}
@@ -408,7 +428,8 @@ const DashCoupons = () => {
               <span className="ml-2 text-gray-700">Active</span>
             </label>
           </div>
-          <div className="col-span-2"><Button onClick={handleAddCoupon} className="mt-4 w-full">
+          <div className="col-span-2">
+            <Button onClick={handleAddCoupon} className="mt-4 w-full">
               Add
             </Button>
           </div>
