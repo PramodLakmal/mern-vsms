@@ -71,7 +71,7 @@ export const deleteFeedbacks = async (req, res, next) => {
         if(!feedback){
             return next(errorHandler(404, 'Feedback not found'));
         }
-        if(feedback.userId !== req.user.id){
+        if(feedback.userId !== req.user.id && !req.user.isCustomerServiceAgent){
             return next(errorHandler(403, 'You are not allowed to delete this feedback'));
         }
         await Feedback.findByIdAndDelete(req.params.feedbackId);
