@@ -21,6 +21,7 @@ import cookieParser from "cookie-parser";
 import webhookRouter from "./routes/webhook.route.js";
 import refundRoutes from "./routes/refund.route.js";
 import transactionRoutes from "./routes/transaction.route.js";
+import itemRoutes from "./routes/item.route.js";
 
 
 import Stripe from "stripe";
@@ -137,6 +138,7 @@ app.post("/api/create-payment-session", async (req, res) => {
 app.use('/api/post', PostRoutes);
 app.use("/api/refunds", refundRoutes);
 app.use("/api/transactions", transactionRoutes);
+app.use("/api/items", itemRoutes);
 
 
 
