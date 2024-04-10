@@ -1,5 +1,5 @@
 import {Sidebar} from 'flowbite-react';
-import {HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup, HiChartPie} from 'react-icons/hi';
+import {HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup, HiChartPie, HiBookmark} from 'react-icons/hi';
 import {Link, useLocation} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import { signoutSuccess } from '../redux/user/userSlice';
@@ -41,16 +41,26 @@ export default function DashSidebar() {
         <Sidebar.Items>
             <Sidebar.ItemGroup>
               <div className=''>
-              {currentUser.isAdmin &&(
+                {currentUser.isAdmin &&(
                 <Link to='/dashboard?tab=dash'>
                 <Sidebar.Item active={tab === 'dash' || !tab} icon={HiChartPie} as='div'>
                     Dashboard
                 </Sidebar.Item> 
                 </Link>   
                 )}  
-                </div> 
+              </div>
 
-                <div>
+              <div className=''>
+                {currentUser.isAdmin &&(
+                <Link to='/dashboard?tab=posts'>
+                <Sidebar.Item active={tab === 'posts' || !tab} icon={HiBookmark} as='div'>
+                    Items
+                </Sidebar.Item> 
+                </Link>   
+                )}  
+              </div>
+              
+              <div>
                 <Link to='/dashboard?tab=profile'>
                 <Sidebar.Item active= {tab === 'profile'} icon={HiUser} label={currentUser.isAdmin ? 'Admin' : currentUser.isCustomerServiceAgent ? 'CuAgent' : 'User'} labelColor='dark' as='div'>
                     Profile
@@ -62,7 +72,7 @@ export default function DashSidebar() {
                     Feedbacks    
                 </Sidebar.Item>
                 </Link>
-              )}
+                )}
               </div>
 
               <div>

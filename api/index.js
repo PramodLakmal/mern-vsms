@@ -30,10 +30,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-
-
-
-
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
@@ -48,6 +44,8 @@ app.use("/api/employee", employeeRoutes);
 app.use("/api/leave", leaveRoutes);
 app.use("/api/salary", salaryRoutes);
 app.use("/api/auth", authRoutes);
+app.use('/api/post', PostRoutes);
+
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

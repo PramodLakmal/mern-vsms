@@ -1,5 +1,5 @@
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
@@ -10,9 +10,22 @@ import {signoutSuccess} from '../redux/user/userSlice';
 
 export default function Header() {
   const path = useLocation().pathname;
+  const location = useLocation();
   const currentUser = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
   const {theme} = useSelector(state => state.theme);
+
+  const[searchTerm, setSearchTerm] = React.useState('');
+  console.log(searchTerm);
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get('searchTerm');
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
+
   const handleSignout = async () => {
     try {
       const res = await fetch('/api/user/signout', {
@@ -95,6 +108,9 @@ export default function Header() {
       <Navbar.Collapse>
         <Navbar.Link active={path === "/"} as={"div"}>
           <Link to="/">Home</Link>
+        </Navbar.Link>
+        <Navbar.Link active={path === "/inventory"} as={"div"}>
+          <Link to="/inventory">Inventory</Link>
         </Navbar.Link>
         <Navbar.Link active={path === "/services"} as={"div"}>
           <Link to="/services">Services</Link>
