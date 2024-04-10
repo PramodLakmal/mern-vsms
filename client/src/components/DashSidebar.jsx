@@ -5,6 +5,7 @@ import {
   HiDocumentText,
   HiOutlineUserGroup,
   HiChartPie,
+  HiBookmark,
 } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -12,6 +13,7 @@ import { signoutSuccess } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RiCoupon2Fill } from "react-icons/ri";
+
 
 export default function DashSidebar() {
   const location = useLocation();
@@ -58,6 +60,16 @@ export default function DashSidebar() {
             )}
           </div>
 
+          <div className=''>
+                {currentUser.isAdmin &&(
+                <Link to='/dashboard?tab=posts'>
+                <Sidebar.Item active={tab === 'posts' || !tab} icon={HiBookmark} as='div'>
+                    Items
+                </Sidebar.Item> 
+                </Link>   
+                )}  
+              </div>
+
           <div>
             <Link to="/dashboard?tab=profile">
               <Sidebar.Item
@@ -86,6 +98,7 @@ export default function DashSidebar() {
                 My Appointments
               </Sidebar.Item>
             </Link>
+
 
             {currentUser.isCustomerServiceAgent && (
               <Link to="/dashboard?tab=feedbacks">

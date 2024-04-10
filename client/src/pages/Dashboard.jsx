@@ -7,6 +7,8 @@ import DashUsers from '../components/DashUsers';
 import AdminDashboardComponenet from '../components/AdminDashboardComponenet';
 import DashCoupons from '../components/DashCoupons';
 import DashMyAppointments from '../components/DashMyAppointments';
+import DashPosts from '../components/DashPosts';
+
 
 export default function Dashboard() {
   const location = useLocation();
@@ -25,6 +27,9 @@ export default function Dashboard() {
         <DashSidebar />
         {/* Sidebar */}
       </div> 
+
+      {/* Posts/products.... */} 
+      {tab === 'posts' && <DashPosts/>}
       {/* Profile.... */} 
       {tab === 'profile' && <DashProfile/>}
       {/* CuAgentFeedbacks.... */}
