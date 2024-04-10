@@ -5,6 +5,8 @@ import DashProfile from '../components/DashProfile';
 import CuAgentDashFeedback from '../components/CuAgentDashFeedback';
 import DashUsers from '../components/DashUsers';
 import AdminDashboardComponenet from '../components/AdminDashboardComponenet';
+import DashCoupons from '../components/DashCoupons';
+import DashMyAppointments from '../components/DashMyAppointments';
 
 export default function Dashboard() {
   const location = useLocation();
@@ -31,6 +33,11 @@ export default function Dashboard() {
       {tab === 'users' && <DashUsers/>}
       {/* Admin Dashboard */}
       {tab === 'dash' && <AdminDashboardComponenet/>}
+      {/* coupons */}
+      {tab === "coupons" && <DashCoupons />}
+      {/* My Appointments */}
+      {tab === 'myAppointments' && <DashMyAppointments/>}
+
     </div>
   )
 }
