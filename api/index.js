@@ -19,7 +19,9 @@ import feedbackRoutes from "./routes/feedback.route.js";
 import couponRoutes from "./routes/coupon.route.js";
 import cookieParser from "cookie-parser";
 import webhookRouter from "./routes/webhook.route.js";
-import refundRoutes from "./routes/refund.route.js"
+import refundRoutes from "./routes/refund.route.js";
+import transactionRoutes from "./routes/transaction.route.js";
+
 
 import Stripe from "stripe";
 import bodyParser from "body-parser";
@@ -134,6 +136,7 @@ app.post("/api/create-payment-session", async (req, res) => {
 
 app.use('/api/post', PostRoutes);
 app.use("/api/refunds", refundRoutes);
+app.use("/api/transactions", transactionRoutes);
 
 
 
