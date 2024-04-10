@@ -158,7 +158,7 @@ export default function DashProfile() {
   return (
     <div className='max-w-lg mx-auto p-3 w-full'>
         <h1 className='my-7 text-center font-semibold text-3xl'>Profile</h1>
-        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
           <input type="file" accept='image/*' onChange={handleImageChange} ref={filePickerRef} hidden/>
             <div className='relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full' onClick={()=> filePickerRef.current.click()}>
               {imageFileUploadProgress && (
@@ -175,9 +175,12 @@ export default function DashProfile() {
 
             {imageFileUploadError && <Alert color='failure'>{imageFileUploadError}</Alert>}
 
-            <TextInput type='text' id='username' placeholder='Username' defaultValue={currentUser.username} onChange={handleChange}/> 
-            <TextInput type='email' id='email' placeholder='Email' defaultValue={currentUser.email} onChange={handleChange}/> 
-            <TextInput type='password' id='password' placeholder='Password' onChange={handleChange}/>
+            <h1>Full Name:<TextInput type='text' id='fullName' placeholder='Full Name' defaultValue={currentUser.fullName} onChange={handleChange}/></h1>      
+            <h1>Username:<TextInput type='text' id='username' placeholder='Username' defaultValue={currentUser.username} onChange={handleChange}/></h1> 
+            <h1>Email:<TextInput type='email' id='email' placeholder='Email' defaultValue={currentUser.email} onChange={handleChange}/></h1>
+            <h1>Phone:<TextInput type='phone' id='phoneNumber' placeholder='Phone Number' defaultValue={currentUser.phoneNumber} onChange={handleChange}/></h1>
+            <h1>Address:<TextInput type='text' id='address' placeholder='Address' defaultValue={currentUser.address} onChange={handleChange}/> </h1>
+            <h1>Password:<TextInput type='password' id='password' placeholder='Password' onChange={handleChange}/></h1>
 
             <Button type='submit' gradientDuoTone='purpleToBlue' outline disabled= {loading || imageFileUploading}>
               {loading ? 'Loading...' : 'Update'}

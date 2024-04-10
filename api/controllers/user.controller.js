@@ -37,6 +37,9 @@ export const updateUser = async (req, res, next) => {
         try {
           const updatedUser = await User.findByIdAndUpdate(req.params.userId, {
               $set: {
+                address: req.body.address,
+                phoneNumber: req.body.phoneNumber,
+                fullName: req.body.fullName,
                 username: req.body.username,
                 email: req.body.email,
                 profilePicture: req.body.profilePicture,
@@ -96,6 +99,17 @@ export const getUsers = async (req, res, next) => {
       res.status(200).json({ users: usersWithoutPassword, totalUsers, lastMonthUsers });
 
     } catch (error) {
+      next(error);
+    }
+};
+
+export const getUser = async (req, res, next) => {
+    try {
+      const user = await User.findById(req.params.userId);
+      const { password, ...rest } = user._doc;
+      res.status(200).json(rest);
+    } 
+    catch (error) {
       next(error);
     }
 };
