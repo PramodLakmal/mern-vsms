@@ -1,6 +1,6 @@
 import React from 'react'
 import {useEffect, useState} from 'react';
-import { HiAnnotation, HiArrowNarrowUp, HiOutlineCog, HiOutlineUserGroup, HiOutlineUserGroup,HiDocumentText } from 'react-icons/hi';
+import { HiAnnotation, HiArrowNarrowUp, HiOutlineCog, HiOutlineUserGroup,HiDocumentText } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {Button, Table} from 'flowbite-react';
