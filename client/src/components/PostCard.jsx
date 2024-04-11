@@ -10,11 +10,20 @@ export default function PostCard({ post }) {
           className='h-[260px] w-full  object-cover group-hover:h-[200px] transition-all duration-300 z-20'
         />
       </Link>
-      <div className='p-3 flex flex-col gap-2'>
-        <p className='text-lg font-semibold line-clamp-2'>{post.title}</p>
-        <span className='text-lg font-semibold line-clamp-2'>Category : {post.category}</span>
-        <span className='text-lg font-semibold line-clamp-2'>Price : LKR {post.itemPrice}</span>
-        <span className='text-lg font-semibold line-clamp-2'>Qty : {post.itemQuantity}</span>
+      <div className='p-3 flex flex-col gap-1'>
+        <p className='text-lg font-semibold line-clamp-2 '>{post.title}</p>
+        <span className='text-slate-500 mt-1 mb-2 font-semibold '>Category : {post.category}</span>        
+        <div className='text-slate-700 flex gap-4'>
+          <div className='font-bold text-xs'>
+            Price : LKR 
+            {post.itemPrice }                
+          </div>
+
+          <div className='font-bold text-xs'>
+            Quantity :
+            {post.itemQuantity}
+          </div>
+        </div>
         
         <Link
           to={`/post/${post.slug}`}
