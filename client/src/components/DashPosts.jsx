@@ -82,15 +82,15 @@ export default function DashPosts() {
               gradientDuoTone='purpleToPink'
               className='w-full'
             >
-              Create a post
+              Add an Item
             </Button>
           </Link>
           </div>
           <Table hoverable className='shadow-md'>
             <Table.Head>
               <Table.HeadCell>Date updated</Table.HeadCell>
-              <Table.HeadCell>Post image</Table.HeadCell>
-              <Table.HeadCell>Post title</Table.HeadCell>
+              <Table.HeadCell>Image</Table.HeadCell>
+              <Table.HeadCell>Title</Table.HeadCell>
               <Table.HeadCell>Category</Table.HeadCell>
               <Table.HeadCell>Price</Table.HeadCell>
               <Table.HeadCell>Quantity</Table.HeadCell>
