@@ -39,7 +39,7 @@ export default function Header() {
         <span className="px-2 py-1">
         <img src="https://firebasestorage.googleapis.com/v0/b/mern-vsms.appspot.com/o/Logo%20and%20Other%2FSighe%20Auto.png?alt=media&token=95f727f5-dfdf-4d56-be9e-b4eabd8cf42d" alt="logo" />
         </span></Link></div>
-      <form>
+      <form> 
         <TextInput
           type="text"
           placeholder="Search..."
