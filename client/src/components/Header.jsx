@@ -30,16 +30,15 @@ export default function Header() {
   }
 
   return (
-    <Navbar className="border-b-2">
+    <Navbar className="border-b-2 flex">
+      <div>
       <Link
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
-          SINGHE
-        </span>
-        AUTO
-      </Link>
+        <span className="px-2 py-1">
+        <img src="https://firebasestorage.googleapis.com/v0/b/mern-vsms.appspot.com/o/Logo%20and%20Other%2FSighe%20Auto.png?alt=media&token=95f727f5-dfdf-4d56-be9e-b4eabd8cf42d" alt="logo" />
+        </span></Link></div>
       <form>
         <TextInput
           type="text"
@@ -109,7 +108,7 @@ export default function Header() {
           <Link to="/contact">Contact Us</Link>
         </Navbar.Link>
         <Navbar.Link active={path === "/book"} as={"div"}>
-          <Link to="/book">Book Now</Link>
+          <Link to="/book"><Button type='button' gradientDuoTone='purpleToBlue'>Book Now</Button></Link>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
