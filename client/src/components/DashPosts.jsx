@@ -76,7 +76,7 @@ export default function DashPosts() {
       {currentUser.isAdmin && userPosts.length > 0 ? (
         <>
         <div className='flex justify-between items-center mb-5'>
-          <Link to={'/create-product'}>
+          <Link to={'/create-post'}>
             <Button
               type='button'
               gradientDuoTone='purpleToPink'
