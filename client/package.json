@@ -10,10 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@mui/icons-material": "^5.15.14",
     "@reduxjs/toolkit": "^2.2.2",
     "axios": "^1.6.8",
     "firebase": "^10.6.0",
+=======
+    "@fortawesome/fontawesome-free": "^6.5.1",
+    "@reduxjs/toolkit": "^2.2.2",
+    "axios": "^1.6.8",
+    "firebase": "^10.10.0",
+>>>>>>> e21e889a364af2b57d90422cb8eeacde0e123907
     "flowbite-react": "^0.7.2",
     "history": "^5.3.0",
     "jspdf": "^2.5.1",

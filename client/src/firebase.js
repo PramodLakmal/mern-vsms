@@ -1,5 +1,11 @@
 import { initializeApp } from "firebase/app";
+<<<<<<< HEAD
 import { getStorage } from "firebase/storage";
+=======
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+
+// Your web app's Firebase configuration
+>>>>>>> e21e889a364af2b57d90422cb8eeacde0e123907
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "mern-vsms.firebaseapp.com",

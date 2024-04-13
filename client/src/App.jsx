@@ -20,6 +20,12 @@ import ViewEmployee from "./components/employee/ViewEmployee";
 
 
 
+//IT22589590
+import AddEmployee from "./pages/employee/AddEmployee";
+import AddLeave from "./pages/leave/AddLeave";
+import AssignSalary from "./pages/salary/AssignSalary";
+import EmployeeList from "./pages/employee/EmployeeList";
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -29,6 +35,7 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
+<<<<<<< HEAD
         <Route element={<PrivateRoute />}> {/* PrivateRoute is a placeholder */}
         <Route path="/dashboard" element={<Dashboard />} />
 
@@ -55,6 +62,20 @@ export default function App() {
         
        
        
+=======
+        <Route element={<PrivateRoute />} > {/* PrivateRoute is a placeholder */}
+        </Route>
+        <Route path="/dashboard" element={<Dashboard />} />
+        
+        <Route path="/services" element={<Services />} />
+
+        {/*IT22589590*/}
+        <Route path="/addemployee" element={<AddEmployee />} />
+        <Route path="/employeelist" element={<EmployeeList />} />
+        <Route path="/addleave" element={<AddLeave />} />
+        <Route path="/assignsalary" element={<AssignSalary />} />
+
+>>>>>>> e21e889a364af2b57d90422cb8eeacde0e123907
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -130,6 +130,7 @@ export default function DashSidebar() {
                     View Users
                   </Sidebar.Item>
                 </Link>
+<<<<<<< HEAD
                 <Link to="/dashboard?tab=coupons">
                   <Sidebar.Item
                     active={tab === "coupons"}
@@ -278,6 +279,16 @@ export default function DashSidebar() {
           </div>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
+=======
+                <Sidebar.Item icon={HiArrowSmRight} className='cursor-pointer'>
+                    Add Employee
+                </Sidebar.Item>
+                <Sidebar.Item icon={HiArrowSmRight} className='cursor-pointer'>
+                    Signout
+                </Sidebar.Item>
+            </Sidebar.ItemGroup>
+        </Sidebar.Items>
+>>>>>>> e21e889a364af2b57d90422cb8eeacde0e123907
     </Sidebar>
   );
 }
