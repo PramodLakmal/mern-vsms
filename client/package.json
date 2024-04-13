@@ -11,6 +11,7 @@
   },
   "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@mui/icons-material": "^5.15.14",
     "@reduxjs/toolkit": "^2.2.2",
     "axios": "^1.6.8",
@@ -21,16 +22,20 @@
     "axios": "^1.6.8",
     "firebase": "^10.10.0",
 >>>>>>> e21e889a364af2b57d90422cb8eeacde0e123907
+=======
+    "@reduxjs/toolkit": "^2.2.2",
+
+
+    "firebase": "^10.10.0",
+
+>>>>>>> parent of 45e85b8 (Completed CRUD operations of employee, leave and salary and made some changes to backend)
     "flowbite-react": "^0.7.2",
-    "history": "^5.3.0",
-    "jspdf": "^2.5.1",
-    "jspdf-autotable": "^3.8.2",
     "react": "^18.2.0",
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-redux": "^9.1.0",
-    "react-router-dom": "^6.22.3",
+    "react-router-dom": "^6.22.0",
     "redux-persist": "^6.0.0"
   },
   "devDependencies": {
@@ -38,13 +43,12 @@
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.17",
-    "dotenv-webpack": "^8.1.0",
     "eslint": "^8.55.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
-    "vite": "^5.2.7"
+    "vite": "^5.0.8"
   }
 }

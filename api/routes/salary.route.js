@@ -5,8 +5,7 @@ import {
     getSalary,
     createSalary,
     deleteSalary,
-    updateSalary,
-    generateSalaryReport
+    updateSalary
 } from "../controllers/salary.controller.js"
 
 
@@ -26,9 +25,5 @@ router.delete('/:id', deleteSalary)
 
 // UPDATE a salary
 router.patch('/:id', updateSalary)
-
-// Generate salary report
-router.get('/generate-report', generateSalaryReport);
-
 
 export default router;
