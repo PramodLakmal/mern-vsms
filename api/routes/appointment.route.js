@@ -5,7 +5,7 @@ import {
     createAppointment,
     deleteAppointment,
     updateAppointment
-} from "../controllers/appointment.controller.js"; // Import the appropriate controller functions
+} from "../controllers/appoinment.controller.js"; // Import the appropriate controller functions
 
 const router = express.Router();
 

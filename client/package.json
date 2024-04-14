@@ -10,26 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
-<<<<<<< HEAD
+    "@fortawesome/fontawesome-free": "^6.5.1",
     "@mui/icons-material": "^5.15.14",
     "@reduxjs/toolkit": "^2.2.2",
     "axios": "^1.6.8",
-    "firebase": "^10.6.0",
-=======
-    "@fortawesome/fontawesome-free": "^6.5.1",
-    "@reduxjs/toolkit": "^2.2.2",
-    "axios": "^1.6.8",
     "firebase": "^10.10.0",
->>>>>>> e21e889a364af2b57d90422cb8eeacde0e123907
-=======
-    "@reduxjs/toolkit": "^2.2.2",
-
-
-    "firebase": "^10.10.0",
-
->>>>>>> parent of 45e85b8 (Completed CRUD operations of employee, leave and salary and made some changes to backend)
     "flowbite-react": "^0.7.2",
+    "jspdf-autotable": "^3.8.2",
     "react": "^18.2.0",
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.2.0",
