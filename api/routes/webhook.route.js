@@ -36,7 +36,6 @@ router.post(
 
         try {
           const appointment = await Appointment.findById(appointmentId);
-          console.log("Found Appointment:", appointment);
           if (!appointment) {
             console.error("Appointment not found");
             return res.status(404).send("Appointment not found");

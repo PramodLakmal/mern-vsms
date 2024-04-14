@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DashSidebar from "../../components/cashier/DashSidebar";
 import DashCart from "../../components/cashier/DashCart";
-import DashAppointments from "../../components/cashier/DashAppointments"
+import DashAppointments from "../../components/cashier/DashAppointments";
 import DashTransactions from "../../components/cashier/DashTransactions";
 import DashRefunds from "../../components/cashier/DashRefunds";
 
