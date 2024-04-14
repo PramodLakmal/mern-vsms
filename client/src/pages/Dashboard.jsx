@@ -5,6 +5,12 @@ import DashProfile from '../components/DashProfile';
 import CuAgentDashFeedback from '../components/CuAgentDashFeedback';
 import DashUsers from '../components/DashUsers';
 import AdminDashboardComponenet from '../components/AdminDashboardComponenet';
+import AddEmployee from '../components/employee/AddEmployee';
+import AddLeave from '../components/leave/AddLeave';
+import LeaveList from '../components/leave/LeaveList';
+import EmployeeList from '../components/employee/EmployeeList';
+import SalaryList from '../components/salary/SalaryList';
+import AddSalary from '../components/salary/AddSalary';
 import DashCoupons from '../components/DashCoupons';
 import DashMyAppointments from '../components/DashMyAppointments';
 import DashPosts from '../components/DashPosts';
@@ -38,11 +44,22 @@ export default function Dashboard() {
       {tab === 'users' && <DashUsers/>}
       {/* Admin Dashboard */}
       {tab === 'dash' && <AdminDashboardComponenet/>}
+      {/* Add Employee */}
+      {tab === 'AddEmployee' && <AddEmployee/>}
+      {/* Employee List */}
+      {tab === 'EmployeeList' && <EmployeeList/>}
+      {/* Add Leave */}
+      {tab === 'AddLeave' && <AddLeave/>}
+      {/* Leave List */}
+      {tab === 'LeaveList' && <LeaveList/>}
+      {/* Add Salary */}
+      {tab === 'AddSalary' && <AddSalary/>}
+      {/* Salary List */}
+      {tab === 'SalaryList' && <SalaryList/>}
       {/* coupons */}
       {tab === "coupons" && <DashCoupons />}
       {/* My Appointments */}
       {tab === 'myAppointments' && <DashMyAppointments/>}
-
     </div>
   )
 }
