@@ -13,6 +13,7 @@ import {
   HiChevronDown,
   HiPlusCircle,
   HiViewList,
+  HiBookmark,
 } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -30,6 +31,7 @@ export default function DashSidebar() {
   const [isLeaveOpen, setIsLeaveOpen] = useState(false); // State for leave submenu visibility
   const [isSalaryOpen, setIsSalaryOpen] = useState(false); // State for salary submenu visibility
   const { currentUser } = useSelector((state) => state.user);
+
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -76,7 +78,6 @@ export default function DashSidebar() {
               </Link>
             )}
           </div>
-
           <div>
             <Link to="/dashboard?tab=profile">
               <Sidebar.Item
@@ -265,7 +266,6 @@ export default function DashSidebar() {
               </>
             )}
           </div>
-
           <div>
             <Sidebar.Item
               icon={HiArrowSmRight}
@@ -280,3 +280,4 @@ export default function DashSidebar() {
     </Sidebar>
   );
 }
+

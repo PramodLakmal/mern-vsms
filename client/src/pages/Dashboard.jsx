@@ -11,6 +11,9 @@ import LeaveList from '../components/leave/LeaveList';
 import EmployeeList from '../components/employee/EmployeeList';
 import SalaryList from '../components/salary/SalaryList';
 import AddSalary from '../components/salary/AddSalary';
+import DashCoupons from '../components/DashCoupons';
+import DashMyAppointments from '../components/DashMyAppointments';
+import DashPosts from '../components/DashPosts';
 
 
 export default function Dashboard() {
@@ -30,6 +33,9 @@ export default function Dashboard() {
         <DashSidebar />
         {/* Sidebar */}
       </div> 
+
+      {/* Posts/products.... */} 
+      {tab === 'posts' && <DashPosts/>}
       {/* Profile.... */} 
       {tab === 'profile' && <DashProfile/>}
       {/* CuAgentFeedbacks.... */}
@@ -50,7 +56,10 @@ export default function Dashboard() {
       {tab === 'AddSalary' && <AddSalary/>}
       {/* Salary List */}
       {tab === 'SalaryList' && <SalaryList/>}
-      
+      {/* coupons */}
+      {tab === "coupons" && <DashCoupons />}
+      {/* My Appointments */}
+      {tab === 'myAppointments' && <DashMyAppointments/>}
     </div>
   )
 }
