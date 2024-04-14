@@ -12,6 +12,7 @@ import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
 import Feedback from "./pages/Feedback";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import ForgotPassword from "./pages/ForgotPassword";
 
 export default function App() {
   return (
@@ -27,7 +28,9 @@ export default function App() {
           {/* PrivateRoute is a placeholder */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="feedback" element={<Feedback />} />
+          <Route path="/feedbackSuccess">"Feedback Success"</Route>
         </Route>
+        <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="services" element={<Services />} />
         <Route path="/book" element={<BookNow />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
