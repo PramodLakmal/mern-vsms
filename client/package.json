@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.1",
+    "@mui/icons-material": "^5.15.14",
     "@reduxjs/toolkit": "^2.2.2",
+    "axios": "^1.6.8",
     "@stripe/react-stripe-js": "^2.6.2",
     "@stripe/stripe-js": "^3.3.0",
     "firebase": "^10.10.0",
