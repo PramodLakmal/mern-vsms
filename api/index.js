@@ -8,7 +8,7 @@ import NoticeRoutes from "./routes/notice.route.js";
 
 import serviceRoutes from "./routes/service.route.js";
 import emergencyRouter from "./routes/emergency.route.js";
-
+import PostRoutes from "./routes/post.route.js";
 import employeeRoutes from "./routes/employee.route.js";
 import leaveRoutes from "./routes/leave.route.js";
 import salaryRoutes from "./routes/salary.route.js";
@@ -18,9 +18,11 @@ import incomerouter from "./routes/expense.route.js";
 import feedbackRoutes from "./routes/feedback.route.js";
 import couponRoutes from "./routes/coupon.route.js";
 import cookieParser from "cookie-parser";
-// Import Appointment model
-import Appointment from "./models/appointment.model.js";
 import webhookRouter from "./routes/webhook.route.js";
+import refundRoutes from "./routes/refund.route.js";
+import transactionRoutes from "./routes/transaction.route.js";
+import itemRoutes from "./routes/item.route.js";
+
 
 import Stripe from "stripe";
 import bodyParser from "body-parser";
@@ -55,6 +57,7 @@ const stripe = new Stripe(
 const stripeWebhookSecret =
   "whsec_018bf665dc6a24d5666037fee2bc7dddb8864df1c6638cca2babb7ce94f10784";
 
+
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
@@ -75,6 +78,7 @@ app.use("/api/Expense", expenserouter);
 app.use("/api/Income", incomerouter);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/coupon", couponRoutes);
+app.use("/api/refunds", refundRoutes);
 app.use(bodyParser.json());
 
 app.post("/api/create-payment-session", async (req, res) => {
@@ -132,43 +136,12 @@ app.post("/api/create-payment-session", async (req, res) => {
   }
 });
 
-// app.post('/api/webhook', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
-//   const sig = req.headers['stripe-signature'];
-//   const rawBody = req.body;
+app.use('/api/post', PostRoutes);
+app.use("/api/refunds", refundRoutes);
+app.use("/api/transactions", transactionRoutes);
+app.use("/api/items", itemRoutes);
 
-//   try {
-//     const event = stripe.webhooks.constructEvent(rawBody, sig, stripeWebhookSecret);
 
-//     if (event.type === 'checkout.session.completed') {
-//       const session = event.data.object;
-//       const appointmentId = session.metadata.appointmentId;
-//       const amountPaid = session.amount_total / 100;
-
-//       try {
-//         const appointment = await Appointment.findById(appointmentId);
-//         if (!appointment) {
-//           console.error('Appointment not found');
-//           return res.status(404).send('Appointment not found');
-//         }
-//         appointment.amount = amountPaid;
-//         appointment.isPaid = true;
-//         await appointment.save();
-//       } catch (error) {
-//         console.error('Error updating appointment:', error);
-//         return res.status(500).json({ error: 'Error updating appointment' });
-//       }
-
-//       return res.status(200).json({ received: true });
-//     } else {
-//       console.log(`Unhandled event type: ${event.type}`);
-//     }
-
-//     res.status(200).end();
-//   } catch (err) {
-//     console.error('Webhook error:', err.message);
-//     return res.status(400).send(`Webhook Error: ${err.message}`);
-//   }
-// });
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

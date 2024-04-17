@@ -9,6 +9,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import { updateStart, updateSuccess, updateFailure, signoutSuccess, deleteUserStart, deleteUserSuccess, deleteUserFailure } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 
 
 export default function DashProfile() {
