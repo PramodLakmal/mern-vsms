@@ -14,13 +14,21 @@ import {
   HiPlusCircle,
   HiViewList,
   HiBookmark,
+  HiDocumentDuplicate,
+  HiLocationMarker,
+  HiBookOpen,
+  HiInformationCircle,
+  HiOutlineEmojiHappy,
+  HiBookmarkAlt,
+  HiOutlineViewBoards,
+  HiShieldCheck,
 } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { signoutSuccess } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { RiCoupon2Fill } from "react-icons/ri";
+import { RiBookLine, RiCoupon2Fill, RiNotification4Fill } from "react-icons/ri";
 
 export default function DashSidebar() {
   const location = useLocation();
@@ -132,6 +140,7 @@ export default function DashSidebar() {
                     View Users
                   </Sidebar.Item>
                 </Link>
+
                 <Link to="/dashboard?tab=coupons">
                   <Sidebar.Item
                     active={tab === "coupons"}
@@ -142,6 +151,16 @@ export default function DashSidebar() {
                   </Sidebar.Item>
                 </Link>
 
+                <Link to="/dashboard?tab=notices">
+                  <Sidebar.Item
+                    active={tab === "notices"}
+                    icon={RiNotification4Fill}
+                    as="div"
+                  >
+                    Notice
+                  </Sidebar.Item>
+                </Link>
+              
                 <div className="relative">
                   <div
                     onClick={toggleEmployeeSubmenu} // Toggle employee submenu on click
