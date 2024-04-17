@@ -3,7 +3,7 @@ import { errorHandler } from '../utils/error.js';
 
 export const create = async (req, res, next) => {
   if (!req.user.isAdmin) {
-    return next(errorHandler(403, 'You are not allowed to create a post'));
+    return next(errorHandler(403, 'You are not allowed to create a product'));
   }
   if (!req.body.title || !req.body.content) {
     return next(errorHandler(400, 'Please provide all required fields'));
@@ -74,11 +74,11 @@ export const getposts = async (req, res, next) => {
 
 export const deletepost = async (req, res, next) => {
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
-    return next(errorHandler(403, 'You are not allowed to delete this post'));
+    return next(errorHandler(403, 'You are not allowed to delete this product'));
   }
   try {
     await Post.findByIdAndDelete(req.params.postId);
-    res.status(200).json('The post has been deleted');
+    res.status(200).json('The product has been deleted');
   } catch (error) {
     next(error);
   }
@@ -86,7 +86,7 @@ export const deletepost = async (req, res, next) => {
 
 export const updatepost = async (req, res, next) => {
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
-    return next(errorHandler(403, 'You are not allowed to update this post'));
+    return next(errorHandler(403, 'You are not allowed to update this product'));
   }
   try {
     const updatedPost = await Post.findByIdAndUpdate(
