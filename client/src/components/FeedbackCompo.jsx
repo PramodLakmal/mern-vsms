@@ -57,7 +57,7 @@ export default function FeedbackCompo({feedback, onEdit, onDelete}) {
 
     
   return (
-    <div className='flex p-5 border-b dark:border-gray-600 text-sm ml-10 mr-10'>
+    <div className='flex p-5 border-b dark:border-gray-600 text-sm ml-10 mr-10 mb-3'>
         <div className='flex-shrink-0 mr-5'> 
             <img className='w-10 h-10 rounded-full bg-gray-200' src={user.profilePicture} alt={user.username} />
         </div>

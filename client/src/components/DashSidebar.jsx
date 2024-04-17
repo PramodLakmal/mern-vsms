@@ -104,7 +104,9 @@ export default function DashSidebar() {
                 Profile
               </Sidebar.Item>
             </Link>
+            </div>
 
+            <div>
             <Link to="/dashboard?tab=myAppointments">
               <Sidebar.Item
                 active={tab === "myAppointments"}
@@ -114,7 +116,9 @@ export default function DashSidebar() {
                 My Appointments
               </Sidebar.Item>
             </Link>
+            </div>
 
+            <div>
             {currentUser.isCustomerServiceAgent && (
               <Link to="/dashboard?tab=feedbacks">
                 <Sidebar.Item
@@ -130,7 +134,7 @@ export default function DashSidebar() {
 
           <div>
             {currentUser.isAdmin && (
-              <>
+             
                 <Link to="/dashboard?tab=users">
                   <Sidebar.Item
                     active={tab === "users"}
@@ -140,7 +144,11 @@ export default function DashSidebar() {
                     View Users
                   </Sidebar.Item>
                 </Link>
-
+              )}
+              </div>
+              
+                <div>
+                {currentUser.isAdmin && (
                 <Link to="/dashboard?tab=coupons">
                   <Sidebar.Item
                     active={tab === "coupons"}

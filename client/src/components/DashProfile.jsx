@@ -187,7 +187,7 @@ export default function DashProfile() {
             </Button> 
            
         </form>
-        <div className="text-red-500 flex justify-between mt-5">
+        <div className="text-red-500 flex justify-between font-medium mt-5 mb-20">
         <span onClick={()=>setShowModal(true)} className='cursor-pointer'>Delete Account</span>
         <span onClick={handleSignout} className='cursor-pointer'>Sign Out</span>
         </div>
