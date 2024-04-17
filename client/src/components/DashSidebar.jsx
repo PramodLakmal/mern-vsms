@@ -14,6 +14,9 @@ import {
   HiPlusCircle,
   HiViewList,
   HiBookmark,
+  HiOutlineArchive,
+  
+
 } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -132,6 +135,17 @@ export default function DashSidebar() {
                     View Users
                   </Sidebar.Item>
                 </Link>
+
+                <Link to="/dashboard?tab=posts">
+                  <Sidebar.Item
+                    active={tab === "posts"}
+                    icon={ HiOutlineArchive}
+                    as="div"
+                  >
+                    Products
+                  </Sidebar.Item>
+                </Link>
+
                 <Link to="/dashboard?tab=coupons">
                   <Sidebar.Item
                     active={tab === "coupons"}
