@@ -1,84 +1,66 @@
-import Notice from '../models/notice.model.js'; // Import the Notice model
-import mongoose from 'mongoose';
+import Notice from '../models/notice.model.js';
 
-const getNotices = async (req, res) => {
-    try {
-        const notices = await Notice.find({}).sort({ date: -1 }); // Sort notices by date in descending order
-        res.status(200).json(notices);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+// Create a new notice
+export const createNotice = async (req, res, next) => {
+  try {
+    const noticeData = req.body;
+    const notice = new Notice(noticeData);
+    await notice.save();
+    res.status(201).json({ message: 'Notice created successfully', notice });
+  } catch (error) {
+    next(error);
+  }
 };
 
-const getNotice = async (req, res) => {
-    const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'Invalid notice ID' });
-    }
-
-    try {
-        const notice = await Notice.findById(id);
-        if (!notice) {
-            return res.status(404).json({ error: 'Notice not found' });
-        }
-        res.status(200).json(notice);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+// Get all notices
+export const getAllNotices = async (req, res, next) => {
+  try {
+    const notices = await Notice.find();
+    res.status(200).json({ notices });
+  } catch (error) {
+    next(error);
+  }
 };
 
-const createNotice = async (req, res) => {
-    const { title, date, noticeType, description } = req.body;
-
-    try {
-        const notice = await Notice.create({ title, date, noticeType, description });
-        res.status(201).json(notice);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
+// Get a single notice by ID
+export const getNoticeById = async (req, res, next) => {
+  try {
+    const noticeId = req.params.id;
+    const notice = await Notice.findById(noticeId);
+    if (!notice) {
+      return res.status(404).json({ message: 'Notice not found' });
     }
+    res.status(200).json(notice);
+  } catch (error) {
+    next(error);
+  }
 };
 
-const deleteNotice = async (req, res) => {
-    const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ error: 'Invalid notice ID' });
+// Delete a notice by ID
+export const deleteNoticeById = async (req, res, next) => {
+  try {
+    const noticeId = req.params.id;
+    const deletedNotice = await Notice.findByIdAndDelete(noticeId);
+    if (!deletedNotice) {
+      return res.status(404).json({ message: 'Notice not found' });
     }
-
-    try {
-        const notice = await Notice.findOneAndDelete({ _id: id });
-        if (!notice) {
-            return res.status(404).json({ error: 'Notice not found' });
-        }
-        res.status(200).json(notice);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+    res.status(200).json({ message: 'Notice deleted successfully', deletedNotice });
+  } catch (error) {
+    next(error);
+  }
 };
 
-const updateNotice = async (req, res) => {
-    const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ error: 'Invalid notice ID' });
+// Update a notice by ID
+export const updateNoticeById = async (req, res, next) => {
+  try {
+    const noticeId = req.params.id;
+    const updatedNoticeData = req.body;
+    const updatedNotice = await Notice.findByIdAndUpdate(noticeId, updatedNoticeData, { new: true });
+    if (!updatedNotice) {
+      return res.status(404).json({ message: 'Notice not found' });
     }
-
-    try {
-        const notice = await Notice.findByIdAndUpdate(id, req.body, { new: true });
-        if (!notice) {
-            return res.status(404).json({ error: 'Notice not found' });
-        }
-        res.status(200).json(notice);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-export {
-    getNotices,
-    getNotice,
-    createNotice,
-    deleteNotice,
-    updateNotice
+    res.status(200).json({ message: 'Notice updated successfully', updatedNotice });
+  } catch (error) {
+    next(error);
+  }
 };
