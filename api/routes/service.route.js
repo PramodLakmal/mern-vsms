@@ -5,7 +5,8 @@ import {
     getService,
     createService,
     deleteService,
-    updateService
+    updateService,
+    getAllServices
 } from "../controllers/service.controller.js" ;
 
 
@@ -13,6 +14,8 @@ const router = express.Router()
 
 // GET all service
 router.get('/', getServices)
+
+router.get('/all', getAllServices)
 
 // GET a single service
 router.get('/:id', getService)

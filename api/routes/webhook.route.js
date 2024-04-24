@@ -1,5 +1,3 @@
-// webhook.route.js
-
 import express from "express";
 import Stripe from "stripe";
 import Appointment from "../models/appointment.model.js";

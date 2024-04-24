@@ -149,17 +149,15 @@ export default function DashSidebar() {
               
                 <div>
                 {currentUser.isAdmin && (
-                <Link to="/dashboard?tab=coupons">
-                  <Sidebar.Item
-                    active={tab === "coupons"}
-                    icon={RiCoupon2Fill}
-                    as="div"
-                  >
-                    Coupons
-                  </Sidebar.Item>
-                </Link>
-
-                <Link to="/dashboard?tab=notices">
+                <><Link to="/dashboard?tab=coupons">
+                <Sidebar.Item
+                  active={tab === "coupons"}
+                  icon={RiCoupon2Fill}
+                  as="div"
+                >
+                  Coupons
+                </Sidebar.Item>
+              </Link><Link to="/dashboard?tab=notices">
                   <Sidebar.Item
                     active={tab === "notices"}
                     icon={RiNotification4Fill}
@@ -167,9 +165,7 @@ export default function DashSidebar() {
                   >
                     Notice
                   </Sidebar.Item>
-                </Link>
-              
-                <div className="relative">
+                </Link><div className="relative">
                   <div
                     onClick={toggleEmployeeSubmenu} // Toggle employee submenu on click
                     className="flex items-center cursor-pointer"
@@ -209,9 +205,7 @@ export default function DashSidebar() {
                       </Link>
                     </div>
                   )}
-                </div>
-
-                <div className="relative">
+                </div><div className="relative">
                   <div
                     onClick={toggleLeaveSubmenu} // Toggle leave submenu on click
                     className="flex items-center cursor-pointer"
@@ -249,9 +243,7 @@ export default function DashSidebar() {
                       </Link>
                     </div>
                   )}
-                </div>
-
-                <div className="relative">
+                </div><div className="relative">
                   <div
                     onClick={toggleSalarySubmenu} // Toggle salary submenu on click
                     className="flex items-center cursor-pointer"
