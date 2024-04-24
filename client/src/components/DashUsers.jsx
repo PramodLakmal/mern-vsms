@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { FaCheck, FaTimes } from 'react-icons/fa';
+import { FiDownload } from 'react-icons/fi';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export default function DashUsers() {
   const { currentUser } = useSelector((state) => state.user);
@@ -74,8 +77,83 @@ export default function DashUsers() {
     setSearchQuery(event.target.value);
   };
 
+  const handleDownloadCSVReport = async () => {
+    try {
+      const response = await fetch("/api/user/csv-report");
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "user_report.csv");
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading CSV report:", error);
+    }
+  };
+
+  const handleDownloadPDFReport = async () => {
+    try {
+      const response = await fetch("/api/user/pdf-report");
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "user_report.pdf");
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading PDF report:", error);
+    }
+  };
+
+  const generateUserReport = () => {
+    try {
+        const doc = new jsPDF(); // Initialize jsPDF
+        doc.setFontSize(11);
+        doc.text('Users Report', 10, 10);
+
+        // Add table header row
+        const headerCols = [
+            'User ID', 'Username', 'Fullname', 'Email', 'Admin', 'CuS Agent'
+        ];
+        const headerRowHeight = 5;
+        const headerYPos = 15;
+
+        const tableBody = users.map(user => ([
+            user._id , user.username, user.fullName, user.email, user.isAdmin, user.isCustomerServiceAgent
+        ]));
+        autoTable(doc, {
+            head: [headerCols],
+            body: tableBody,
+            startY: headerYPos + headerRowHeight,
+            styles: { overflow: 'linebreak' },
+            columnStyles: { 0: { cellWidth: 40 }, 1: { cellWidth: 24 }, 2: { cellWidth: 35 }, 3: { cellWidth: 47 }, 4: { cellWidth: 16 }, 5: { cellWidth: 18 } },
+            margin: { top: headerYPos + headerRowHeight + 5 }
+        });
+
+        
+
+        // Calculate the end Y position of the table manually
+        const endY = headerYPos + doc.previousAutoTable.finalY;
+
+        // Add additional report information (optional)
+        const additionalInfoYPos = endY + 5;
+        doc.text('Report generated on:', 8, additionalInfoYPos);
+        doc.text(new Date().toLocaleDateString(), 50, additionalInfoYPos);
+
+        // Save or download the report
+        doc.save('users_report.pdf');
+    } catch (error) {
+        console.error('Error generating users report:', error);
+    }
+};
+
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
+      <div className='flex justify gap-80'>
       <input
         type="text"
         placeholder="Search by username"
@@ -83,10 +161,23 @@ export default function DashUsers() {
         onChange={handleSearch}
         className="p-2 mb-4 rounded border dark:border-gray-700 dark:bg-gray-800 dark:text-white border-gray-300 bg-white text-black"
       />
+      
+      <span className="text-sm text-gray-500 dark:text-gray-400"><button
+                 type="button"
+                 className="outline-red-500 hover:bg-red-300 outline  font-bold py-2 px-4 rounded flex items-center ml-60"
+                 onClick={generateUserReport}
+                >
+                   <FiDownload className="mr-2" />
+                  Generate Users Report
+         </button></span>
+      </div>
+      
+
+
       {currentUser.isAdmin && users.length > 0 ? (
         
         <>
-          <Table hoverable className='shadow-md'>
+          <Table hoverable className='shadow-md mt-5' id='users'>
             <Table.Head>
               <Table.HeadCell className='text-center'>Date created</Table.HeadCell>
               <Table.HeadCell className='text-center'>User image</Table.HeadCell>

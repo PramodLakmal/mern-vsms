@@ -5,6 +5,8 @@ import fs from 'fs';
 import json2csv from 'json2csv';
 import ejs from 'ejs';
 import pdf from 'html-pdf';
+import jsPDF from 'jspdf';
+
 
 
 export const test = (req, res) => {
@@ -125,30 +127,24 @@ export const getUser = async (req, res, next) => {
     }
 };
 
-export const generateCSVReport = async (req, res) => {
+export const generateUserCSVReport = async (req, res) => {
   try {
-    const user = await User.find().populate({
-      path: 'userId',
-      populate: {
-        path: 'userId',
-        select: 'username',
-      },
-    });
+    const user = await User.find();
 
     if (!user || user.length === 0) {
-      return res.status(404).json({ message: 'No refunds found' });
+      return res.status(404).json({ message: 'No users found' });
     }
 
     // Define CSV fields
     const fields = [
-      { label: 'User Name', value: 'userId.userId.username' },
+      { label: 'User Name', value: 'username' },
       { label: 'Account Created Date', value: 'createdAt' },
       { label: 'Account Updated Date', value: 'updatedAt' },
       { label: 'Email', value: 'email' },
     ];
 
-    // Format refunds data into CSV format using json2csv
-    const csvData = json2csv.parse(refunds, { fields, withBOM: true });
+    // Format users data into CSV format using json2csv
+    const csvData = json2csv.parse(user, { fields, withBOM: true });
 
     // Write CSV data to a file
     fs.writeFileSync('user_report.csv', csvData);
@@ -161,19 +157,13 @@ export const generateCSVReport = async (req, res) => {
   }
 };
 // Endpoint for generating PDF report
-export const generatePDFReport = async (req, res) => {
+export const generateUserPDFReport = async (req, res) => {
   try {
-    const user = await User.find().populate({
-      path: 'userId',
-      populate: {
-        path: 'userId',
-        select: 'username',
-      },
-    });
+    const user = await User.find();
 
     // Render PDF template using EJS
     const template = fs.readFileSync('report_template.ejs', 'utf-8');
-    const html = ejs.render(template, { refunds });
+    const html = ejs.render(template, { user });
 
     // Generate PDF
     pdf.create(html).toFile('user_report.pdf', (err, result) => {
@@ -183,5 +173,16 @@ export const generatePDFReport = async (req, res) => {
   } catch (error) {
     console.error('Error generating PDF report:', error);
     res.status(500).json({ message: 'Failed to generate PDF report' });
+  }
+};
+
+export const generateUserReport = async (req, res) => {
+  try {
+      const user = await User.find();
+      const doc = new jsPDF();
+      // Generate report logic here
+      res.status(200).json({ message: 'Users report generated successfully' });
+  } catch (error) {
+      res.status(500).json({ error: error.message });
   }
 };
