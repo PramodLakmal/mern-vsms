@@ -44,10 +44,11 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="feedback" element={<Feedback />} />
           <Route path="/feedbackSuccess">"Feedback Success"</Route>
-        <Route path="/forgot-password" element={<ForgotPassword/>}/>
+        
           <Route path="/updateleave/:id" element={<UpdateLeave />} />
           <Route path="/updatesalary/:id" element={<UpdateSalary />} />
         </Route>
+        <Route path="/forgot-password" element={<ForgotPassword/>}/>
 
         <Route element={<OnlyAdminPrivateRoute />}>
         <Route path="/create-post" element={<CreatePost />} />

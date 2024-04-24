@@ -45,15 +45,9 @@ export default function SignUp() {
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
         {/* Left */}
         <div className='flex-1'>
-        <Link
-        to="/"
-        className="font-bold dark:text-white text-4xl"
-      >
-        <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
-          SINGHE
+        <span className="px-2 py-1">
+        <img src="https://firebasestorage.googleapis.com/v0/b/mern-vsms.appspot.com/o/Logo%20and%20Other%2FSighe%20Auto.png?alt=media&token=95f727f5-dfdf-4d56-be9e-b4eabd8cf42d" alt="logo" />
         </span>
-        AUTO
-      </Link>
       <p className='text-sm mt-5'>
         Welcome to Singhe Auto. Please sign up to continue.
       </p>
@@ -106,7 +100,7 @@ export default function SignUp() {
                 placeholder='Password'
                 id='password' onChange={handleChange}/>
             </div>
-            <Button gradientDuoTone='purpleToPink' type='submit' disabled={loading}>
+            <Button gradientMonochrome="failure" type='submit' disabled={loading}>
               {
                 loading ? (
                           <><Spinner size='sm'/>
@@ -115,7 +109,7 @@ export default function SignUp() {
             </Button>
             <OAuth/>
           </form>
-          <div className='flex gap-2 text-sm mt-5'>
+          <div className='flex gap-2 text-sm mt-5 mb-10'>
             <span>
               Have an account?
             </span>
