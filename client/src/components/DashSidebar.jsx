@@ -14,13 +14,21 @@ import {
   HiPlusCircle,
   HiViewList,
   HiBookmark,
+  HiDocumentDuplicate,
+  HiLocationMarker,
+  HiBookOpen,
+  HiInformationCircle,
+  HiOutlineEmojiHappy,
+  HiBookmarkAlt,
+  HiOutlineViewBoards,
+  HiShieldCheck,
 } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { signoutSuccess } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { RiCoupon2Fill } from "react-icons/ri";
+import { RiBookLine, RiCoupon2Fill, RiNotification4Fill } from "react-icons/ri";
 
 export default function DashSidebar() {
   const location = useLocation();
@@ -141,18 +149,23 @@ export default function DashSidebar() {
               
                 <div>
                 {currentUser.isAdmin && (
-                <>
-                <Link to="/dashboard?tab=coupons">
+                <><Link to="/dashboard?tab=coupons">
+                <Sidebar.Item
+                  active={tab === "coupons"}
+                  icon={RiCoupon2Fill}
+                  as="div"
+                >
+                  Coupons
+                </Sidebar.Item>
+              </Link><Link to="/dashboard?tab=notices">
                   <Sidebar.Item
-                    active={tab === "coupons"}
-                    icon={RiCoupon2Fill}
+                    active={tab === "notices"}
+                    icon={RiNotification4Fill}
                     as="div"
                   >
-                    Coupons
+                    Notice
                   </Sidebar.Item>
-                </Link>
-
-                <div className="relative">
+                </Link><div className="relative">
                   <div
                     onClick={toggleEmployeeSubmenu} // Toggle employee submenu on click
                     className="flex items-center cursor-pointer"
@@ -192,9 +205,7 @@ export default function DashSidebar() {
                       </Link>
                     </div>
                   )}
-                </div>
-
-                <div className="relative">
+                </div><div className="relative">
                   <div
                     onClick={toggleLeaveSubmenu} // Toggle leave submenu on click
                     className="flex items-center cursor-pointer"
@@ -232,9 +243,7 @@ export default function DashSidebar() {
                       </Link>
                     </div>
                   )}
-                </div>
-
-                <div className="relative">
+                </div><div className="relative">
                   <div
                     onClick={toggleSalarySubmenu} // Toggle salary submenu on click
                     className="flex items-center cursor-pointer"
