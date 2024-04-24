@@ -72,10 +72,10 @@ export default function FeedbackCompo({feedback, onEdit, onDelete}) {
             <>
             <Textarea className='mb-2 me-40' value={editedFeedback} onChange={(e) => setEditedFeedback(e.target.value)}/>
             <div className='flex justify-end gap-2 text-xs size-9'>
-                <Button type='button' size='sm' gradientDuoTone='purpleToBlue' onClick={handleSave}>
+                <Button type='button' size='sm' gradientDuoTone='pinkToOrange' onClick={handleSave}>
                     Save
                 </Button>
-                <Button type='button' size='sm' gradientDuoTone='purpleToBlue' outline onClick={() => setIsEditing(false)}>
+                <Button type='button' size='sm' gradientDuoTone='pinkToOrange' outline onClick={() => setIsEditing(false)}>
                     Cancel
                 </Button>
             </div>

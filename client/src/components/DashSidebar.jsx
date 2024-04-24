@@ -141,7 +141,7 @@ export default function DashSidebar() {
               
                 <div>
                 {currentUser.isAdmin && (
-                
+                <>
                 <Link to="/dashboard?tab=coupons">
                   <Sidebar.Item
                     active={tab === "coupons"}
