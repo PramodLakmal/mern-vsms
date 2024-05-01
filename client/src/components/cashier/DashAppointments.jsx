@@ -8,7 +8,6 @@ import { HiCheck, HiX, HiMinus } from "react-icons/hi";
 import { BsCheckCircle } from "react-icons/bs";
 import { BiDollar } from "react-icons/bi";
 
-
 export default function DashAppointments() {
   const [appointments, setAppointments] = useState([]);
   const [searchUsername, setSearchUsername] = useState("");
@@ -182,13 +181,13 @@ export default function DashAppointments() {
     setSelectedDate(null);
   };
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split("T")[0];
 
   return (
     <div className="container mx-auto p-4 relative">
       <h1 className="text-2xl mb-4">Appointments</h1>
       <div className="">
-      <input
+        <input
           type="date"
           onChange={handleDateChange}
           max={today}
@@ -196,112 +195,114 @@ export default function DashAppointments() {
           className="p-2 rounded border dark:border-gray-700 dark:bg-gray-800 dark:text-white border-gray-300 bg-white text-black"
         />
 
-{selectedDate && (
-            <button onClick={handleClearDate} className="ml-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-              Clear Date
-            </button>
-          )}
+        {selectedDate && (
+          <button
+            onClick={handleClearDate}
+            className="ml-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Clear Date
+          </button>
+        )}
         <div className="mt-4 ">
-        <input
-          type="text"
-          placeholder="Search by username"
-          value={searchUsername}
-          className="p-2 mb-4 rounded border dark:border-gray-700 dark:bg-gray-800 dark:text-white border-gray-300 bg-white text-black"
-          onChange={(e) => setSearchUsername(e.target.value)}
-        />
+          <input
+            type="text"
+            placeholder="Search by username"
+            value={searchUsername}
+            className="p-2 mb-4 rounded border dark:border-gray-700 dark:bg-gray-800 dark:text-white border-gray-300 bg-white text-black"
+            onChange={(e) => setSearchUsername(e.target.value)}
+          />
         </div>
-        
       </div>
       <Table hoverable className="w-full table-auto">
-  <Table.Head>
-    <Table.HeadCell>User</Table.HeadCell>
-    <Table.HeadCell>Service</Table.HeadCell>
-    <Table.HeadCell>Date</Table.HeadCell>
-    <Table.HeadCell>Status</Table.HeadCell>
-    <Table.HeadCell>Actions</Table.HeadCell>
-  </Table.Head>
-  <Table.Body>
-    {filteredAppointments.map((appointment) => (
-      <Table.Row key={appointment._id}>
-        <Table.Cell>{appointment.userId.username}</Table.Cell>
-        <Table.Cell>
-          {appointment.serviceId
-            ? appointment.serviceId.name
-            : "Service Name Unavailable"}
-        </Table.Cell>
-        <Table.Cell>
-          {appointment.Date
-            ? new Date(appointment.Date).toLocaleDateString()
-            : ""}
-        </Table.Cell>
-        <Table.Cell>
-          <div
-            className={`inline-flex h-6 px-2 rounded-lg w-24 justify-center items-center ${
-              appointment.refunded
-                ? "bg-yellow-200"
-              :appointment.completed
-                ? "bg-green-200"
-                : appointment.cancelled
-                ? "bg-red-200"
-                
-                : appointment.isPaid
-                ? "bg-blue-200"
-                : "bg-gray-200"
-            } text-xs font-medium text-black`}
-          >
-            {appointment.refunded ? (
-              <BiDollar className="h-4 w-4 text-yellow-600 mr-1" /> 
-          ) : appointment.completed ? (
-              <HiCheck className="h-4 w-4 text-green-600 mr-1" />
-            ) : appointment.cancelled ? (
-              <HiX className="h-4 w-4 text-red-600 mr-1" />
-            ) : appointment.isPaid ? (
-              <BsCheckCircle className="h-4 w-4 text-blue-600 mr-1" />
-            ) : (
-              <HiMinus className="h-4 w-4 text-gray-600 mr-1" />
-            )}
-            {appointment.refunded
-              ? "Refunded"
-            : appointment.completed
-              ? "Completed"
-              : appointment.cancelled
-              ? "Cancelled"
-              : appointment.isPaid
-              ? "Paid"
-              : "Pending"}
-          </div>
-        </Table.Cell>
-        <Table.Cell className="flex flex-row">
-          {!appointment.completed && !appointment.cancelled && (
-            <>
-              <Button
-                className="mr-2 bg-blue-500 text-white hover:bg-blue-700"
-                onClick={() => handleMarkCompleted(appointment._id)}
-              >
-                Mark Completed
-              </Button>
-              <Button
-                className="bg-red-500 text-white hover:bg-red-700"
-                onClick={() => handleCancelAppointment(appointment._id)}
-              >
-                Cancel
-              </Button>
-            </>
-          )}
-          {appointment.cancelled && !appointment.refunded && appointment.isPaid && (
-            <Button
-              onClick={() => handleIssueRefund(appointment._id)}
-              className="mr-2 bg-blue-500 text-white hover:bg-blue-700"
-            >
-              Issue Refund
-            </Button>
-          )}
-        </Table.Cell>
-      </Table.Row>
-    ))}
-  </Table.Body>
-</Table>
-
+        <Table.Head>
+          <Table.HeadCell>User</Table.HeadCell>
+          <Table.HeadCell>Service</Table.HeadCell>
+          <Table.HeadCell>Date</Table.HeadCell>
+          <Table.HeadCell>Status</Table.HeadCell>
+          <Table.HeadCell>Actions</Table.HeadCell>
+        </Table.Head>
+        <Table.Body>
+          {filteredAppointments.map((appointment) => (
+            <Table.Row key={appointment._id}>
+              <Table.Cell>{appointment.userId.username}</Table.Cell>
+              <Table.Cell>
+                {appointment.serviceId
+                  ? appointment.serviceId.name
+                  : "Service Name Unavailable"}
+              </Table.Cell>
+              <Table.Cell>
+                {appointment.date
+                  ? new Date(appointment.date).toLocaleDateString()
+                  : ""}
+              </Table.Cell>
+              <Table.Cell>
+                <div
+                  className={`inline-flex h-6 px-2 rounded-lg w-24 justify-center items-center ${
+                    appointment.refunded
+                      ? "bg-yellow-200"
+                      : appointment.completed
+                      ? "bg-green-200"
+                      : appointment.cancelled
+                      ? "bg-red-200"
+                      : appointment.isPaid
+                      ? "bg-blue-200"
+                      : "bg-gray-200"
+                  } text-xs font-medium text-black`}
+                >
+                  {appointment.refunded ? (
+                    <BiDollar className="h-4 w-4 text-yellow-600 mr-1" />
+                  ) : appointment.completed ? (
+                    <HiCheck className="h-4 w-4 text-green-600 mr-1" />
+                  ) : appointment.cancelled ? (
+                    <HiX className="h-4 w-4 text-red-600 mr-1" />
+                  ) : appointment.isPaid ? (
+                    <BsCheckCircle className="h-4 w-4 text-blue-600 mr-1" />
+                  ) : (
+                    <HiMinus className="h-4 w-4 text-gray-600 mr-1" />
+                  )}
+                  {appointment.refunded
+                    ? "Refunded"
+                    : appointment.completed
+                    ? "Completed"
+                    : appointment.cancelled
+                    ? "Cancelled"
+                    : appointment.isPaid
+                    ? "Paid"
+                    : "Pending"}
+                </div>
+              </Table.Cell>
+              <Table.Cell className="flex flex-row">
+                {!appointment.completed && !appointment.cancelled && (
+                  <>
+                    <Button
+                      className="mr-2 bg-blue-500 text-white hover:bg-blue-700"
+                      onClick={() => handleMarkCompleted(appointment._id)}
+                    >
+                      Mark Completed
+                    </Button>
+                    <Button
+                      className="bg-red-500 text-white hover:bg-red-700"
+                      onClick={() => handleCancelAppointment(appointment._id)}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                )}
+                {appointment.cancelled &&
+                  !appointment.refunded &&
+                  appointment.isPaid && (
+                    <Button
+                      onClick={() => handleIssueRefund(appointment._id)}
+                      className="mr-2 bg-blue-500 text-white hover:bg-blue-700"
+                    >
+                      Issue Refund
+                    </Button>
+                  )}
+              </Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
 
       <Modal
         show={showConfirmationDialog}

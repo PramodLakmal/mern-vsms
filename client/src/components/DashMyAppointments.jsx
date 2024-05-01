@@ -103,38 +103,36 @@ export default function MyAppointments() {
       <ToastContainer />
       {!loading && (
         <Table className="w-full table-auto">
-          <thead>
-            <tr className="text-left text-gray-600 dark:text-gray-400">
-              <th>Vehicle No</th>
-              <th>Contact No</th>
-              <th>Date</th>
-              <th>Time Slot</th>
-              <th>Service</th>
-              <th>Amount to Pay</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+          <Table.Head>
+              <Table.HeadCell>Vehicle No</Table.HeadCell>
+              <Table.HeadCell>Contact No</Table.HeadCell>
+              <Table.HeadCell>Date</Table.HeadCell>
+              <Table.HeadCell>Time Slot</Table.HeadCell>
+              <Table.HeadCell>Service</Table.HeadCell>
+              <Table.HeadCell>Amount to Pay</Table.HeadCell>
+              <Table.HeadCell>Actions</Table.HeadCell>
+          </Table.Head>
+          <Table.Body>
             {appointments.map((appointment) => (
-              <tr
+              <Table.Row
                 key={appointment._id}
                 className="hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                <td>{appointment.VehicleNo}</td>
-                <td>{appointment.ContactNo}</td>
-                <td>{formatDate(appointment.Date)}</td>
-                <td>{appointment.TimeSlot}</td>
-                <td>{appointment.serviceId.name}</td>
-                <td>
+                <Table.Cell>{appointment.vehicleNo}</Table.Cell>
+                <Table.Cell>{appointment.contactNo}</Table.Cell>
+                <Table.Cell>{formatDate(appointment.date)}</Table.Cell>
+                <Table.Cell>{appointment.timeSlot}</Table.Cell>
+                <Table.Cell>{appointment.serviceId.name}</Table.Cell>
+                <Table.Cell>
                   {appointment.isPaid ? (
-                    <span className="text-gray-600">${appointment.amount}</span>
+                    <span className="text-gray-600">LKR {appointment.amount}</span>
                   ) : (
                     <span className="text-gray-600">
-                      ${appointment.serviceId.price}
+                      LKR {appointment.serviceId.price}
                     </span>
                   )}
-                </td>
-                <td>
+                </Table.Cell>
+                <Table.Cell>
                   <div className="flex flex-row">
                     {appointment.isPaid ? (
                       <span className="mr-2 inline-flex items-center py-1 px-2 rounded-md bg-green-200 text-green-700">
@@ -149,10 +147,10 @@ export default function MyAppointments() {
                       </button>
                     )}
                   </div>
-                </td>
-              </tr>
+                </Table.Cell>
+              </Table.Row>
             ))}
-          </tbody>
+          </Table.Body>
         </Table>
       )}
     </div>

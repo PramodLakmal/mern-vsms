@@ -125,15 +125,9 @@ const handleDelete = async (feedbackId) => {
       <div className='flex p-3 max-w-6xl mx-auto flex-col md:flex-row md:items-center gap-5'>
         {/* Left */}
         <div className='flex-1'>
-        <Link
-        to="/"
-        className="font-bold dark:text-white text-4xl"
-      >
-        <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
-          SINGHE
+        <span className="px-2 py-1">
+        <img src="https://firebasestorage.googleapis.com/v0/b/mern-vsms.appspot.com/o/Logo%20and%20Other%2FSighe%20Auto.png?alt=media&token=95f727f5-dfdf-4d56-be9e-b4eabd8cf42d" alt="logo" />
         </span>
-        AUTO
-      </Link>
       <p className='text-sm mt-5'>
         Welcome to Singhe Auto. Please give a feedback about our services.
       </p>
@@ -142,7 +136,7 @@ const handleDelete = async (feedbackId) => {
         {/* Right */}
         <div className='flex-1'>
           <div className='p-6 text-center'><h1 className='dark:text-white text-3xl font-semibold'>Give Your Honnest Feedback Here</h1></div>
-          <form className='flex flex-col gap-4 border border-teal-500 rounded-md p-8' onSubmit={handleSubmit}>
+          <form className='flex flex-col gap-4 border border-red-500 rounded-md p-8' onSubmit={handleSubmit}>
           <div className='flex items-center gap-1 my-5 text-gray-500 text-sm'>
                 <p>sign in as: </p>
                 <img className="h-5 w-5 object-cover rounded-full" src= {currentUser.profilePicture} alt=""  />
@@ -165,7 +159,7 @@ const handleDelete = async (feedbackId) => {
                 id='feedback' onChange={(e)=> setFormData({...formData, feedback:e.target.value})}/>
             </div>
             
-            <Button className='' gradientDuoTone='purpleToPink' type='submit' disabled={loading}>
+            <Button className='' gradientMonochrome="failure" type='submit' disabled={loading}>
               {
                 loading ? (
                           <><Spinner size='sm'/>
@@ -183,8 +177,8 @@ const handleDelete = async (feedbackId) => {
         ) : (
           <>
           <div className='text-sm my-8 flex items-center gap-2 justify-center'>
-            <p>Total Feedbacks</p>
-            <div className='border border-gray-400 py-1 px-2 rounded-sm'>
+            <p className='font-bold'>Total Feedbacks</p>
+            <div className='border border-red-400 font-bold py-1 px-2 text-lg rounded-sm'>
             <p>{totalFeedbacks}</p>
             </div>
          </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Sidebar } from "flowbite-react";
 import {
   HiUser,
@@ -13,17 +13,12 @@ import {
   HiChevronDown,
   HiPlusCircle,
   HiViewList,
-  HiBookmark,
   HiOutlineArchive,
-  
-
 } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { signoutSuccess } from "../redux/user/userSlice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { RiCoupon2Fill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { RiCoupon2Fill, RiNotification4Fill } from "react-icons/ri";
 
 export default function DashSidebar() {
   const location = useLocation();
@@ -34,7 +29,6 @@ export default function DashSidebar() {
   const [isLeaveOpen, setIsLeaveOpen] = useState(false); // State for leave submenu visibility
   const [isSalaryOpen, setIsSalaryOpen] = useState(false); // State for salary submenu visibility
   const { currentUser } = useSelector((state) => state.user);
-
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -68,7 +62,7 @@ export default function DashSidebar() {
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <div className="">
+          <div>
             {currentUser.isAdmin && (
               <Link to="/dashboard?tab=dash">
                 <Sidebar.Item
@@ -99,7 +93,9 @@ export default function DashSidebar() {
                 Profile
               </Sidebar.Item>
             </Link>
+          </div>
 
+          <div>
             <Link to="/dashboard?tab=myAppointments">
               <Sidebar.Item
                 active={tab === "myAppointments"}
@@ -109,7 +105,9 @@ export default function DashSidebar() {
                 My Appointments
               </Sidebar.Item>
             </Link>
+          </div>
 
+          <div>
             {currentUser.isCustomerServiceAgent && (
               <Link to="/dashboard?tab=feedbacks">
                 <Sidebar.Item
@@ -135,17 +133,15 @@ export default function DashSidebar() {
                     View Users
                   </Sidebar.Item>
                 </Link>
-
                 <Link to="/dashboard?tab=posts">
                   <Sidebar.Item
                     active={tab === "posts"}
-                    icon={ HiOutlineArchive}
+                    icon={HiOutlineArchive}
                     as="div"
                   >
                     Products
                   </Sidebar.Item>
                 </Link>
-
                 <Link to="/dashboard?tab=coupons">
                   <Sidebar.Item
                     active={tab === "coupons"}
@@ -155,7 +151,15 @@ export default function DashSidebar() {
                     Coupons
                   </Sidebar.Item>
                 </Link>
-
+                <Link to="/dashboard?tab=notices">
+                  <Sidebar.Item
+                    active={tab === "notices"}
+                    icon={RiNotification4Fill}
+                    as="div"
+                  >
+                    Notice
+                  </Sidebar.Item>
+                </Link>
                 <div className="relative">
                   <div
                     onClick={toggleEmployeeSubmenu} // Toggle employee submenu on click
@@ -197,7 +201,6 @@ export default function DashSidebar() {
                     </div>
                   )}
                 </div>
-
                 <div className="relative">
                   <div
                     onClick={toggleLeaveSubmenu} // Toggle leave submenu on click
@@ -237,7 +240,6 @@ export default function DashSidebar() {
                     </div>
                   )}
                 </div>
-
                 <div className="relative">
                   <div
                     onClick={toggleSalarySubmenu} // Toggle salary submenu on click
@@ -294,4 +296,3 @@ export default function DashSidebar() {
     </Sidebar>
   );
 }
-

@@ -10,6 +10,9 @@ export default function DashUsers() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -63,9 +66,25 @@ export default function DashUsers() {
     }
   };
 
+  const filteredUsers = users.filter((user) =>
+    user.username.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
+      <input
+        type="text"
+        placeholder="Search by username"
+        value={searchQuery}
+        onChange={handleSearch}
+        className="p-2 mb-4 rounded border dark:border-gray-700 dark:bg-gray-800 dark:text-white border-gray-300 bg-white text-black"
+      />
       {currentUser.isAdmin && users.length > 0 ? (
+        
         <>
           <Table hoverable className='shadow-md'>
             <Table.Head>
@@ -77,7 +96,7 @@ export default function DashUsers() {
               <Table.HeadCell className='text-center'>CuS Agent</Table.HeadCell>
               <Table.HeadCell className='text-center'>Delete</Table.HeadCell>
             </Table.Head>
-            {users.map((user) => (
+            {filteredUsers.map((user) => (
               <Table.Body className='divide-y' key={user._id}>
                 <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800 text-center'>
                   <Table.Cell>
