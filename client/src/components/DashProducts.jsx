@@ -13,6 +13,8 @@ export default function DashProducts() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [productIdToDelete, setProductIdToDelete] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -34,6 +36,19 @@ export default function DashProducts() {
       fetchProducts();
     }
   }, [currentUser._id]);
+
+  useEffect(() => {
+    // Filter products based on search query
+    const filtered = userProducts.filter(product =>
+      product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  }, [searchQuery, userProducts]);
+
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
   const handleShowMore = async () => {
     const startIndex = userProducts.length;
@@ -124,7 +139,7 @@ export default function DashProducts() {
         <Link to={'/create-product'}>
           <Button
             type='button'
-            gradientDuoTone='purpleToPink'
+            gradientDuoTone='purpleToBlue'
             className='w-full'
           >
             Add Product
@@ -143,8 +158,18 @@ export default function DashProducts() {
         </span>
 
       </div>
+
+      <div className="mb-'flex justify-between items-center mb-5  ">
+        <input
+          type="text"
+          placeholder="Search name or category"
+          value={searchQuery}
+          onChange={handleSearch}
+          className="p-2 mb-4 rounded border dark:border-gray-700 dark:bg-gray-800 dark:text-white border-gray-300 bg-white text-black"
+        />
+      </div>
       
-      {currentUser.isAdmin && userProducts.length > 0 ? (
+      {currentUser.isAdmin && (searchQuery ? filteredProducts.length > 0 : userProducts.length > 0) ? (
         <>
           <Table hoverable className='shadow-md'>
             <Table.Head>
@@ -157,54 +182,105 @@ export default function DashProducts() {
               <Table.HeadCell>Delete</Table.HeadCell>
               <Table.HeadCell>Update</Table.HeadCell>
             </Table.Head>
-            {userProducts.map((product) => (
-              <Table.Body className='divide-y'>
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                  <Table.Cell>
-                    {new Date(product.updatedAt).toLocaleDateString()}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Link to={`/product/${product._id}`}>
-                      <img
-                        src={product.image}
-                        alt={product.title}
-                        className='w-20 h-10 object-cover bg-gray-500'
-                      />
-                    </Link>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Link
-                      className='font-medium text-gray-900 dark:text-white'
-                      to={`/product/${product._id}`}
-                    >
-                      {product.title}
-                    </Link>
-                  </Table.Cell>
-                  <Table.Cell>{product.category}</Table.Cell>
-                  <Table.Cell>{product.itemPrice}</Table.Cell>
-                  <Table.Cell>{product.itemQuantity}</Table.Cell>
-                  <Table.Cell>
-                    <span
-                      onClick={() => {
-                        setShowModal(true);
-                        setProductIdToDelete(product._id);
-                      }}
-                      className='font-medium text-red-500 hover:underline cursor-pointer'
-                    >
-                      Delete
-                    </span>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Link
-                      className='text-teal-500 hover:underline'
-                      to={`/update-product/${product._id}`}
-                    >
-                      Update
-                    </Link>
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            ))}
+            {searchQuery ? (
+              filteredProducts.map((product) => (
+                <Table.Body className='divide-y'>
+                  <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                    <Table.Cell>
+                      {new Date(product.updatedAt).toLocaleDateString()}
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Link to={`/product/${product._id}`}>
+                        <img
+                          src={product.image}
+                          alt={product.title}
+                          className='w-20 h-10 object-cover bg-gray-500'
+                        />
+                      </Link>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Link
+                        className='font-medium text-gray-900 dark:text-white'
+                        to={`/product/${product._id}`}
+                      >
+                        {product.title}
+                      </Link>
+                    </Table.Cell>
+                    <Table.Cell>{product.category}</Table.Cell>
+                    <Table.Cell>{product.itemPrice}</Table.Cell>
+                    <Table.Cell>{product.itemQuantity}</Table.Cell>
+                    <Table.Cell>
+                      <span
+                        onClick={() => {
+                          setShowModal(true);
+                          setProductIdToDelete(product._id);
+                        }}
+                        className='font-medium text-red-500 hover:underline cursor-pointer'
+                      >
+                        Delete
+                      </span>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Link
+                        className='text-teal-500 hover:underline'
+                        to={`/update-product/${product._id}`}
+                      >
+                        Update
+                      </Link>
+                    </Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              ))
+            ) : (
+              userProducts.map((product) => (
+                <Table.Body className='divide-y'>
+                  <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                    <Table.Cell>
+                      {new Date(product.updatedAt).toLocaleDateString()}
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Link to={`/product/${product._id}`}>
+                        <img
+                          src={product.image}
+                          alt={product.title}
+                          className='w-20 h-10 object-cover bg-gray-500'
+                        />
+                      </Link>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Link
+                        className='font-medium text-gray-900 dark:text-white'
+                        to={`/product/${product._id}`}
+                      >
+                        {product.title}
+                      </Link>
+                    </Table.Cell>
+                    <Table.Cell>{product.category}</Table.Cell>
+                    <Table.Cell>{product.itemPrice}</Table.Cell>
+                    <Table.Cell>{product.itemQuantity}</Table.Cell>
+                    <Table.Cell>
+                      <span
+                        onClick={() => {
+                          setShowModal(true);
+                          setProductIdToDelete(product._id);
+                        }}
+                        className='font-medium text-red-500 hover:underline cursor-pointer'
+                      >
+                        Delete
+                      </span>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Link
+                        className='text-teal-500 hover:underline'
+                        to={`/update-product/${product._id}`}
+                      >
+                        Update
+                      </Link>
+                    </Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              ))
+            )}
           </Table>
           {showMore && (
             <button
@@ -216,7 +292,7 @@ export default function DashProducts() {
           )}
         </>
       ) : (
-        <p>You have no products yet!</p>
+        <p>No products found!</p>
       )}
       <Modal
         show={showModal}
