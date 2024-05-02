@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Refund Report</title>
+    <title>User Report</title>
     <style>
         table {
             width: 100%;
@@ -25,18 +25,18 @@
         <thead>
             <tr>
                 <th>User Name</th>
-                <th>Service Name</th>
-                <th>Refund Amount</th>
-                <th>Refund Date</th>
+                <th>Account Created Date</th>
+                <th>Account Updated Date</th>
+                <th>Email</th>
             </tr>
         </thead>
         <tbody>
-            <% refunds.forEach(function(refund) { %>
+            <% user.forEach(function(user) { %>
                 <tr>
-                    <td><%= refund.appointmentId.userId.username %></td>
-                    <td><%= refund.appointmentId.serviceId.name %></td>
-                    <td><%= refund.refundedAmount %></td>
-                    <td><%= new Date(refund.dateIssued).toLocaleDateString() %></td>
+                    <td><%= user.userId.userId.username %></td>
+                    <td><%= user.createdAt %></td>
+                    <td><%= user.updatedAt %></td>
+                    <td><%= user.email %></td>
                 </tr>
             <% }); %>
         </tbody>

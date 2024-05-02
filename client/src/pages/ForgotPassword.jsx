@@ -53,7 +53,7 @@ export default function ForgotPassword() {
                 id='email'  onChange={handleChange}/>
             </div>
             
-            <Button gradientDuoTone='purpleToPink' type='submit' disabled={loading}>
+            <Button gradientMonochrome="failure" type='submit' disabled={loading}>
               {
                 loading ? (
                           <><Spinner size='sm'/>

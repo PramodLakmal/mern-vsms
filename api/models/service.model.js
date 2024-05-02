@@ -20,7 +20,7 @@ const serviceSchema = new Schema({
     required: true,
     min: 0
   },
-  image: {
+  imageUrl: {
     type: String,
     default: 'https://cdn.pixabay.com/photo/2016/02/24/17/15/service-1220327_640.png'
   }

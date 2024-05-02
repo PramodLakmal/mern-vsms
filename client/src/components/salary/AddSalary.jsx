@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import salaryImage from '../../public/salary.png';
 
 export default function AddSalary() {
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search); // Extract query parameters
+    const employeeId = searchParams.get('employeeId'); // Get the Employee ID
     const navigate = useNavigate();
+
     const [salaryData, setSalaryData] = useState({
-        employeeid: '',
+        employeeid:  employeeId || '', // Pre-fill with the Employee ID
         month: '',
         year: '',
         basicsalary: '',
@@ -17,7 +21,7 @@ export default function AddSalary() {
         reduction: '',
         netsalary: ''
     });
-
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
 
@@ -84,7 +88,7 @@ export default function AddSalary() {
 
     const handleClear = () => {
         setSalaryData({
-            employeeid: '',
+            employeeid: employeeId || '', // Reset to initial state with Employee ID
             month: '',
             year: '',
             basicsalary: '',
