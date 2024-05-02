@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Sidebar } from "flowbite-react";
 import {
   HiUser,
@@ -13,6 +13,8 @@ import {
   HiChevronDown,
   HiPlusCircle,
   HiViewList,
+  HiOutlineArchive,
+  HiCurrencyDollar,
   HiBookmark,
   HiDocumentDuplicate,
   HiLocationMarker,
@@ -21,14 +23,12 @@ import {
   HiOutlineEmojiHappy,
   HiBookmarkAlt,
   HiOutlineViewBoards,
-  HiShieldCheck,
+  HiShieldCheck
 } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { signoutSuccess } from "../redux/user/userSlice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { RiBookLine, RiCoupon2Fill, RiNotification4Fill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { RiCoupon2Fill, RiNotification4Fill } from "react-icons/ri";
 
 export default function DashSidebar() {
   const location = useLocation();
@@ -38,8 +38,9 @@ export default function DashSidebar() {
   const [isEmployeeOpen, setIsEmployeeOpen] = useState(false); // State for employee submenu visibility
   const [isLeaveOpen, setIsLeaveOpen] = useState(false); // State for leave submenu visibility
   const [isSalaryOpen, setIsSalaryOpen] = useState(false); // State for salary submenu visibility
+  const [isExpenseOpen, setIsExpenseOpen] = useState(false); // State for expense submenu visibility
+  const [isIncomeOpen, setIsIncomeOpen] = useState(false); // State for income submenu visibility
   const { currentUser } = useSelector((state) => state.user);
-
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -68,12 +69,15 @@ export default function DashSidebar() {
   const toggleEmployeeSubmenu = () => setIsEmployeeOpen(!isEmployeeOpen);
   const toggleLeaveSubmenu = () => setIsLeaveOpen(!isLeaveOpen);
   const toggleSalarySubmenu = () => setIsSalaryOpen(!isSalaryOpen);
+  const toggleExpenseSubmenu = () => setIsExpenseOpen(!isExpenseOpen); // Define toggle function for expense submenu
+  const toggleIncomeSubmenu = () => setIsIncomeOpen(!isIncomeOpen); // Define toggle function for income submenu
+
 
   return (
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <div className="">
+          <div>
             {currentUser.isAdmin && (
               <Link to="/dashboard?tab=dash">
                 <Sidebar.Item
@@ -96,6 +100,8 @@ export default function DashSidebar() {
                     ? "Admin"
                     : currentUser.isCustomerServiceAgent
                     ? "CuAgent"
+                    : currentUser.isFinanceManager 
+                    ? "FManager"
                     : "User"
                 }
                 labelColor="dark"
@@ -104,9 +110,9 @@ export default function DashSidebar() {
                 Profile
               </Sidebar.Item>
             </Link>
-            </div>
+          </div>
 
-            <div>
+          <div>
             <Link to="/dashboard?tab=myAppointments">
               <Sidebar.Item
                 active={tab === "myAppointments"}
@@ -116,9 +122,22 @@ export default function DashSidebar() {
                 My Appointments
               </Sidebar.Item>
             </Link>
-            </div>
+          </div>
 
+
+          <div>
+            <Link to="/dashboard?tab=AddLeave">
+              <Sidebar.Item
+                active={tab === "AddLeave"}
+                icon={HiDocumentText}
+                as="div"
+              >
+                Add Leave
+              </Sidebar.Item>
+            </Link>
+                </div>
             <div>
+
             {currentUser.isCustomerServiceAgent && (
               <Link to="/dashboard?tab=feedbacks">
                 <Sidebar.Item
@@ -134,7 +153,7 @@ export default function DashSidebar() {
 
           <div>
             {currentUser.isAdmin && (
-             
+              <>
                 <Link to="/dashboard?tab=users">
                   <Sidebar.Item
                     active={tab === "users"}
@@ -144,20 +163,25 @@ export default function DashSidebar() {
                     View Users
                   </Sidebar.Item>
                 </Link>
-              )}
-              </div>
-              
-                <div>
-                {currentUser.isAdmin && (
-                <><Link to="/dashboard?tab=coupons">
-                <Sidebar.Item
-                  active={tab === "coupons"}
-                  icon={RiCoupon2Fill}
-                  as="div"
-                >
-                  Coupons
-                </Sidebar.Item>
-              </Link><Link to="/dashboard?tab=notices">
+                <Link to="/dashboard?tab=products">
+                  <Sidebar.Item
+                    active={tab === "products"}
+                    icon={HiOutlineArchive}
+                    as="div"
+                  >
+                    Products
+                  </Sidebar.Item>
+                </Link>
+                <Link to="/dashboard?tab=coupons">
+                  <Sidebar.Item
+                    active={tab === "coupons"}
+                    icon={RiCoupon2Fill}
+                    as="div"
+                  >
+                    Coupons
+                  </Sidebar.Item>
+                </Link>
+                <Link to="/dashboard?tab=notices">
                   <Sidebar.Item
                     active={tab === "notices"}
                     icon={RiNotification4Fill}
@@ -165,7 +189,8 @@ export default function DashSidebar() {
                   >
                     Notice
                   </Sidebar.Item>
-                </Link><div className="relative">
+                </Link>
+                <div className="relative">
                   <div
                     onClick={toggleEmployeeSubmenu} // Toggle employee submenu on click
                     className="flex items-center cursor-pointer"
@@ -205,7 +230,8 @@ export default function DashSidebar() {
                       </Link>
                     </div>
                   )}
-                </div><div className="relative">
+                </div>
+                <div className="relative">
                   <div
                     onClick={toggleLeaveSubmenu} // Toggle leave submenu on click
                     className="flex items-center cursor-pointer"
@@ -243,7 +269,8 @@ export default function DashSidebar() {
                       </Link>
                     </div>
                   )}
-                </div><div className="relative">
+                </div>
+                <div className="relative">
                   <div
                     onClick={toggleSalarySubmenu} // Toggle salary submenu on click
                     className="flex items-center cursor-pointer"
@@ -284,7 +311,105 @@ export default function DashSidebar() {
                 </div>
               </>
             )}
+           
           </div>
+          
+          {currentUser.isFinanceManager && (
+
+            <>
+          <div className="relative">
+          <div
+            onClick={toggleExpenseSubmenu} // Toggle expense submenu on click
+            className="flex items-center cursor-pointer"
+          >
+            <Sidebar.Item
+              active={tab === "AddExpense"}
+              icon={HiCurrencyDollar}
+              as="div"
+            >
+              Expenses
+            </Sidebar.Item>
+            {isExpenseOpen ? (
+              <HiChevronDown className="ml-2" />
+            ) : (
+              <HiChevronRight className="ml-2" />
+            )}
+          </div>
+          {isExpenseOpen && ( // Conditionally render expense submenu items
+            <div className="absolute top-full left-0 mt-2 bg-gray-800 rounded py-1 px-2 z-10">
+              <Link to="/dashboard?tab=ExpenseForm">
+                <Sidebar.Item
+                  active={tab === "ExpenseForm"}
+                  icon={HiPlusCircle}
+                >
+                  Add Expense
+                </Sidebar.Item>
+              </Link>
+              <Link to="/dashboard?tab=Expenses">
+                <Sidebar.Item
+                  active={tab === "Expenses"}
+                  icon={HiViewList}
+                >
+                  Expense List
+                </Sidebar.Item>
+              </Link>
+            </div>
+          )}
+        </div>
+
+        <div className="relative">
+          <div
+            onClick={toggleIncomeSubmenu} // Toggle income submenu on click
+            className="flex items-center cursor-pointer"
+          >
+            <Sidebar.Item
+              active={tab === "AddIncome"}
+              icon={HiCurrencyDollar}
+              as="div"
+            >
+              Incomes
+            </Sidebar.Item>
+            {isIncomeOpen ? (
+              <HiChevronDown className="ml-2" />
+            ) : (
+              <HiChevronRight className="ml-2" />
+            )}
+          </div>
+          {isIncomeOpen && ( // Conditionally render income submenu items
+            <div className="absolute top-full left-0 mt-2 bg-gray-800 rounded py-1 px-2 z-10">
+              <Link to="/dashboard?tab=IncomeForm">
+                <Sidebar.Item
+                  active={tab === "IncomeForm"}
+                  icon={HiPlusCircle}
+                >
+                  Add Income
+                </Sidebar.Item>
+              </Link>
+              <Link to="/dashboard?tab=Incomes">
+                <Sidebar.Item
+                  active={tab === "Incomes"}
+                  icon={HiViewList}
+                >
+                  Income List
+                </Sidebar.Item>
+              </Link>
+            </div>
+          )}
+        </div>
+
+        <Link to="/dashboard?tab=NetIncome">
+                <Sidebar.Item
+                  active={tab === "NetIncome"}
+                  icon={HiCurrencyDollar}
+                  as="div"
+                >
+                  Net Income
+                </Sidebar.Item>
+              </Link>
+</>
+          )}
+
+
           <div>
             <Sidebar.Item
               icon={HiArrowSmRight}
@@ -299,4 +424,3 @@ export default function DashSidebar() {
     </Sidebar>
   );
 }
-
