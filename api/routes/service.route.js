@@ -9,7 +9,8 @@ import {
 } from "../controllers/service.controller.js" ;
 
 
-const router = express.Router()
+ const router = express.Router()
+
 
 // GET all service
 router.get('/', getServices)
@@ -24,7 +25,7 @@ router.post('/', createService)
 router.delete('/:id', deleteService)
 
 // UPDATE a service 
-router.patch('/:id', updateService)
+router.patch('/:id',updateService);
 
 export default router;
  
