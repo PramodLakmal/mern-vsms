@@ -135,7 +135,7 @@ export default function DashSidebar() {
                 Add Leave
               </Sidebar.Item>
             </Link>
-
+                </div>
             <div>
 
             {currentUser.isCustomerServiceAgent && (

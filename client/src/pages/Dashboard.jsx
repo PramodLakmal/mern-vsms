@@ -14,7 +14,6 @@ import AddSalary from '../components/salary/AddSalary';
 import DashCoupons from '../components/DashCoupons';
 import DashMyAppointments from '../components/DashMyAppointments';
 import DashProducts from '../components/DashProducts';
-import DashPosts from '../components/DashPosts';
 import ExpenseForm from '../components/Expenses/ExpenseForm';
 import Expenses from '../components/Expenses/Expenses';
 import IncomeForm from '../components/Incomes/IncomeForm';
