@@ -2,43 +2,32 @@ import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { signInStart, signInSuccess, signInFailure  } from '../redux/user/userSlice';
+import { forgotPassword } from '../redux/actions/authActions';
+import { forgotPasswordStart } from '../redux/user/userSlice';
+import axios from 'axios';
 
 
-export default function ForgotPassword() {
-  const [formData, setFormData] = useState({});
-  const {loading, error: errorMessage} = useSelector(state => state.user);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value.trim() })
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if(!formData.email || !formData.password) {
-      return dispatch(signInFailure('Please fill in all fields.'));
-    }
-    try {
-      dispatch(signInStart());
-      const res = await fetch('api/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if(data.success === false) {
-        dispatch(signInFailure(data.message));
+  const ForgotPassword = () => {
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState(null);
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        setErrorMessage(null);
+        const response = await axios.post('/api/auth/forgot-password', { email }); // Make an API request using axios
+        setMessage(response.data);
+      } catch (error) {
+        setMessage(error.response.data.message);
       }
-      if(res.ok) {
-        dispatch(signInSuccess(data));
-        navigate('/');
-      }
-    } catch (error) {
-      dispatch(signInFailure(error.message));
-    }
-  };
+    };
+
+    // Rest of the code...
+
+ 
+
+
   return (
     <div className='min-h-screen mt-20 '>
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
@@ -50,15 +39,11 @@ export default function ForgotPassword() {
               <TextInput
                 type='email'
                 placeholder='name@company.com'
-                id='email'  onChange={handleChange}/>
+                id='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
             </div>
             
-            <Button gradientMonochrome="failure" type='submit' disabled={loading}>
-              {
-                loading ? (
-                          <><Spinner size='sm'/>
-                          <span className='pl-3'>Loading...</span></>
-                          ) : ('Send')}
+            <Button gradientMonochrome="failure" type='submit'>
+              Send
             </Button>
           </form>
           {
@@ -72,5 +57,7 @@ export default function ForgotPassword() {
       </div>
     </div>
   );
-}
 
+};
+
+export default ForgotPassword;

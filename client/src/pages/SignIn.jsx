@@ -8,7 +8,8 @@ import OAuth from '../components/OAuth';
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
-  const {loading, error: errorMessage} = useSelector(state => state.user);
+  const {loading} = useSelector(state => state.user);
+  const [errorMessage, setErrorMessage] = useState(null)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -17,7 +18,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if(!formData.email || !formData.password) {
-      return dispatch(signInFailure('Please fill in all fields.'));
+      return setErrorMessage('Please fill in all fields.');
     }
     try {
       dispatch(signInStart());

@@ -6,6 +6,13 @@ import json2csv from 'json2csv';
 import ejs from 'ejs';
 import pdf from 'html-pdf';
 import jsPDF from 'jspdf';
+import router from '../routes/user.route.js';
+import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
+import crypto from 'crypto';
+import { verifyToken } from '../utils/verifyUser.js';
+import { json } from 'express';
+import { response } from 'express';
 
 
 
@@ -185,4 +192,43 @@ export const generateUserReport = async (req, res) => {
   } catch (error) {
       res.status(500).json({ error: error.message });
   }
+};
+
+
+
+
+
+// Generate a JWT token
+const signToken = (id) => {
+  return jwt.sign({ id }, 'sahand', {
+    expiresIn: '10m', // Token expires in 10 minutes
+  });
+};
+
+// Send the reset link to the user's email
+const sendResetEmail = async (email, resetToken) => {
+  const resetURL = `http://localhost:5173//resetPassword/${resetToken}`;
+  
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: 'vehicleservicemanagementsystem@gmail.com',
+      pass: 'xyoy dfso gjez hlxo',
+    },
+  });
+
+  const mailOptions = {
+    from: 'vehicleservicemanagementsystem@gmail.com',
+    to: email,
+    subject: 'Password Reset Link',
+    html: `Click <a href="${resetURL}">here</a> to reset your password.`,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
+// Generate a random token for password reset
+const generateResetToken = () => {
+  const resetToken = crypto.randomBytes(32).toString('hex');
+  return resetToken;
 };
