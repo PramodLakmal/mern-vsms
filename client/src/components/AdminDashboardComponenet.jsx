@@ -156,7 +156,7 @@ export default function AdminDashboardComponenet() {
 
         </div>
 
-        <div className='flex flex-wrap gap-4 py-3 mx-auto justify-center'>
+        <div className='flex flex-wrap gap-4 py-3 mx-auto justify-center ml-20'>
         <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
           <div className='flex justify-between  p-3 text-sm font-semibold'>
             <h1 className='text-center p-2'>Recent users</h1>
