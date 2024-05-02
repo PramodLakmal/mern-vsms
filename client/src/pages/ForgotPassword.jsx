@@ -8,6 +8,7 @@ import axios from 'axios';
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState(null);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -15,8 +16,12 @@ import axios from 'axios';
         setErrorMessage(null);
         const response = await axios.post('/api/auth/forgot-password', { email }); // Make an API request using axios
         setMessage(response.data);
+        if(response.status === 200) {
+          alert('Password Reset Link Sent Successfully');
+          navigate('/sign-in');
+        }
       } catch (error) {
-        setMessage(error.response.data.message);
+        setErrorMessage('Email is not registered. Please try again.');
       }
     };
 
@@ -40,7 +45,7 @@ import axios from 'axios';
             </div>
             
             <Button gradientMonochrome="failure" type='submit'>
-              Send
+              Send Reset Link
             </Button>
           </form>
           {

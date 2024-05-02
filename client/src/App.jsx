@@ -25,6 +25,7 @@ import UpdateProduct from "./pages/UpdateProduct";
 import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
 import ProductPage from "./pages/ProductPage";
 import CashierDash from "./pages/cashier/Dashboard";
+import ResetPassword from "./components/ResetPassword";
 
 import UpdateIncome from "./components/Incomes/UpdateIncome";
 import UpdateExpense from "./components/Expenses/UpdateExpense";
@@ -51,6 +52,7 @@ export default function App() {
           <Route path="/updatesalary/:id" element={<UpdateSalary />} />
         </Route>
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
+        <Route path="/reset-password/:token" element={<ResetPassword/>}/>
 
         <Route element={<OnlyAdminPrivateRoute />}>
         <Route path="/create-product" element={<CreateProduct />} />

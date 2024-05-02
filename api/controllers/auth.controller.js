@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { errorHandler } from "../utils/error.js";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
+import { error } from "console";
 
 
 export const signup = async (req, res, next) => {
@@ -106,7 +107,7 @@ const sendResetPasswordEmail = async (email, resetToken) => {
         from: 'vehicleservicemanagementsystem@gmail.com',
         to: email,
         subject: 'Password Reset',
-        html: `<p>You requested a password reset. Click <a href="http://localhost:3000/reset-password/${resetToken}">here</a> to reset your password.</p>`,
+        html: `<p>You requested a password reset. Click <a href="http://localhost:5173/reset-password/${resetToken}">here</a> to reset your password.<br><br> Your reset Token is:<b> ${resetToken} </b> </p>`,
     };
 
     await transporter.sendMail(mailOptions);
@@ -146,7 +147,7 @@ export const resetPassword = async (req, res, next) => {
         const user = await User.findById(decoded.id);
 
         if (!user) {
-            return next(errorHandler(404, 'User not found'));
+            return errorHandler(404, 'User not found');
         }
 
         // Hash new password
@@ -159,6 +160,9 @@ export const resetPassword = async (req, res, next) => {
 
         res.json('Password reset successfully');
     } catch (error) {
+        console.error("Error resetting password:", error);
         next(error);
     }
 };
+
+
