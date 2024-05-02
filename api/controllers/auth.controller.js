@@ -2,6 +2,8 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { errorHandler } from "../utils/error.js";
+import nodemailer from "nodemailer";
+import crypto from "crypto";
 
 
 export const signup = async (req, res, next) => {
@@ -85,6 +87,77 @@ export const google = async (req, res, next) => {
                 httpOnly: true,
             }).json(rest);
         }
+    } catch (error) {
+        next(error);
+    }
+};
+
+// Function to send email
+const sendResetPasswordEmail = async (email, resetToken) => {
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'vehicleservicemanagementsystem@gmail.com',
+            pass: 'xyoy dfso gjez hlxo',
+        },
+    });
+
+    const mailOptions = {
+        from: 'vehicleservicemanagementsystem@gmail.com',
+        to: email,
+        subject: 'Password Reset',
+        html: `<p>You requested a password reset. Click <a href="http://localhost:3000/reset-password/${resetToken}">here</a> to reset your password.</p>`,
+    };
+
+    await transporter.sendMail(mailOptions);
+};
+
+export const forgotPassword = async (req, res, next) => {
+    const { email } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return next(errorHandler(404, 'User not found'));
+        }
+
+        const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        // Save reset token to user document
+        user.resetPasswordToken = resetToken;
+        await user.save();
+
+        // Send reset password email
+        await sendResetPasswordEmail(email, resetToken);
+
+        res.json('Reset password email sent');
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const resetPassword = async (req, res, next) => {
+    const { resetToken, newPassword } = req.body;
+
+    try {
+        const decoded = jwt.verify(resetToken, process.env.JWT_SECRET);
+
+        const user = await User.findById(decoded.id);
+
+        if (!user) {
+            return next(errorHandler(404, 'User not found'));
+        }
+
+        // Hash new password
+        const hashPassword = bcryptjs.hashSync(newPassword, 10);
+
+        // Update user's password
+        user.password = hashPassword;
+        user.resetPasswordToken = null;
+        await user.save();
+
+        res.json('Password reset successfully');
     } catch (error) {
         next(error);
     }
