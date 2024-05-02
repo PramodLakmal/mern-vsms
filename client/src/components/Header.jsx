@@ -49,7 +49,7 @@ export default function Header() {
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <span className="px-2 py-1">
+        <span className=" py-1">
         <img src="https://firebasestorage.googleapis.com/v0/b/mern-vsms.appspot.com/o/Logo%20and%20Other%2FSighe%20Auto.png?alt=media&token=95f727f5-dfdf-4d56-be9e-b4eabd8cf42d" alt="logo" />
         </span></Link></div>
       <form> 
@@ -104,23 +104,23 @@ export default function Header() {
         }
         <Navbar.Toggle />
       </div>
-      <Navbar.Collapse>
-        <Navbar.Link active={path === "/"} as={"div"}>
+      <Navbar.Collapse >
+        <Navbar.Link className="mt-1" active={path === "/"} as={"div"}>
           <Link to="/">Home</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/inventory"} as={"div"}>
+        <Navbar.Link className="mt-1" active={path === "/inventory"} as={"div"}>
           <Link to="/inventory">Inventory</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/services"} as={"div"}>
+        <Navbar.Link className="mt-1" active={path === "/services"} as={"div"}>
           <Link to="/services">Services</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/about"} as={"div"}>
+        <Navbar.Link className="mt-1" active={path === "/about"} as={"div"}>
           <Link to="/about">About</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/news"} as={"div"}>
+        <Navbar.Link className="mt-1" active={path === "/news"} as={"div"}>
           <Link to="/news">News</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/contact"} as={"div"}>
+        <Navbar.Link className="mt-1" active={path === "/contact"} as={"div"}>
           <Link to="/contact">Contact Us</Link>
         </Navbar.Link>
         <Navbar.Link active={path === "/book"} as={"div"}>
