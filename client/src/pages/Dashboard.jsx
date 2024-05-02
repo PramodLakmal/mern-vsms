@@ -8,6 +8,11 @@ import AdminDashboardComponenet from '../components/AdminDashboardComponenet';
 import DashCoupons from '../components/DashCoupons';
 import DashMyAppointments from '../components/DashMyAppointments';
 import DashPosts from '../components/DashPosts';
+import ExpenseForm from '../components/Expenses/ExpenseForm';
+import Expenses from '../components/Expenses/Expenses';
+import IncomeForm from '../components/Incomes/IncomeForm';
+import Incomes from '../components/Incomes/Incomes';
+import NetIncome from '../components/NetIncome';
 
 
 export default function Dashboard() {
@@ -42,6 +47,16 @@ export default function Dashboard() {
       {tab === "coupons" && <DashCoupons />}
       {/* My Appointments */}
       {tab === 'myAppointments' && <DashMyAppointments/>}
+       {/* Add Expense */}
+       {tab === 'ExpenseForm' && <ExpenseForm/>}
+       {/* Expense List */}
+       {tab === 'Expenses' && <Expenses/>}
+       {/* Add Income */}
+       {tab === 'IncomeForm' && <IncomeForm/>}
+       {/* Expense List */}
+       {tab === 'Incomes' && <Incomes/>}
+        {/* Net Income Chart */}
+        {tab === 'NetIncome' && <NetIncome/>}
 
     </div>
   )

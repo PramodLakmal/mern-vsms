@@ -20,6 +20,7 @@ export default function DashSidebar() {
   const dispatch = useDispatch();
   const [tab, setTab] = useState("");
   const { currentUser } = useSelector((state) => state.user);
+
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get("tab");
@@ -80,6 +81,8 @@ export default function DashSidebar() {
                     ? "Admin"
                     : currentUser.isCustomerServiceAgent
                     ? "CuAgent"
+                    : currentUser.isFinanceManager 
+                    ? "FManager"
                     : "User"
                 }
                 labelColor="dark"
