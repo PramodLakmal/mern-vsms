@@ -57,7 +57,7 @@ export default function FeedbackCompo({feedback, onEdit, onDelete}) {
 
     
   return (
-    <div className='flex p-5 border-b dark:border-gray-600 text-sm ml-10 mr-10'>
+    <div className='flex p-5 border-b dark:border-gray-600 text-sm ml-10 mr-10 mb-3'>
         <div className='flex-shrink-0 mr-5'> 
             <img className='w-10 h-10 rounded-full bg-gray-200' src={user.profilePicture} alt={user.username} />
         </div>
@@ -72,10 +72,10 @@ export default function FeedbackCompo({feedback, onEdit, onDelete}) {
             <>
             <Textarea className='mb-2 me-40' value={editedFeedback} onChange={(e) => setEditedFeedback(e.target.value)}/>
             <div className='flex justify-end gap-2 text-xs size-9'>
-                <Button type='button' size='sm' gradientDuoTone='purpleToBlue' onClick={handleSave}>
+                <Button type='button' size='sm' gradientDuoTone='pinkToOrange' onClick={handleSave}>
                     Save
                 </Button>
-                <Button type='button' size='sm' gradientDuoTone='purpleToBlue' outline onClick={() => setIsEditing(false)}>
+                <Button type='button' size='sm' gradientDuoTone='pinkToOrange' outline onClick={() => setIsEditing(false)}>
                     Cancel
                 </Button>
             </div>

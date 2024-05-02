@@ -11,7 +11,7 @@ const couponSchema = new Schema({
   },
   discountType: {
     type: String,
-    enum: ['percentage', 'fixed'], // Discount types: percentage or fixed
+    enum: ['percentage', 'fixed'], 
     required: true,
   },
   discountAmount: {
@@ -24,7 +24,7 @@ const couponSchema = new Schema({
   },
   usageLimit: {
     type: Number,
-    default: null, // No limit by default
+    default: null, 
   },
   usageCount: {
     type: Number,
@@ -39,5 +39,4 @@ const couponSchema = new Schema({
 });
 
 const Coupon = mongoose.model('Coupon', couponSchema);
-
 export default Coupon;

@@ -1,5 +1,3 @@
-// webhook.route.js
-
 import express from "express";
 import Stripe from "stripe";
 import Appointment from "../models/appointment.model.js";
@@ -36,7 +34,6 @@ router.post(
 
         try {
           const appointment = await Appointment.findById(appointmentId);
-          console.log("Found Appointment:", appointment);
           if (!appointment) {
             console.error("Appointment not found");
             return res.status(404).send("Appointment not found");

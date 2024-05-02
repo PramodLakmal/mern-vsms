@@ -182,12 +182,12 @@ export default function DashProfile() {
             <h1>Address:<TextInput type='text' id='address' placeholder='Address' defaultValue={currentUser.address} onChange={handleChange}/> </h1>
             <h1>Password:<TextInput type='password' id='password' placeholder='Password' onChange={handleChange}/></h1>
 
-            <Button type='submit' gradientDuoTone='purpleToBlue' outline disabled= {loading || imageFileUploading}>
+            <Button type='submit' gradientDuoTone='pinkToOrange' outline disabled= {loading || imageFileUploading}>
               {loading ? 'Loading...' : 'Update'}
             </Button> 
            
         </form>
-        <div className="text-red-500 flex justify-between mt-5">
+        <div className="text-red-500 flex justify-between font-medium mt-5 mb-20">
         <span onClick={()=>setShowModal(true)} className='cursor-pointer'>Delete Account</span>
         <span onClick={handleSignout} className='cursor-pointer'>Sign Out</span>
         </div>

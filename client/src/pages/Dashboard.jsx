@@ -14,6 +14,7 @@ import AddSalary from '../components/salary/AddSalary';
 import DashCoupons from '../components/DashCoupons';
 import DashMyAppointments from '../components/DashMyAppointments';
 import DashPosts from '../components/DashPosts';
+import DashNotice from '../components/DashNotice';
 
 
 export default function Dashboard() {
@@ -60,6 +61,11 @@ export default function Dashboard() {
       {tab === "coupons" && <DashCoupons />}
       {/* My Appointments */}
       {tab === 'myAppointments' && <DashMyAppointments/>}
+      {/* Notice List */}
+      {tab === 'notices' && <DashNotice/>}
+    
+    
+      
     </div>
   )
 }

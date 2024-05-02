@@ -16,6 +16,13 @@ const userSchema = new mongoose.Schema(
     phoneNumber: {
       type: Number,
       required: false,
+      unique: true,
+      validate: {
+        validator: function (v) {
+          return /d{10}/.test(v);
+        },
+        message: (props) => `${props.value} is not a valid phone number!`,
+      },
     },
     address: {
       type: String,

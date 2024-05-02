@@ -92,4 +92,37 @@ export const getAppointmentsByUser = async (req, res) => {
       res.status(500).json({ message: 'Failed to fetch appointments', error: error.message });
     }
   };
+
+  export const getAppointmentsCashier = async (req, res) => {
+    try {
+        const appointments = await Appointment.find().populate('userId').populate('serviceId');
+        res.status(200).json({ appointments });
+      } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch appointments', error: error.message });
+      }
+    };
   
+    export const markAppointmentCompleted = async (req, res) => {
+        try {
+          const { appointmentId } = req.params;
+          const appointment = await Appointment.findByIdAndUpdate(appointmentId, { completed: true });
+          res.status(200).json({ message: 'Appointment marked as completed', appointment });
+        } catch (error) {
+          res.status(500).json({ message: 'Failed to mark appointment as completed', error: error.message });
+        }
+      };
+      
+      export const cancelAppointment = async (req, res) => {
+          try {
+            const { appointmentId } = req.params;
+            const appointment = await Appointment.findById(appointmentId);
+            if (!appointment) {
+              return res.status(404).json({ message: 'Appointment not found' });
+            }
+            appointment.cancelled = true;
+            await appointment.save();
+            res.status(200).json({ message: 'Appointment cancelled', appointment });
+          } catch (error) {
+            res.status(500).json({ message: 'Failed to cancel appointment', error: error.message });
+          }
+        };

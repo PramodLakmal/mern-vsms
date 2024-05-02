@@ -1,6 +1,13 @@
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
 import User from '../models/user.model.js';
+import fs from 'fs';
+import json2csv from 'json2csv';
+import ejs from 'ejs';
+import pdf from 'html-pdf';
+import jsPDF from 'jspdf';
+
+
 
 export const test = (req, res) => {
     res.json({ message: "API is working" });
@@ -34,6 +41,12 @@ export const updateUser = async (req, res, next) => {
             return next(errorHandler(400, 'Username must contain only letters and numbers'));
         }
     }
+    if(req.body.phoneNumber){
+        if(!/\d{10}/.test(req.body.phoneNumber)){
+            return next(errorHandler(400, 'Phone number must be 10 digits long'));
+        }
+    }
+
         try {
           const updatedUser = await User.findByIdAndUpdate(req.params.userId, {
               $set: {
@@ -83,7 +96,7 @@ export const getUsers = async (req, res, next) => {
   }    
     try {
       const startIndex = parseInt(req.query.startIndex) || 0;
-      const limit = parseInt(req.query.limit) || 9;
+      const limit = parseInt(req.query.limit) || 20;
       const sortDirection = req.query.sort === 'asc' ? 1 : -1;
 
       const users = await User.find().skip(startIndex).limit(limit).sort({ createdAt: sortDirection });
@@ -112,4 +125,64 @@ export const getUser = async (req, res, next) => {
     catch (error) {
       next(error);
     }
+};
+
+export const generateUserCSVReport = async (req, res) => {
+  try {
+    const user = await User.find();
+
+    if (!user || user.length === 0) {
+      return res.status(404).json({ message: 'No users found' });
+    }
+
+    // Define CSV fields
+    const fields = [
+      { label: 'User Name', value: 'username' },
+      { label: 'Account Created Date', value: 'createdAt' },
+      { label: 'Account Updated Date', value: 'updatedAt' },
+      { label: 'Email', value: 'email' },
+    ];
+
+    // Format users data into CSV format using json2csv
+    const csvData = json2csv.parse(user, { fields, withBOM: true });
+
+    // Write CSV data to a file
+    fs.writeFileSync('user_report.csv', csvData);
+
+    // Send the file as a response
+    res.download('user_report.csv');
+  } catch (error) {
+    console.error('Error generating CSV report:', error);
+    res.status(500).json({ message: 'Failed to generate CSV report' });
+  }
+};
+// Endpoint for generating PDF report
+export const generateUserPDFReport = async (req, res) => {
+  try {
+    const user = await User.find();
+
+    // Render PDF template using EJS
+    const template = fs.readFileSync('report_template.ejs', 'utf-8');
+    const html = ejs.render(template, { user });
+
+    // Generate PDF
+    pdf.create(html).toFile('user_report.pdf', (err, result) => {
+      if (err) throw err;
+      res.download('user_report.pdf');
+    });
+  } catch (error) {
+    console.error('Error generating PDF report:', error);
+    res.status(500).json({ message: 'Failed to generate PDF report' });
+  }
+};
+
+export const generateUserReport = async (req, res) => {
+  try {
+      const user = await User.find();
+      const doc = new jsPDF();
+      // Generate report logic here
+      res.status(200).json({ message: 'Users report generated successfully' });
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
 };

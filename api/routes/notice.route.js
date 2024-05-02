@@ -1,27 +1,21 @@
 import express from 'express';
-import {
-    getNotices,
-    getNotice,
-    createNotice,
-    deleteNotice,
-    updateNotice
-} from "../controllers/notice.controller.js"; // Import the appropriate controller functions
+import { createNotice, getAllNotices, getNoticeById, deleteNoticeById, updateNoticeById } from '../controllers/notice.controller.js';
 
 const router = express.Router();
 
-// GET all notices
-router.get('/', getNotices);
+// Route to create a new notice
+router.post('/create', createNotice);
 
-// GET a single notice
-router.get('/:id', getNotice);
+// Route to get all notices
+router.get('/all', getAllNotices);
 
-// POST a new notice
-router.post('/', createNotice);
+// Route to get a single notice by ID
+router.get('/:id', getNoticeById);
 
-// DELETE a notice
-router.delete('/:id', deleteNotice);
+// Route to delete a notice by ID
+router.delete('/:id', deleteNoticeById);
 
-// UPDATE a notice
-router.patch('/:id', updateNotice);
+// Route to update a notice by ID
+router.put('/update/:id', updateNoticeById);
 
 export default router;

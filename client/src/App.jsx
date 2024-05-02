@@ -19,11 +19,13 @@ import ViewSalary from "./components/salary/ViewSalary";
 import ViewEmployee from "./components/employee/ViewEmployee";
 import Feedback from "./pages/Feedback";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import ForgotPassword from "./pages/ForgotPassword";
 import CreatePost from "./pages/CreatePost";
 import UpdatePost from "./pages/UpdatePost";
 import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
 import PostPage from "./pages/PostPage";
 import Search from "./pages/Search";
+import CashierDash from "./pages/cashier/Dashboard";
 
 export default function App() {
   return (
@@ -41,16 +43,19 @@ export default function App() {
           {/* PrivateRoute is a placeholder */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="feedback" element={<Feedback />} />
+          <Route path="/feedbackSuccess">"Feedback Success"</Route>
+        
           <Route path="/updateleave/:id" element={<UpdateLeave />} />
           <Route path="/updatesalary/:id" element={<UpdateSalary />} />
         </Route>
+        <Route path="/forgot-password" element={<ForgotPassword/>}/>
 
         <Route element={<OnlyAdminPrivateRoute />}>
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="/update-post/:postId" element={<UpdatePost />} />
+        <Route path="/cashierDashboard" element={<CashierDash />} />
         </Route>
         <Route path="post/:postSlug" element={<PostPage />} />
-
         <Route path="/services" element={<Services />} />
         <Route path="/book" element={<BookNow />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
