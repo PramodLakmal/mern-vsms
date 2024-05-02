@@ -133,9 +133,9 @@ export default function DashSidebar() {
                     View Users
                   </Sidebar.Item>
                 </Link>
-                <Link to="/dashboard?tab=posts">
+                <Link to="/dashboard?tab=products">
                   <Sidebar.Item
-                    active={tab === "posts"}
+                    active={tab === "products"}
                     icon={HiOutlineArchive}
                     as="div"
                   >

@@ -1,4 +1,5 @@
-import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
+import React, { useEffect, useState } from 'react';
+import { Alert, Button, FileInput, Select, TextInput, Spinner } from 'flowbite-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import {
@@ -8,61 +9,94 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage';
 import { app } from '../firebase';
-import { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-export default function CreatePost() {
+export default function UpdateProduct() {
+  const { productId } = useParams();
+  const navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.user);
+
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    title: '',
+    category: 'uncategorized',
+    content: '',
+    itemPrice: '',
+    itemQuantity: '',
+  });
   const [publishError, setPublishError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await fetch(`/api/product/getproduct/${productId}`);
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || 'Failed to fetch product');
+        }
+        setFormData(data.product); // Assuming the response contains a 'product' key
+      } catch (error) {
+        console.error(error);
+        setPublishError('Failed to fetch product');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [productId]);
 
-  const handleUpdloadImage = async () => {
+  const handleUploadImage = async () => {
     try {
       if (!file) {
         setImageUploadError('Please select an image');
         return;
       }
-      setImageUploadError(null);
       const storage = getStorage(app);
       const fileName = new Date().getTime() + '-' + file.name;
       const storageRef = ref(storage, fileName);
       const uploadTask = uploadBytesResumable(storageRef, file);
+
       uploadTask.on(
         'state_changed',
         (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setImageUploadProgress(progress.toFixed(0));
         },
         (error) => {
           setImageUploadError('Image upload failed');
-          setImageUploadProgress(null);
+          console.error(error);
         },
         () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setImageUploadProgress(null);
-            setImageUploadError(null);
-            setFormData({ ...formData, image: downloadURL });
-          });
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then((downloadURL) => {
+              setFormData({ ...formData, image: downloadURL });
+            })
+            .catch((error) => {
+              setImageUploadError('Failed to get image URL');
+              console.error(error);
+            })
+            .finally(() => {
+              setImageUploadProgress(null);
+            });
         }
       );
     } catch (error) {
       setImageUploadError('Image upload failed');
-      setImageUploadProgress(null);
-      console.log(error);
+      console.error(error);
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/post/create', {
-        method: 'POST',
+      const res = await fetch(`/api/product/updateproduct/${productId}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -70,21 +104,26 @@ export default function CreatePost() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setPublishError(data.message);
+        setPublishError(data.message || 'Failed to update product');
         return;
       }
-
-      if (res.ok) {
-        setPublishError(null);
-        navigate(`/post/${data.slug}`);
-      }
+      navigate(`/dashboard?tab=products`);
     } catch (error) {
       setPublishError('Something went wrong');
+      console.error(error);
     }
   };
+
+  if (loading)
+    return (
+      <div className='flex justify-center items-center min-h-screen'>
+        <Spinner size='xl' />
+      </div>
+    );
+
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>
-      <h1 className='text-center text-3xl my-7 font-semibold'>Add a Product</h1>
+      <h1 className='text-center text-3xl my-7 font-semibold'>Update Product Details</h1>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <div className='flex flex-col gap-4 sm:flex-row justify-between'>
           <TextInput
@@ -93,22 +132,20 @@ export default function CreatePost() {
             required
             id='title'
             className='flex-1'
-            onChange={(e) =>
-              setFormData({ ...formData, title: e.target.value })
-            }
+            value={formData.title}
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           />
           <Select
-            onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value })
-            }
+            value={formData.category}
+            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
           >
             <option value='uncategorized'>Select a category</option>
             <option value='tyre'>Tyre</option>
-            <option value='enginepart'>Engine Part</option>
+            <option value='enginepart'>Engine Parts</option>
             <option value='oil'>Oil</option>
           </Select>
         </div>
-        
+
         <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
           <FileInput
             type='file'
@@ -120,7 +157,7 @@ export default function CreatePost() {
             gradientDuoTone='purpleToBlue'
             size='sm'
             outline
-            onClick={handleUpdloadImage}
+            onClick={handleUploadImage}
             disabled={imageUploadProgress}
           >
             {imageUploadProgress ? (
@@ -143,42 +180,39 @@ export default function CreatePost() {
             className='w-full h-72 object-cover'
           />
         )}
-        
+
         <ReactQuill
           theme='snow'
-          placeholder='Add a description.....'
+          value={formData.content}
+          placeholder='Write something...'
           className='h-72 mb-12'
           required
-          onChange={(value) => {
-            setFormData({ ...formData, content: value });
-          }}
+          onChange={(value) => setFormData({ ...formData, content: value })}
         />
 
         <div className='flex flex-col gap-4 sm:flex-row justify-between'>
           <TextInput
             type='text'
-            placeholder='price'
+            placeholder='Price'
             required
             id='itemPrice'
             className='flex-1'
-            onChange={(e) =>
-              setFormData({ ...formData, itemPrice: e.target.value })
-            }
+            value={formData.itemPrice}
+            onChange={(e) => setFormData({ ...formData, itemPrice: e.target.value })}
           />
           <TextInput
             type='text'
-            placeholder='quantity'
+            placeholder='Quantity'
             required
             id='itemQuantity'
             className='flex-1'
-            onChange={(e) =>
-              setFormData({ ...formData, itemQuantity: e.target.value })
-            }
+            value={formData.itemQuantity}
+            onChange={(e) => setFormData({ ...formData, itemQuantity: e.target.value })}
           />
-          </div>
+        </div>
 
         <Button type='submit' gradientDuoTone='purpleToPink'>
-          Create
+          Update Product
         </Button>
         {publishError && (
           <Alert className='mt-5' color='failure'>
@@ -189,4 +223,3 @@ export default function CreatePost() {
     </div>
   );
 }
-

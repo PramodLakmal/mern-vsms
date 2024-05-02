@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    description: {
+    content: {
       type: String,
       required: true,
     },
@@ -30,18 +30,17 @@ const productSchema = new mongoose.Schema(
       unique: true,
     },
     itemPrice: {
-        type: String,
-        required: true,
-      },
+      type: String,
+      required: true,
+    },
     itemQuantity: {
-        type: String,
-        required: true,
-      },
-    
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
-const Post = mongoose.model('product', productSchema);
+const Product = mongoose.model('Product', productSchema);
 
-export default Post;
+export default Product;
