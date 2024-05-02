@@ -107,6 +107,16 @@ export default function DashSidebar() {
               </Sidebar.Item>
             </Link>
 
+            <Link to="/dashboard?tab=AddLeave">
+              <Sidebar.Item
+                active={tab === "AddLeave"}
+                icon={HiDocumentText}
+                as="div"
+              >
+                Add Leave
+              </Sidebar.Item>
+            </Link>
+
             {currentUser.isCustomerServiceAgent && (
               <Link to="/dashboard?tab=feedbacks">
                 <Sidebar.Item
@@ -265,6 +275,7 @@ export default function DashSidebar() {
                 </div>
               </>
             )}
+           
           </div>
           <div>
             <Sidebar.Item
