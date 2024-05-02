@@ -8,7 +8,6 @@ import OAuth from '../components/OAuth';
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
-  const {loading} = useSelector(state => state.user);
   const [errorMessage, setErrorMessage] = useState(null)
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -76,12 +75,8 @@ export default function SignIn() {
                 Forgot Password?
               </Link>
             </div>
-            <Button gradientMonochrome="failure" type='submit' disabled={loading}>
-              {
-                loading ? (
-                          <><Spinner size='sm'/>
-                          <span className='pl-3'>Loading...</span></>
-                          ) : ('Sign In')}
+            <Button gradientMonochrome="failure" type='submit'>
+              Sign In
             </Button>
             <OAuth />
           </form>

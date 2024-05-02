@@ -1,9 +1,6 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
-import { forgotPassword } from '../redux/actions/authActions';
-import { forgotPasswordStart } from '../redux/user/userSlice';
 import axios from 'axios';
 
 
