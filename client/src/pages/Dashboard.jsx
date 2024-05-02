@@ -13,6 +13,7 @@ import SalaryList from '../components/salary/SalaryList';
 import AddSalary from '../components/salary/AddSalary';
 import DashCoupons from '../components/DashCoupons';
 import DashMyAppointments from '../components/DashMyAppointments';
+import DashProducts from '../components/DashProducts';
 import DashPosts from '../components/DashPosts';
 import ExpenseForm from '../components/Expenses/ExpenseForm';
 import Expenses from '../components/Expenses/Expenses';
@@ -41,7 +42,7 @@ export default function Dashboard() {
       </div> 
 
       {/* Posts/products.... */} 
-      {tab === 'posts' && <DashPosts/>}
+      {tab === 'products' && <DashProducts/>}
       {/* Profile.... */} 
       {tab === 'profile' && <DashProfile/>}
       {/* CuAgentFeedbacks.... */}
