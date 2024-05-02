@@ -5,7 +5,7 @@ import {
     addIncome,
     deleteIncome,
     updateIncome
-} from "../controllers/income.controller";
+} from "../controllers/income.controller.js";
 
 const router = express.Router();
 
