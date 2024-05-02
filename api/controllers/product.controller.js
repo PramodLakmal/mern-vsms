@@ -118,3 +118,20 @@ export const getProduct = async (req, res, next) => {
     next(error);
   }
 };
+// product.controller.js
+
+export const generateProductReport = async (req, res, next) => {
+  try {
+    const productReports = await Product.aggregate([
+      {
+        $group: {
+          _id: "$category",
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+    res.status(200).json({ productReports });
+  } catch (error) {
+    next(error);
+  }
+};

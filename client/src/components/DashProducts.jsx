@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { FiDownload } from 'react-icons/fi';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export default function DashProducts() {
   const { currentUser } = useSelector((state) => state.user);
@@ -72,6 +75,49 @@ export default function DashProducts() {
     }
   };
 
+  const generateProductReport = () => {
+    try {
+      const doc = new jsPDF(); // Initialize jsPDF
+      doc.setFontSize(11);
+      doc.text('Products Report', 10, 10);
+
+      // Add table header row
+      const headerCols = [
+        'Date Updated', 'Title', 'Category', 'Price', 'Quantity'
+      ];
+      const headerRowHeight = 5;
+      const headerYPos = 15;
+
+      const tableBody = userProducts.map(product => ([
+        new Date(product.updatedAt).toLocaleDateString(),
+        product.title,
+        product.category,
+        product.itemPrice,
+        product.itemQuantity
+      ]));
+      autoTable(doc, {
+        head: [headerCols],
+        body: tableBody,
+        startY: headerYPos + headerRowHeight,
+        styles: { overflow: 'linebreak' },
+        margin: { top: headerYPos + headerRowHeight + 5 }
+      });
+
+      // Calculate the end Y position of the table manually
+      const endY = headerYPos + doc.previousAutoTable.finalY;
+
+      // Add additional report information (optional)
+      const additionalInfoYPos = endY + 5;
+      doc.text('Report generated on:', 8, additionalInfoYPos);
+      doc.text(new Date().toLocaleDateString(), 50, additionalInfoYPos);
+
+      // Save or download the report
+      doc.save('products_report.pdf');
+    } catch (error) {
+      console.error('Error generating products report:', error);
+    }
+  };
+
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
       <div className='flex justify-between items-center mb-5'>
@@ -84,7 +130,20 @@ export default function DashProducts() {
             Add Product
           </Button>
         </Link>
+
+        <span className="text-sm text-gray-500 dark:text-gray-400">
+          <button
+            type="button"
+            className="outline-red-500 hover:bg-red-300 outline  font-bold py-2 px-4 rounded flex items-center ml-60"
+            onClick={generateProductReport}
+          >
+              <FiDownload className="mr-2" />
+              Generate Product Report
+          </button>
+        </span>
+
       </div>
+      
       {currentUser.isAdmin && userProducts.length > 0 ? (
         <>
           <Table hoverable className='shadow-md'>
