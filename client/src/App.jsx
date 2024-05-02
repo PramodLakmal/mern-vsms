@@ -26,6 +26,10 @@ import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
 import ProductPage from "./pages/ProductPage";
 import CashierDash from "./pages/cashier/Dashboard";
 
+import UpdateIncome from "./components/Incomes/UpdateIncome";
+import UpdateExpense from "./components/Expenses/UpdateExpense";
+import NetIncome from "./components/NetIncome";
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -57,6 +61,10 @@ export default function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/book" element={<BookNow />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
+
+        <Route path="/UpdateIncome/:id" element={<UpdateIncome/>} />
+        <Route path="/UpdateExpense/:id" element={<UpdateExpense/>} />
+        <Route path="/NetIncome" element={<NetIncome/>} />
         <Route path="/ViewLeave/:id" element={<ViewLeave />} />
         <Route path="/ViewSalary/:id" element={<ViewSalary />} />
         <Route path="/ViewEmployee/:employeeId" element={<ViewEmployee />} /> 

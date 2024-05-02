@@ -1,5 +1,6 @@
 import Emergency from '../models/emergency.model.js';
 import mongoose from 'mongoose';
+import { jsPDF } from 'jspdf'; // Import jsPDF for report generation
 
 const getEmergencies = async (req, res) => {
     try {
@@ -30,8 +31,8 @@ const getEmergency = async (req, res) => {
     }
 };
     
-const createEmergency = async (req, res) => {
-    const { servicetype, othertype, cusname, phone, date, area, status, image } = req.body;
+ const createEmergency = async (req, res) => {
+    const { servicetype, othertype, cusname, phone, date, area, status, images } = req.body;
 
     try {
         const newEmergency = new Emergency({
@@ -42,7 +43,7 @@ const createEmergency = async (req, res) => {
             date,
             area,
             status,
-            image
+            images  // This directly assigns the array from the request to the model
         });
 
         const savedEmergency = await newEmergency.save();
@@ -51,6 +52,7 @@ const createEmergency = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
+
 
 const deleteEmergency = async (req, res) => {
     const { id } = req.params;
@@ -80,7 +82,7 @@ const updateEmergencyStatus = async (req, res) => {
     }
 
     // Check if the status provided is either "Yes" or "No"
-    if (!['accept', 'reject'].includes(status)) {
+    if (!['pending','accept', 'reject'].includes(status)) {
         return res.status(400).json({error: 'Invalid status. Must be either "Yes" or "No".'});
     }
 
@@ -95,10 +97,23 @@ const updateEmergencyStatus = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
+
+const generateEmergencyReport = async (req, res) => {
+    try {
+        const emergencies = await Emergency.find();
+        const doc = new jsPDF();
+        // Generate report logic here
+        res.status(200).json({ message: 'Emergency service report generated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 export {
     getEmergencies,
     getEmergency,
     createEmergency,
     deleteEmergency,
-    updateEmergencyStatus
+    updateEmergencyStatus,
+    generateEmergencyReport
 };

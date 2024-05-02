@@ -14,6 +14,16 @@ import {
   HiPlusCircle,
   HiViewList,
   HiOutlineArchive,
+  HiCurrencyDollar,
+  HiBookmark,
+  HiDocumentDuplicate,
+  HiLocationMarker,
+  HiBookOpen,
+  HiInformationCircle,
+  HiOutlineEmojiHappy,
+  HiBookmarkAlt,
+  HiOutlineViewBoards,
+  HiShieldCheck
 } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice";
@@ -28,6 +38,8 @@ export default function DashSidebar() {
   const [isEmployeeOpen, setIsEmployeeOpen] = useState(false); // State for employee submenu visibility
   const [isLeaveOpen, setIsLeaveOpen] = useState(false); // State for leave submenu visibility
   const [isSalaryOpen, setIsSalaryOpen] = useState(false); // State for salary submenu visibility
+  const [isExpenseOpen, setIsExpenseOpen] = useState(false); // State for expense submenu visibility
+  const [isIncomeOpen, setIsIncomeOpen] = useState(false); // State for income submenu visibility
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -57,6 +69,9 @@ export default function DashSidebar() {
   const toggleEmployeeSubmenu = () => setIsEmployeeOpen(!isEmployeeOpen);
   const toggleLeaveSubmenu = () => setIsLeaveOpen(!isLeaveOpen);
   const toggleSalarySubmenu = () => setIsSalaryOpen(!isSalaryOpen);
+  const toggleExpenseSubmenu = () => setIsExpenseOpen(!isExpenseOpen); // Define toggle function for expense submenu
+  const toggleIncomeSubmenu = () => setIsIncomeOpen(!isIncomeOpen); // Define toggle function for income submenu
+
 
   return (
     <Sidebar className="w-full md:w-56">
@@ -85,6 +100,8 @@ export default function DashSidebar() {
                     ? "Admin"
                     : currentUser.isCustomerServiceAgent
                     ? "CuAgent"
+                    : currentUser.isFinanceManager 
+                    ? "FManager"
                     : "User"
                 }
                 labelColor="dark"
@@ -107,7 +124,20 @@ export default function DashSidebar() {
             </Link>
           </div>
 
+
           <div>
+            <Link to="/dashboard?tab=AddLeave">
+              <Sidebar.Item
+                active={tab === "AddLeave"}
+                icon={HiDocumentText}
+                as="div"
+              >
+                Add Leave
+              </Sidebar.Item>
+            </Link>
+
+            <div>
+
             {currentUser.isCustomerServiceAgent && (
               <Link to="/dashboard?tab=feedbacks">
                 <Sidebar.Item
@@ -281,7 +311,105 @@ export default function DashSidebar() {
                 </div>
               </>
             )}
+           
           </div>
+          
+          {currentUser.isFinanceManager && (
+
+            <>
+          <div className="relative">
+          <div
+            onClick={toggleExpenseSubmenu} // Toggle expense submenu on click
+            className="flex items-center cursor-pointer"
+          >
+            <Sidebar.Item
+              active={tab === "AddExpense"}
+              icon={HiCurrencyDollar}
+              as="div"
+            >
+              Expenses
+            </Sidebar.Item>
+            {isExpenseOpen ? (
+              <HiChevronDown className="ml-2" />
+            ) : (
+              <HiChevronRight className="ml-2" />
+            )}
+          </div>
+          {isExpenseOpen && ( // Conditionally render expense submenu items
+            <div className="absolute top-full left-0 mt-2 bg-gray-800 rounded py-1 px-2 z-10">
+              <Link to="/dashboard?tab=ExpenseForm">
+                <Sidebar.Item
+                  active={tab === "ExpenseForm"}
+                  icon={HiPlusCircle}
+                >
+                  Add Expense
+                </Sidebar.Item>
+              </Link>
+              <Link to="/dashboard?tab=Expenses">
+                <Sidebar.Item
+                  active={tab === "Expenses"}
+                  icon={HiViewList}
+                >
+                  Expense List
+                </Sidebar.Item>
+              </Link>
+            </div>
+          )}
+        </div>
+
+        <div className="relative">
+          <div
+            onClick={toggleIncomeSubmenu} // Toggle income submenu on click
+            className="flex items-center cursor-pointer"
+          >
+            <Sidebar.Item
+              active={tab === "AddIncome"}
+              icon={HiCurrencyDollar}
+              as="div"
+            >
+              Incomes
+            </Sidebar.Item>
+            {isIncomeOpen ? (
+              <HiChevronDown className="ml-2" />
+            ) : (
+              <HiChevronRight className="ml-2" />
+            )}
+          </div>
+          {isIncomeOpen && ( // Conditionally render income submenu items
+            <div className="absolute top-full left-0 mt-2 bg-gray-800 rounded py-1 px-2 z-10">
+              <Link to="/dashboard?tab=IncomeForm">
+                <Sidebar.Item
+                  active={tab === "IncomeForm"}
+                  icon={HiPlusCircle}
+                >
+                  Add Income
+                </Sidebar.Item>
+              </Link>
+              <Link to="/dashboard?tab=Incomes">
+                <Sidebar.Item
+                  active={tab === "Incomes"}
+                  icon={HiViewList}
+                >
+                  Income List
+                </Sidebar.Item>
+              </Link>
+            </div>
+          )}
+        </div>
+
+        <Link to="/dashboard?tab=NetIncome">
+                <Sidebar.Item
+                  active={tab === "NetIncome"}
+                  icon={HiCurrencyDollar}
+                  as="div"
+                >
+                  Net Income
+                </Sidebar.Item>
+              </Link>
+</>
+          )}
+
+
           <div>
             <Sidebar.Item
               icon={HiArrowSmRight}
