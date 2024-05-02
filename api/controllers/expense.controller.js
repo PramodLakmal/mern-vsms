@@ -1,6 +1,6 @@
 import  Expense  from '../models/expense.model.js';
-
 import mongoose from 'mongoose'; 
+import { jsPDF } from 'jspdf'; // Import jsPDF for report generation
 
 // Get all expenses
 const getExpenses = async (req, res) => {
@@ -31,15 +31,15 @@ const getExpense = async (req, res) => {
 
 // Add a new expense
 const addExpense = async (req, res) => {
-    const {title, amount, category, description, date} = req.body;
+    const {title, amount, type, description, date} = req.body;
 
     // Fixed validation for amount to correctly check if it's a number
-    if(!title || !category || !description || !date || amount <= 0 || typeof amount !== 'number'){
+    if(!title || !type || !description || !date || amount <= 0 || typeof amount !== 'number'){
         return res.status(400).json({message: 'All fields are required and amount must be a positive number!'});
     }
 
     try {
-        const expense = await Expense.create({ title, amount, category, description, date});
+        const expense = await Expense.create({ title, amount, type, description, date});
         res.status(200).json(expense);
     } catch (error) {
         res.status(400).json({message: 'Error adding expense', error: error.message});
@@ -80,10 +80,23 @@ const updateExpense = async (req, res) => {
     res.status(200).json(expense);
 };
 
+const generateExpenseReport = async (req, res) => {
+    try {
+        const expenses = await Expense.find();
+        const doc = new jsPDF();
+        // Generate report logic here
+        res.status(200).json({ message: 'Expense report generated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
 export {
     getExpenses,
     getExpense,
     addExpense,
     deleteExpense,
-    updateExpense
+    updateExpense,
+    generateExpenseReport
 };
