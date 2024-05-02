@@ -6,6 +6,7 @@ import BookNow from "./pages/Book";
 import Inventory from "./pages/Inventory";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
+import Search from "./pages/Search";
 import Dashboard from "./pages/Dashboard";
 import Header from "./components/Header";
 import Services from "./pages/Services";
@@ -40,6 +41,7 @@ export default function App() {
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/search" element={<Search />} />
         <Route element={<PrivateRoute />}>
           {" "}
           {/* PrivateRoute is a placeholder */}

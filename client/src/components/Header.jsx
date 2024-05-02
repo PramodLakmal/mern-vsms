@@ -12,11 +12,12 @@ export default function Header() {
   const path = useLocation().pathname;
   const location = useLocation();
   const currentUser = useSelector((state) => state.user.currentUser);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const {theme} = useSelector(state => state.theme);
 
   const[searchTerm, setSearchTerm] = React.useState('');
-  console.log(searchTerm);
+
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get('searchTerm');
@@ -42,6 +43,14 @@ export default function Header() {
     }
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('searchTerm', searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  }
+
   return (
     <Navbar className="border-b-2 flex">
       <div>
@@ -52,12 +61,14 @@ export default function Header() {
         <span className="px-2 py-1">
         <img src="https://firebasestorage.googleapis.com/v0/b/mern-vsms.appspot.com/o/Logo%20and%20Other%2FSighe%20Auto.png?alt=media&token=95f727f5-dfdf-4d56-be9e-b4eabd8cf42d" alt="logo" />
         </span></Link></div>
-      <form> 
+      <form onSubmit={handleSubmit}> 
         <TextInput
           type="text"
           placeholder="Search..."
           rightIcon={AiOutlineSearch}
           className="hidden lg:inline"
+          value={searchTerm}
+          onChange={(e)=> setSearchTerm(e.target.value)}
         />
       </form>
       <Button className="w-12 h-10 lg:hidden" color="gray" pill>
