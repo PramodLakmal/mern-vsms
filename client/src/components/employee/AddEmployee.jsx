@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from "axios";
-import { Button } from 'flowbite-react';
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { storage } from '../../firebase'; // Ensure this is the correct import for Firebase storage
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -20,7 +19,7 @@ export default function AddEmployee() {
     address: "",
   });
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessages, setErrorMessages] = useState("");
   const navigate = useNavigate();
 
 
@@ -51,7 +50,7 @@ export default function AddEmployee() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrorMessage("");
+    setErrorMessages("");
 
     try {
       let imageUrl = ""; // Initialize image URL as an empty string
@@ -76,8 +75,12 @@ export default function AddEmployee() {
       window.alert("Employee added successfully!");
       navigate('/dashboard?tab=EmployeeList');
     } catch (error) {
-      console.error("Failed to add employee:", error);
-      setErrorMessage("Failed to add employee. Please try again.");
+      if (error.response && error.response.status === 400) {
+        const errors = error.response.data.errors;
+        setErrorMessages(errors); // Set validation errors
+      } else {
+        console.error("Error while creating employee:", error.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -97,9 +100,6 @@ export default function AddEmployee() {
     setPreviewImage("https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg");
     setSelectedImage(null);
   };
-
-
-
 
   return (
     <div className="flex bg-gray-200">
@@ -286,7 +286,14 @@ export default function AddEmployee() {
                   </button>
                 </div>
               </form>
-              {errorMessage && <div className="text-red-500 mt-2">{errorMessage}</div>}
+               {/* Display validation error messages */}
+               {errorMessages.length > 0 && (
+                <div className="text-red-500 mt-2">
+                  {errorMessages.map((msg, index) => (
+                    <p key={index}>{msg}</p>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="w-full lg:w-1/2 flex justify-center mt-10 lg:mt-0">
               <img src={previewImage} alt="Preview" style={{ maxWidth: '100%', maxHeight: '300px', width: '200px', height: '200px' }} className="rounded-full object-cover" />

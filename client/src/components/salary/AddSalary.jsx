@@ -9,8 +9,10 @@ export default function AddSalary() {
     const employeeId = searchParams.get('employeeId'); // Get the Employee ID
     const navigate = useNavigate();
 
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
     const [salaryData, setSalaryData] = useState({
-        employeeid: employeeId || '', // Pre-fill with the Employee ID
+        employeeid: searchParams.get('employeeId') || '',
         month: '',
         year: '',
         basicsalary: '',
@@ -19,8 +21,33 @@ export default function AddSalary() {
         ottotal: '',
         bonus: '',
         reduction: '',
-        netsalary: ''
+        netsalary: '',
     });
+
+    const handleSearch = async (e) => {
+        const query = e.target.value;
+        setSearchQuery(query);
+
+        if (query.length > 2) {
+            try {
+                const response = await axios.get(`/api/employee/search/${query}`);
+                setSearchResults(response.data);
+            } catch (error) {
+                console.error('Error searching employees:', error);
+                setSearchResults([]);
+            }
+        } else {
+            setSearchResults([]);
+        }
+    };
+
+    const handleSelectEmployee = (employee) => {
+        setSalaryData((prevState) => ({
+            ...prevState,
+            employeeid: employee._id,
+        }));
+        setSearchResults([]); // Clear the search results
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -111,6 +138,36 @@ export default function AddSalary() {
                     </div>
                     <div className="bottom shadow-md p-4 flex justify-between">
                         <form onSubmit={handleSubmit} className="w-1/2">
+                            {/* Search field for Employee ID */}
+                            <div className="w-1/2 pr-2">
+                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="employeeSearch">
+                                    Search Employee
+                                </label>
+                                <input
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+                                    id="employeeSearch"
+                                    type="text"
+                                    placeholder="Search by first or last name"
+                                    onChange={handleSearch}
+                                    value={searchQuery}
+                                />
+                                {/* Display search results */}
+                                {searchResults.length > 0 && (
+                                    <div className="border rounded bg-white shadow mt-2">
+                                        {searchResults.map((employee) => (
+                                            <div
+                                                key={employee._id}
+                                                className="p-2 hover:bg-gray-200 cursor-pointer"
+                                                onClick={() => handleSelectEmployee(employee)}
+                                            >
+                                                {employee.firstname} {employee.lastname}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Display Employee ID */}
                             <div className="flex flex-wrap gap-8 justify-between mb-4">
                                 <div className="w-full flex">
                                     <div className="w-1/2 pr-2">
@@ -118,13 +175,11 @@ export default function AddSalary() {
                                             Employee ID
                                         </label>
                                         <input
-                                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
                                             id="employeeid"
                                             type="text"
-                                            name="employeeid"
+                                            read-only
                                             value={salaryData.employeeid}
-                                            onChange={handleChange}
-                                            required
                                         />
                                     </div>
                                     <div className="w-1/8 pl-2">
@@ -178,6 +233,7 @@ export default function AddSalary() {
                                 </div>
                             </div>
 
+                            {/* Rest of the form content */}
                             <div className="flex items-center mb-4">
                                 <label className="block text-gray-700 text-sm font-bold" htmlFor="basicsalary">
                                     Basic Salary:
@@ -278,15 +334,15 @@ export default function AddSalary() {
                                 />
                             </div>
 
-                            <div className="flex items-center space-x-6">
+                            <div class="flex items-center space-x-6">
                                 <button
-                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-24"
+                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                     type="submit"
                                 >
                                     Assign
                                 </button>
                                 <button
-                                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-24"
+                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                     type="button"
                                     onClick={handleClear}
                                 >
@@ -294,8 +350,9 @@ export default function AddSalary() {
                                 </button>
                             </div>
                         </form>
-                        <div className="ml-3 mr-3">
-                            <img src={salaryImage} alt="Add Salary" className="h-49 w-39" /> {/* Adjust the height and width of the image */}
+
+                        <div class="ml-3 mr-3">
+                            <img src={salaryImage} alt="Add Salary" class="h-49 w-39" />
                         </div>
                     </div>
                 </div>

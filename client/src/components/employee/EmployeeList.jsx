@@ -127,10 +127,7 @@ export default function EmployeeList() {
                           className="cursor-pointer text-red-500 hover-text-red-700"
                           onClick={() => handleDelete(employee._id)}
                         />
-                        <FaDollarSign
-                          className="cursor-pointer text-gray-500 hover-text-gray-700"
-                          onClick={() => handleAddSalary(employee._id)}
-                        />
+
                       </div>
                     </td>
                   </tr>

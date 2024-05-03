@@ -247,7 +247,7 @@ export default function DashSidebar() {
               </div>
 
               {isSalaryOpen && ( // Conditionally render salary submenu items
-                <div className="relative"> // Ensure it's within a proper container
+                <div className="relative">
                   <div className="absolute top-full left-0 mt-2 bg-gray-100 rounded py-1 px-2 z-10">
                     <Link to="/dashboard?tab=AddSalary">
                       <Sidebar.Item
