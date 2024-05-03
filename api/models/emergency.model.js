@@ -6,7 +6,7 @@ const emergencySchema = new Schema({
   // Other fields remain unchanged
   servicetype: {
     type: String,
-    enum: ["Mechanical", "Tire", "Battery"],
+    enum: ["Mechanical Repair", "Tire Replacement", "Battery Services","other"],
     default: ""
   },
   othertype: {
@@ -31,14 +31,13 @@ const emergencySchema = new Schema({
   },
   status: {
     type: String,
-    enum: ["accept", "reject"], // Ensure no extra spaces or characters
+    enum: ["pending" ,"accept", "reject"], // Ensure no extra spaces or characters
     required: true
   },
   
-  image: {
-    type: String,
-    default: 'https://cdn.pixabay.com/photo/2016/02/24/17/15/service-1220327_640.png'
-  }
+  images: [{   // Changed to an array of strings
+    type: String
+  }]
 }, { timestamps: true });
 
 export default mongoose.model('Emergency', emergencySchema);
