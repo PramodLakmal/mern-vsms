@@ -8,7 +8,7 @@ import OAuth from '../components/OAuth';
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
-  const {loading, error: errorMessage} = useSelector(state => state.user);
+  const [errorMessage, setErrorMessage] = useState(null)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -17,7 +17,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if(!formData.email || !formData.password) {
-      return dispatch(signInFailure('Please fill in all fields.'));
+      return setErrorMessage('Please fill in all fields.');
     }
     try {
       dispatch(signInStart());
@@ -75,12 +75,8 @@ export default function SignIn() {
                 Forgot Password?
               </Link>
             </div>
-            <Button gradientMonochrome="failure" type='submit' disabled={loading}>
-              {
-                loading ? (
-                          <><Spinner size='sm'/>
-                          <span className='pl-3'>Loading...</span></>
-                          ) : ('Sign In')}
+            <Button gradientMonochrome="failure" type='submit'>
+              Sign In
             </Button>
             <OAuth />
           </form>

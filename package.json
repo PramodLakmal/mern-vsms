@@ -26,6 +26,7 @@
     "mongoose": "^8.1.1",
     "nodemailer": "^6.9.13",
     "nodemon": "^3.0.3",
+    "react-circular-progressbar": "^2.1.0",
     "stripe": "^14.24.0"
   },
   "description": ""

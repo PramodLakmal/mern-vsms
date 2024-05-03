@@ -164,7 +164,7 @@ export default function DashUsers() {
       
       <span className="text-sm text-gray-500 dark:text-gray-400"><button
                  type="button"
-                 className="outline-red-500 hover:bg-red-300 outline  font-bold py-2 px-4 rounded flex items-center ml-60"
+                 className="outline-red-500 hover:bg-red-300 outline  font-bold py-2 px-4 rounded flex items-center ml-80"
                  onClick={generateUserReport}
                 >
                    <FiDownload className="mr-2" />

@@ -80,3 +80,19 @@ export const deleteFeedbacks = async (req, res, next) => {
         next(errorHandler(500, 'Failed to delete feedback'));
     }
 };
+
+export const generateFeedbackReport = async (req, res, next) => {
+    try {
+        const feedbackss = await Feedback.find();
+        if (!feedbackss || feedbackss.length === 0) {
+            return res.status(404).json({ message: 'No feedbacks found' });
+        }
+        const feedbacksData = feedbackss.map((feedback) => {
+            const { _id, feedbacks, createdAt } = feedback;
+            return { _id, feedback, createdAt };
+        });
+        res.status(200).json(feedbacksData);
+    } catch (error) {
+        next(errorHandler(500, 'Failed to generate feedback report'));
+    }
+};
