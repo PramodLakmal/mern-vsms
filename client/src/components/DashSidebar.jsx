@@ -38,6 +38,9 @@ export default function DashSidebar() {
   const [isEmployeeOpen, setIsEmployeeOpen] = useState(false); // State for employee submenu visibility
   const [isLeaveOpen, setIsLeaveOpen] = useState(false); // State for leave submenu visibility
   const [isSalaryOpen, setIsSalaryOpen] = useState(false); // State for salary submenu visibility
+
+  const [isServiceOpen, setIsServiceOpen] = useState(false); // State for salary submenu visibility
+  const [isEmergencyOpen, setIsEmergencyOpen] = useState(false);
   const [isExpenseOpen, setIsExpenseOpen] = useState(false); // State for expense submenu visibility
   const [isIncomeOpen, setIsIncomeOpen] = useState(false); // State for income submenu visibility
   const { currentUser } = useSelector((state) => state.user);
@@ -69,6 +72,8 @@ export default function DashSidebar() {
   const toggleEmployeeSubmenu = () => setIsEmployeeOpen(!isEmployeeOpen);
   const toggleLeaveSubmenu = () => setIsLeaveOpen(!isLeaveOpen);
   const toggleSalarySubmenu = () => setIsSalaryOpen(!isSalaryOpen);
+  const toggleServiceSubmenu = () => setIsServiceOpen(!isServiceOpen);
+  const toggleEmergencySubmenu = () => setIsEmergencyOpen(!isEmergencyOpen);
   const toggleExpenseSubmenu = () => setIsExpenseOpen(!isExpenseOpen); // Define toggle function for expense submenu
   const toggleIncomeSubmenu = () => setIsIncomeOpen(!isIncomeOpen); // Define toggle function for income submenu
 
@@ -148,8 +153,25 @@ export default function DashSidebar() {
                   Feedbacks
                 </Sidebar.Item>
               </Link>
+
+              
             )}
           </div>
+
+          <div>
+
+{currentUser.isCustomerServiceAgent && (
+  <Link to="/dashboard?tab=Addemergencyservices">
+  <div className="cursor-pointer">
+    <Sidebar.Item active={tab === "Addemergencyservices"} icon={HiPlusCircle}>
+      New Emergency
+    </Sidebar.Item>
+  </div>
+</Link>
+
+  
+)}
+</div>
 
           <div>
             {currentUser.isAdmin && (
@@ -309,6 +331,42 @@ export default function DashSidebar() {
                     </div>
                   )}
                 </div>
+
+                <div className="relative">
+            <div onClick={toggleServiceSubmenu} className="flex items-center cursor-pointer">
+              <Sidebar.Item active={tab === "Addservices"} icon={HiUserGroup} as="div">
+                Service
+              </Sidebar.Item>
+              {isServiceOpen ? (
+                <HiChevronDown className="ml-2" />
+              ) : (
+                <HiChevronRight className="ml-2" />
+              )}
+            </div>
+            {isServiceOpen && (
+              <div className="absolute top-full left-0 mt-2 bg-gray-100 rounded py-1 px-2 z-10">
+                <Link to="/dashboard?tab=Addservices">
+                  <Sidebar.Item active={tab === "Addservices"} icon={HiPlusCircle} as="div">
+                    New Service
+                  </Sidebar.Item>
+                </Link>
+                <Link to="/dashboard?tab=DashServices">
+                  <Sidebar.Item active={tab === "DashServices"} icon={HiViewList} as="div">
+                    Service List
+                  </Sidebar.Item>
+                </Link>
+              </div>
+            )}
+          </div>
+          <Link to="/dashboard?tab=Dashemergency">
+                <div className="cursor-pointer">
+                  <Sidebar.Item active={tab === "Dashemergency"} icon={HiViewList}>
+                    Emergency List
+                  </Sidebar.Item>
+                </div>
+              </Link>
+
+
               </>
             )}
            
