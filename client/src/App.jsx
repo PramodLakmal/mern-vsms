@@ -26,6 +26,10 @@ import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
 import PostPage from "./pages/PostPage";
 import Search from "./pages/Search";
 import CashierDash from "./pages/cashier/Dashboard";
+import DashServices from "./components/Services/DashServices"; // Adjust the import path as necessary
+import UpdateService from "./components/Services/UpdateService";
+import Updateemergencyservices from "./components/EmergencyService/Updateemergencyservices";
+
 
 export default function App() {
   return (
@@ -47,6 +51,10 @@ export default function App() {
         
           <Route path="/updateleave/:id" element={<UpdateLeave />} />
           <Route path="/updatesalary/:id" element={<UpdateSalary />} />
+
+          <Route path="/dash-services" element={<DashServices />} />
+          <Route path="/update-service/:serviceId" element={<UpdateService />} />
+          <Route path="/Updateemergencyservices/:emergencyId"element={<Updateemergencyservices/>} />
         </Route>
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
 

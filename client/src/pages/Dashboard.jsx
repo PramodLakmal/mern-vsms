@@ -15,6 +15,10 @@ import DashCoupons from '../components/DashCoupons';
 import DashMyAppointments from '../components/DashMyAppointments';
 import DashPosts from '../components/DashPosts';
 import DashNotice from '../components/DashNotice';
+import DashServices from "../components/Services/DashServices"; 
+import Addemergencyservices from '../components/EmergencyService/Addemergencyservices'; // Correct
+import Dashemergency from '../components/EmergencyService/Dashemergency';
+import Addservices from '../components/Services/Addservices'
 
 
 export default function Dashboard() {
@@ -63,6 +67,11 @@ export default function Dashboard() {
       {tab === 'myAppointments' && <DashMyAppointments/>}
       {/* Notice List */}
       {tab === 'notices' && <DashNotice/>}
+      {tab === 'Addservices' && <Addservices/>}
+      {tab === 'DashServices' && <DashServices/>}
+      {tab === 'updateService' && <UpdateService />}
+      {tab === 'Addemergencyservices'&& <Addemergencyservices/>}
+      {tab === 'Dashemergency'&& <Dashemergency/>}
     
     
       
