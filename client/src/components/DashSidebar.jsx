@@ -28,7 +28,6 @@ import {
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import { RiCoupon2Fill, RiNotification4Fill } from "react-icons/ri";
 
 export default function DashSidebar() {
@@ -233,7 +232,7 @@ export default function DashSidebar() {
                     )}
                   </div>
                   {isEmployeeOpen && ( // Conditionally render employee submenu items
-                    <div className="absolute top-full left-0 mt-2 bg-gray-800 rounded py-1 px-2 z-10">
+                    <div className="absolute top-full left-0 mt-2 bg-gray-100 rounded py-1 px-2 z-10">
                       <Link to="/dashboard?tab=AddEmployee">
                         <Sidebar.Item
                           active={tab === "AddEmployee"}
@@ -256,51 +255,7 @@ export default function DashSidebar() {
                   )}
                 </div>
 
-                {currentUser.isFinanceManager && (
-                  <>
-                    <div
-                      onClick={toggleSalarySubmenu} // Toggle salary submenu on click
-                      className="flex items-center cursor-pointer"
-                    >
-                      <Sidebar.Item
-                        active={tab === "AddSalary"}
-                        icon={HiOutlineCalculator}
-                        as="div"
-                      >
-                        Salary
-                      </Sidebar.Item>
-                      {isSalaryOpen ? (
-                        <HiChevronDown className="ml-2" />
-                      ) : (
-                        <HiChevronRight className="ml-2" />
-                      )}
-                    </div>
-
-                    {isSalaryOpen && ( // Conditionally render salary submenu items
-                      <div className="relative">
-                        <div className="absolute top-full left-0 mt-2 bg-gray-100 rounded py-1 px-2 z-10">
-                          <Link to="/dashboard?tab=AddSalary">
-                            <Sidebar.Item
-                              active={tab === "AddSalary"}
-                              icon={HiPlusCircle}
-                            >
-                              New Salary
-                            </Sidebar.Item>
-                          </Link>
-                          <Link to="/dashboard?tab=SalaryList">
-                            <Sidebar.Item
-                              active={tab === "SalaryList"}
-                              icon={HiViewList}
-                            >
-                              Salary List
-                            </Sidebar.Item>
-                          </Link>
-                        </div>
-                      </div>
-                    )}
-                  </>
-                )}
-
+                
                 <div>
 
                   {currentUser.isAdmin && (
@@ -359,6 +314,46 @@ export default function DashSidebar() {
           {currentUser.isFinanceManager && (
 
             <>
+            <div
+                      onClick={toggleSalarySubmenu} // Toggle salary submenu on click
+                      className="flex items-center cursor-pointer"
+                    >
+                      <Sidebar.Item
+                        active={tab === "AddSalary"}
+                        icon={HiOutlineCalculator}
+                        as="div"
+                      >
+                        Salary
+                      </Sidebar.Item>
+                      {isSalaryOpen ? (
+                        <HiChevronDown className="ml-2" />
+                      ) : (
+                        <HiChevronRight className="ml-2" />
+                      )}
+                    </div>
+
+                    {isSalaryOpen && ( // Conditionally render salary submenu items
+                      <div className="relative">
+                        <div className="absolute top-full left-0 mt-2 bg-gray-100 rounded py-1 px-2 z-10">
+                          <Link to="/dashboard?tab=AddSalary">
+                            <Sidebar.Item
+                              active={tab === "AddSalary"}
+                              icon={HiPlusCircle}
+                            >
+                              New Salary
+                            </Sidebar.Item>
+                          </Link>
+                          <Link to="/dashboard?tab=SalaryList">
+                            <Sidebar.Item
+                              active={tab === "SalaryList"}
+                              icon={HiViewList}
+                            >
+                              Salary List
+                            </Sidebar.Item>
+                          </Link>
+                        </div>
+                      </div>
+                    )}
               <div className="relative">
                 <div
                   onClick={toggleExpenseSubmenu} // Toggle expense submenu on click
