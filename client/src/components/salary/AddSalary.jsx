@@ -10,7 +10,7 @@ export default function AddSalary() {
     const navigate = useNavigate();
 
     const [salaryData, setSalaryData] = useState({
-        employeeid:  employeeId || '', // Pre-fill with the Employee ID
+        employeeid: employeeId || '', // Pre-fill with the Employee ID
         month: '',
         year: '',
         basicsalary: '',
@@ -21,7 +21,7 @@ export default function AddSalary() {
         reduction: '',
         netsalary: ''
     });
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
 

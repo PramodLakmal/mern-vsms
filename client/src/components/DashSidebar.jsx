@@ -36,7 +36,6 @@ export default function DashSidebar() {
   const navigate = useNavigate(); // Get the navigate function from react-router-dom
   const [tab, setTab] = useState("");
   const [isEmployeeOpen, setIsEmployeeOpen] = useState(false); // State for employee submenu visibility
-  const [isLeaveOpen, setIsLeaveOpen] = useState(false); // State for leave submenu visibility
   const [isSalaryOpen, setIsSalaryOpen] = useState(false); // State for salary submenu visibility
   const { currentUser } = useSelector((state) => state.user);
 
@@ -66,7 +65,6 @@ export default function DashSidebar() {
   };
 
   const toggleEmployeeSubmenu = () => setIsEmployeeOpen(!isEmployeeOpen);
-  const toggleLeaveSubmenu = () => setIsLeaveOpen(!isLeaveOpen);
   const toggleSalarySubmenu = () => setIsSalaryOpen(!isSalaryOpen);
 
   return (
@@ -95,8 +93,12 @@ export default function DashSidebar() {
                   currentUser.isAdmin
                     ? "Admin"
                     : currentUser.isCustomerServiceAgent
-                    ? "CuAgent"
-                    : "User"
+                      ? "CuAgent"
+                      : currentUser.isFinanceManager
+                        ? "FManager"
+                        : currentUser.isEmployee
+                          ? "Emp"
+                          : "User"
                 }
                 labelColor="dark"
                 as="div"
@@ -104,9 +106,8 @@ export default function DashSidebar() {
                 Profile
               </Sidebar.Item>
             </Link>
-            </div>
-
-            <div>
+          </div>
+          <div>
             <Link to="/dashboard?tab=myAppointments">
               <Sidebar.Item
                 active={tab === "myAppointments"}
@@ -116,19 +117,8 @@ export default function DashSidebar() {
                 My Appointments
               </Sidebar.Item>
             </Link>
-            </div>
-
-            <Link to="/dashboard?tab=AddLeave">
-              <Sidebar.Item
-                active={tab === "AddLeave"}
-                icon={HiDocumentText}
-                as="div"
-              >
-                Add Leave
-              </Sidebar.Item>
-            </Link>
-
-            <div>
+          </div>
+          <div>
 
             {currentUser.isCustomerServiceAgent && (
               <Link to="/dashboard?tab=feedbacks">
@@ -144,23 +134,36 @@ export default function DashSidebar() {
           </div>
 
           <div>
+
+            {currentUser.isEmployee && (
+              <Link to="/dashboard?tab=AddLeave">
+                <Sidebar.Item
+                  active={tab === "AddLeave"}
+                  icon={HiOutlineClock}
+                >
+                  Add Leave
+                </Sidebar.Item>
+              </Link>
+            )}
+          </div>
+          <div>
             {currentUser.isAdmin && (
-             
-                <Link to="/dashboard?tab=users">
-                  <Sidebar.Item
-                    active={tab === "users"}
-                    icon={HiOutlineUserGroup}
-                    as="div"
-                  >
-                    View Users
-                  </Sidebar.Item>
-                </Link>
-              )}
-              </div>
-              
-                <div>
-                {currentUser.isAdmin && (
-                <><Link to="/dashboard?tab=coupons">
+
+              <Link to="/dashboard?tab=users">
+                <Sidebar.Item
+                  active={tab === "users"}
+                  icon={HiOutlineUserGroup}
+                  as="div"
+                >
+                  View Users
+                </Sidebar.Item>
+              </Link>
+            )}
+          </div>
+
+          <div>
+            {currentUser.isAdmin && (
+              <><Link to="/dashboard?tab=coupons">
                 <Sidebar.Item
                   active={tab === "coupons"}
                   icon={RiCoupon2Fill}
@@ -195,7 +198,7 @@ export default function DashSidebar() {
                     )}
                   </div>
                   {isEmployeeOpen && ( // Conditionally render employee submenu items
-                    <div className="absolute top-full left-0 mt-2 bg-gray-800 rounded py-1 px-2 z-10">
+                    <div className="absolute top-full left-0 mt-2 bg-gray-100 rounded py-1 px-2 z-10">
                       <Link to="/dashboard?tab=AddEmployee">
                         <Sidebar.Item
                           active={tab === "AddEmployee"}
@@ -217,86 +220,71 @@ export default function DashSidebar() {
                     </div>
                   )}
                 </div><div className="relative">
-                  <div
-                    onClick={toggleLeaveSubmenu} // Toggle leave submenu on click
-                    className="flex items-center cursor-pointer"
-                  >
-                    <Sidebar.Item
-                      active={tab === "AddLeave"}
-                      icon={HiOutlineClock}
-                      as="div"
-                    >
-                      Leave
-                    </Sidebar.Item>
-                    {isLeaveOpen ? (
-                      <HiChevronDown className="ml-2" />
-                    ) : (
-                      <HiChevronRight className="ml-2" />
-                    )}
-                  </div>
-                  {isLeaveOpen && ( // Conditionally render leave submenu items
-                    <div className="absolute top-full left-0 mt-2 bg-gray-800 rounded py-1 px-2 z-10">
-                      <Link to="/dashboard?tab=AddLeave">
-                        <Sidebar.Item
-                          active={tab === "AddLeave"}
-                          icon={HiPlusCircle}
-                        >
-                          Add Leave
-                        </Sidebar.Item>
-                      </Link>
-                      <Link to="/dashboard?tab=LeaveList">
-                        <Sidebar.Item
-                          active={tab === "LeaveList"}
-                          icon={HiViewList}
-                        >
-                          Leave List
-                        </Sidebar.Item>
-                      </Link>
-                    </div>
-                  )}
-                </div><div className="relative">
-                  <div
-                    onClick={toggleSalarySubmenu} // Toggle salary submenu on click
-                    className="flex items-center cursor-pointer"
-                  >
-                    <Sidebar.Item
-                      active={tab === "AddSalary"}
-                      icon={HiOutlineCalculator}
-                      as="div"
-                    >
-                      Salary
-                    </Sidebar.Item>
-                    {isSalaryOpen ? (
-                      <HiChevronDown className="ml-2" />
-                    ) : (
-                      <HiChevronRight className="ml-2" />
-                    )}
-                  </div>
-                  {isSalaryOpen && ( // Conditionally render salary submenu items
-                    <div className="absolute top-full left-0 mt-2 bg-gray-800 rounded py-1 px-2 z-10">
-                      <Link to="/dashboard?tab=AddSalary">
-                        <Sidebar.Item
-                          active={tab === "AddSalary"}
-                          icon={HiPlusCircle}
-                        >
-                          New Salary
-                        </Sidebar.Item>
-                      </Link>
-                      <Link to="/dashboard?tab=SalaryList">
-                        <Sidebar.Item
-                          active={tab === "SalaryList"}
-                          icon={HiViewList}
-                        >
-                          Salary List
-                        </Sidebar.Item>
-                      </Link>
-                    </div>
-                  )}
+                </div>
+                <div className="relative">
                 </div>
               </>
             )}
-           
           </div>
+          {currentUser.isFinanceManager && (
+            <>
+              <div
+                onClick={toggleSalarySubmenu} // Toggle salary submenu on click
+                className="flex items-center cursor-pointer"
+              >
+                <Sidebar.Item
+                  active={tab === "AddSalary"}
+                  icon={HiOutlineCalculator}
+                  as="div"
+                >
+                  Salary
+                </Sidebar.Item>
+                {isSalaryOpen ? (
+                  <HiChevronDown className="ml-2" />
+                ) : (
+                  <HiChevronRight className="ml-2" />
+                )}
+              </div>
+
+              {isSalaryOpen && ( // Conditionally render salary submenu items
+                <div className="relative"> // Ensure it's within a proper container
+                  <div className="absolute top-full left-0 mt-2 bg-gray-100 rounded py-1 px-2 z-10">
+                    <Link to="/dashboard?tab=AddSalary">
+                      <Sidebar.Item
+                        active={tab === "AddSalary"}
+                        icon={HiPlusCircle}
+                      >
+                        New Salary
+                      </Sidebar.Item>
+                    </Link>
+                    <Link to="/dashboard?tab=SalaryList">
+                      <Sidebar.Item
+                        active={tab === "SalaryList"}
+                        icon={HiViewList}
+                      >
+                        Salary List
+                      </Sidebar.Item>
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
+          <div>
+
+            {currentUser.isAdmin && (
+              <Link to="/dashboard?tab=LeaveList">
+                <Sidebar.Item
+                  active={tab === "LeaveList"}
+                  icon={HiViewList}
+                >
+                  Leave List
+                </Sidebar.Item>
+              </Link>
+            )}
+          </div>
+
           <div>
             <Sidebar.Item
               icon={HiArrowSmRight}

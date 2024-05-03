@@ -269,16 +269,16 @@ export default function AddEmployee() {
                   </div>
                 </div>
                 <div className="flex justify-center space-x-6">
-                  <Button
-                    type='submit'
+                  <button
+                    type="submit"
+                    className={`bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline w-auto ${loading ? 'inline-block' : 'inline-block'}`}
                     disabled={loading}
-                    color="red" // Set the color prop to "red" to change the button color to red
-                    className={`text-white font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline w-${loading ? 'auto' : 'auto'} ${loading ? 'inline-block' : 'inline-block'}`}
                   >
                     {loading ? "Loading..." : "Submit"}
-                  </Button>
+                  </button>
+
                   <button
-                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline w-24"
+                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-24"
                     type="button"
                     onClick={handleClear}
                   >
