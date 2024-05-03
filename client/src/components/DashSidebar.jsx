@@ -141,6 +141,19 @@ export default function DashSidebar() {
               </Link>
             )}
           </div>
+          <div>
+
+            {currentUser.isEmployee && (
+              <Link to="/dashboard?tab=ProfileView">
+                <Sidebar.Item
+                  active={tab === "ProfileView"}
+                  icon={HiUserGroup}
+                >
+                  Employee List
+                </Sidebar.Item>
+              </Link>
+            )}
+          </div>
 
           <div>
 
@@ -255,7 +268,7 @@ export default function DashSidebar() {
                   )}
                 </div>
 
-                
+
                 <div>
 
                   {currentUser.isAdmin && (
@@ -314,46 +327,46 @@ export default function DashSidebar() {
           {currentUser.isFinanceManager && (
 
             <>
-            <div
-                      onClick={toggleSalarySubmenu} // Toggle salary submenu on click
-                      className="flex items-center cursor-pointer"
-                    >
+              <div
+                onClick={toggleSalarySubmenu} // Toggle salary submenu on click
+                className="flex items-center cursor-pointer"
+              >
+                <Sidebar.Item
+                  active={tab === "AddSalary"}
+                  icon={HiOutlineCalculator}
+                  as="div"
+                >
+                  Salary
+                </Sidebar.Item>
+                {isSalaryOpen ? (
+                  <HiChevronDown className="ml-2" />
+                ) : (
+                  <HiChevronRight className="ml-2" />
+                )}
+              </div>
+
+              {isSalaryOpen && ( // Conditionally render salary submenu items
+                <div className="relative">
+                  <div className="absolute top-full left-0 mt-2 bg-gray-100 rounded py-1 px-2 z-10">
+                    <Link to="/dashboard?tab=AddSalary">
                       <Sidebar.Item
                         active={tab === "AddSalary"}
-                        icon={HiOutlineCalculator}
-                        as="div"
+                        icon={HiPlusCircle}
                       >
-                        Salary
+                        New Salary
                       </Sidebar.Item>
-                      {isSalaryOpen ? (
-                        <HiChevronDown className="ml-2" />
-                      ) : (
-                        <HiChevronRight className="ml-2" />
-                      )}
-                    </div>
-
-                    {isSalaryOpen && ( // Conditionally render salary submenu items
-                      <div className="relative">
-                        <div className="absolute top-full left-0 mt-2 bg-gray-100 rounded py-1 px-2 z-10">
-                          <Link to="/dashboard?tab=AddSalary">
-                            <Sidebar.Item
-                              active={tab === "AddSalary"}
-                              icon={HiPlusCircle}
-                            >
-                              New Salary
-                            </Sidebar.Item>
-                          </Link>
-                          <Link to="/dashboard?tab=SalaryList">
-                            <Sidebar.Item
-                              active={tab === "SalaryList"}
-                              icon={HiViewList}
-                            >
-                              Salary List
-                            </Sidebar.Item>
-                          </Link>
-                        </div>
-                      </div>
-                    )}
+                    </Link>
+                    <Link to="/dashboard?tab=SalaryList">
+                      <Sidebar.Item
+                        active={tab === "SalaryList"}
+                        icon={HiViewList}
+                      >
+                        Salary List
+                      </Sidebar.Item>
+                    </Link>
+                  </div>
+                </div>
+              )}
               <div className="relative">
                 <div
                   onClick={toggleExpenseSubmenu} // Toggle expense submenu on click
