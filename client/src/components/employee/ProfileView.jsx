@@ -50,13 +50,7 @@ export default function ProfileView() {
                   className="absolute right-3 top-3 text-gray-500 cursor-pointer"
                 />
               </div>
-              <button
-                type="button"
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                onClick={() => navigate('/dashboard?tab=AddEmployee')}
-              >
-                Add New Employee
-              </button>
+              
             </div>
 
             <table className="w-full sm:w-auto max-w-[90%] bg-white text-xs">
