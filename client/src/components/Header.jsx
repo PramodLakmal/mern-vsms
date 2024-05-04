@@ -1,6 +1,6 @@
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
 import React, { useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -93,6 +93,13 @@ export default function Header() {
                 Profile
               </Dropdown.Item>
             </Link>
+            {currentUser.isCashier && ( // Check if the user role is Cashier
+              <Link to={'/cashierDashboard?tab=cart'}>
+                <Dropdown.Item>
+                  Dashboard
+                </Dropdown.Item>
+              </Link>
+            )}
             <Dropdown.Divider />
             <Dropdown.Item onClick={handleSignout}>Sign Out</Dropdown.Item>
 
