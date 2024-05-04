@@ -21,6 +21,7 @@
     "firebase": "^10.10.0",
     "flowbite-react": "^0.7.2",
     "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.10.1",
     "json2csv": "^6.0.0-alpha.2",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
