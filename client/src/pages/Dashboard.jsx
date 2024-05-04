@@ -13,8 +13,19 @@ import SalaryList from '../components/salary/SalaryList';
 import AddSalary from '../components/salary/AddSalary';
 import DashCoupons from '../components/DashCoupons';
 import DashMyAppointments from '../components/DashMyAppointments';
-import DashPosts from '../components/DashPosts';
+import DashProducts from '../components/DashProducts';
+import ExpenseForm from '../components/Expenses/ExpenseForm';
+import Expenses from '../components/Expenses/Expenses';
+import IncomeForm from '../components/Incomes/IncomeForm';
+import Incomes from '../components/Incomes/Incomes';
+import NetIncome from '../components/NetIncome';
 import DashNotice from '../components/DashNotice';
+import IncomeChart from '../components/IncomeChart';
+import DashServices from "../components/Services/DashServices"; 
+import Addemergencyservices from '../components/EmergencyService/Addemergencyservices'; // Correct
+import Dashemergency from '../components/EmergencyService/Dashemergency';
+import Addservices from '../components/Services/Addservices'
+import ProfileView from '../components/employee/ProfileView';
 
 
 export default function Dashboard() {
@@ -36,7 +47,7 @@ export default function Dashboard() {
       </div> 
 
       {/* Posts/products.... */} 
-      {tab === 'posts' && <DashPosts/>}
+      {tab === 'products' && <DashProducts/>}
       {/* Profile.... */} 
       {tab === 'profile' && <DashProfile/>}
       {/* CuAgentFeedbacks.... */}
@@ -50,6 +61,9 @@ export default function Dashboard() {
       {/* Employee List */}
       {tab === 'EmployeeList' && <EmployeeList/>}
       {/* Add Leave */}
+      {/* Profile View */}
+      {tab === 'ProfileView' && <ProfileView/>}
+      {/* Add Leave */}
       {tab === 'AddLeave' && <AddLeave/>}
       {/* Leave List */}
       {tab === 'LeaveList' && <LeaveList/>}
@@ -61,8 +75,26 @@ export default function Dashboard() {
       {tab === "coupons" && <DashCoupons />}
       {/* My Appointments */}
       {tab === 'myAppointments' && <DashMyAppointments/>}
+       {/* Add Expense */}
+       {tab === 'ExpenseForm' && <ExpenseForm/>}
+       {/* Expense List */}
+       {tab === 'Expenses' && <Expenses/>}
+       {/* Add Income */}
+       {tab === 'IncomeForm' && <IncomeForm/>}
+       {/* Expense List */}
+       {tab === 'Incomes' && <Incomes/>}
+        {/* Net Income Chart */}
+        {tab === 'NetIncome' && <NetIncome/>}
+        {/* Pie Chart */}
+        {tab === 'IncomeChart' && <IncomeChart/>}
+
       {/* Notice List */}
       {tab === 'notices' && <DashNotice/>}
+      {tab === 'Addservices' && <Addservices/>}
+      {tab === 'DashServices' && <DashServices/>}
+      {tab === 'updateService' && <UpdateService />}
+      {tab === 'Addemergencyservices'&& <Addemergencyservices/>}
+      {tab === 'Dashemergency'&& <Dashemergency/>}
     
     
       

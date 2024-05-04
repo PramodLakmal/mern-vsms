@@ -8,7 +8,7 @@ import OAuth from '../components/OAuth';
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
-  const {loading, error: errorMessage} = useSelector(state => state.user);
+  const [errorMessage, setErrorMessage] = useState(null)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -17,7 +17,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if(!formData.email || !formData.password) {
-      return dispatch(signInFailure('Please fill in all fields.'));
+      return setErrorMessage('Please fill in all fields.');
     }
     try {
       dispatch(signInStart());
@@ -45,15 +45,9 @@ export default function SignIn() {
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
         {/* Left */}
         <div className='flex-1'>
-        <Link
-        to="/"
-        className="font-bold dark:text-white text-4xl"
-      >
-        <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
-          SINGHE
+        <span className="px-2 py-1">
+        <img src="https://firebasestorage.googleapis.com/v0/b/mern-vsms.appspot.com/o/Logo%20and%20Other%2FSighe%20Auto.png?alt=media&token=95f727f5-dfdf-4d56-be9e-b4eabd8cf42d" alt="logo" />
         </span>
-        AUTO
-      </Link>
       <p className='text-sm mt-5'>
         Welcome to Singhe Auto. Please sign into continue.
       </p>
@@ -81,12 +75,8 @@ export default function SignIn() {
                 Forgot Password?
               </Link>
             </div>
-            <Button gradientDuoTone='purpleToPink' type='submit' disabled={loading}>
-              {
-                loading ? (
-                          <><Spinner size='sm'/>
-                          <span className='pl-3'>Loading...</span></>
-                          ) : ('Sign In')}
+            <Button gradientMonochrome="failure" type='submit'>
+              Sign In
             </Button>
             <OAuth />
           </form>

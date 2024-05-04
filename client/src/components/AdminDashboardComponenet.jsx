@@ -14,9 +14,9 @@ export default function AdminDashboardComponenet() {
     const [lastMonthUsers, setLastMonthUsers] = useState(0);
     const [lastMonthFeedbacks, setLastMonthFeedbacks] = useState(0);
     const [userFeedbacks, setUserFeedbacks] = useState([]);
-    const [posts, setPosts] = useState([]);
-    const [totalPosts, setTotalPosts] = useState(0);
-    const [lastMonthPosts, setLastMonthPosts] = useState(0);
+    const [products, setProducts] = useState([]);
+    const [totalProducts, setTotalProducts] = useState(0);
+    const [lastMonthProducts, setLastMonthProducts] = useState(0);
 
     const { currentUser } = useSelector((state) => state.user);
     useEffect(() => {
@@ -51,14 +51,14 @@ export default function AdminDashboardComponenet() {
                 console.log(error.message);
                 }
         };
-        const fetchPosts = async () => {
+        const fetchProducts = async () => {
           try {
-            const res = await fetch('/api/post/getposts?limit=5');
+            const res = await fetch('/api/product/getproducts?limit=5');
             const data = await res.json();
             if (res.ok) {
-              setPosts(data.posts);
-              setTotalPosts(data.totalPosts);
-              setLastMonthPosts(data.lastMonthPosts);
+              setProducts(data.products);
+              setTotalProducts(data.totalProducts);
+              setLastMonthProducts(data.lastMonthProducts);
             }
           } catch (error) {
             console.log(error.message);
@@ -68,7 +68,7 @@ export default function AdminDashboardComponenet() {
 
             fetchFeedbacks();
             fetchUsers();
-            fetchPosts();
+            fetchProducts();
 
         }
 
@@ -136,32 +136,31 @@ export default function AdminDashboardComponenet() {
         </div>
 
         <div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
-            <div className='flex justify-between'>
-                <div>
-
-                    <h3 className='text-gray-500 text-md uppercase'>Total Items</h3>
-                    <p className='text-2xl '>{totalPosts}</p>
-                    
-                </div>
-                <HiDocumentText className='bg-teal-600 text-white rounded-full text-5xl p-3 shadow-lg'/>
-                
+          <div className='flex justify-between'>
+            <div>
+              <h3 className='text-gray-500 text-md uppercase'>Total Products</h3>
+              <p className='text-2xl '>{totalProducts}</p>
             </div>
-            <div className='flex gap-2 text-sm'>
-                    <span className='text-green-500 flex items-center'>
-                        <HiArrowNarrowUp/>
-                        {lastMonthPosts}
-                    </span>
-                    <div className='text-gray-500'>total items last month</div>
-                </div>
+            <HiDocumentText className='bg-teal-600 text-white rounded-full text-5xl p-3 shadow-lg' />
+          </div>
+          <div className='flex gap-2 text-sm'>
+            <span className='text-green-500 flex items-center'>
+              <HiArrowNarrowUp />
+              {lastMonthProducts}
+            </span>
+            <div className='text-gray-500'>Products added last month</div>
+          </div>
         </div>
+
+      
 
         </div>
 
-      <div className='flex flex-wrap gap-4 py-3 mx-auto justify-center'>
+        <div className='flex flex-wrap gap-4 py-3 mx-auto justify-center ml-20'>
         <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
           <div className='flex justify-between  p-3 text-sm font-semibold'>
             <h1 className='text-center p-2'>Recent users</h1>
-            <Button outline gradientDuoTone='purpleToPink'>
+            <Button outline gradientDuoTone='pinkToOrange'>
               <Link to={'/dashboard?tab=users'}>See all</Link>
             </Button>
           </div>
@@ -185,45 +184,49 @@ export default function AdminDashboardComponenet() {
                   </Table.Row>
                 </Table.Body>
               ))}
-
-              
           </Table>
         </div>
+      
+
+        
+
+      <div className='flex flex-wrap gap-4 py-3 mx-auto justify-center'>
         <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
           <div className='flex justify-between  p-3 text-sm font-semibold'>
-            <h1 className='text-center p-2'>Recently added items</h1>
-            <Button outline gradientDuoTone='purpleToPink'>
-              <Link to={'/dashboard?tab=posts'}>See all</Link>
+            <h1 className='text-center p-2'>Recent Products</h1>
+            <Button outline gradientDuoTone='pinkToOrange'>
+              <Link to={'/dashboard?tab=products'}>See all</Link>
             </Button>
           </div>
           <Table hoverable>
             <Table.Head>
-              <Table.HeadCell> Image</Table.HeadCell>
-              <Table.HeadCell> Title</Table.HeadCell>
-              <Table.HeadCell> Category</Table.HeadCell>
-              <Table.HeadCell> Price</Table.HeadCell>
-              <Table.HeadCell> Quantity</Table.HeadCell>
+              <Table.HeadCell>Image</Table.HeadCell>
+              <Table.HeadCell>Title</Table.HeadCell>
+              <Table.HeadCell>Category</Table.HeadCell>
+              <Table.HeadCell>Price</Table.HeadCell>
+              <Table.HeadCell>Quantity</Table.HeadCell>
             </Table.Head>
-            {posts &&
-              posts.map((post) => (
-                <Table.Body key={post._id} className='divide-y'>
+            {products &&
+              products.map((product) => (
+                <Table.Body key={product._id} className='divide-y'>
                   <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                     <Table.Cell>
                       <img
-                        src={post.image}
-                        alt='user'
+                        src={product.image}
+                        alt='product'
                         className='w-14 h-10 rounded-md bg-gray-500'
                       />
                     </Table.Cell>
-                    <Table.Cell className='w-5'>{post.title}</Table.Cell>
-                    <Table.Cell className='w-5'>{post.category}</Table.Cell>
-                    <Table.Cell className='w-5'>{post.itemPrice}</Table.Cell>
-                    <Table.Cell className='w-5'>{post.itemQuantity}</Table.Cell>
+                    <Table.Cell className='w-5'>{product.title}</Table.Cell>
+                    <Table.Cell className='w-5'>{product.category}</Table.Cell>
+                    <Table.Cell className='w-5'>{product.itemPrice}</Table.Cell>
+                    <Table.Cell className='w-5'>{product.itemQuantity}</Table.Cell>
                   </Table.Row>
                 </Table.Body>
               ))}
           </Table>
         </div> 
+      </div>
       </div>
     </div>
   )

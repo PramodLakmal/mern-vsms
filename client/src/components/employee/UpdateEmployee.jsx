@@ -255,21 +255,20 @@ export default function UpdateEmployee() {
                           type="file"
                           onChange={handleFileChange}
                           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                          required
                         />
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="flex justify-center space-x-6">
-                  <Button
-                    type='submit'
+                  <button
+                    type="submit"
                     disabled={loading}
-                    color="red" // Set the color prop to "red" to change the button color to red
-                    className={`text-white font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline w-${loading ? 'auto' : 'auto'} ${loading ? 'inline-block' : 'inline-block'}`}
+                    className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${loading ? 'inline-block' : ''}`}
                   >
                     {loading ? "Loading..." : "Save Changes"}
-                  </Button>
+                  </button>
+
                 </div>
               </form>
               {errorMessage && <div className="text-red-500 mt-2">{errorMessage}</div>}

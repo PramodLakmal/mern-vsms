@@ -96,7 +96,7 @@ export default function Header() {
         ):
         (
           <Link to="/sign-in">
-          <Button gradientDuoTone="purpleToBlue" outline>
+          <Button gradientDuoTone="pinkToOrange" outline>
             Sign In
           </Button>
         </Link>
@@ -124,7 +124,7 @@ export default function Header() {
           <Link to="/contact">Contact Us</Link>
         </Navbar.Link>
         <Navbar.Link active={path === "/book"} as={"div"}>
-          <Link to="/book"><Button type='button' gradientDuoTone='purpleToBlue'>Book Now</Button></Link>
+          <Link to="/book"><Button type='button' color='failure'>Book Now</Button></Link>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>

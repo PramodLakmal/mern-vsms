@@ -182,7 +182,7 @@ export default function DashProfile() {
             <h1>Address:<TextInput type='text' id='address' placeholder='Address' defaultValue={currentUser.address} onChange={handleChange}/> </h1>
             <h1>Password:<TextInput type='password' id='password' placeholder='Password' onChange={handleChange}/></h1>
 
-            <Button type='submit' gradientDuoTone='purpleToBlue' outline disabled= {loading || imageFileUploading}>
+            <Button type='submit' gradientDuoTone='pinkToOrange' outline disabled= {loading || imageFileUploading}>
               {loading ? 'Loading...' : 'Update'}
             </Button> 
            
