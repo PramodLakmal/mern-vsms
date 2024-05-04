@@ -25,10 +25,14 @@ import UpdateProduct from "./pages/UpdateProduct";
 import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
 import ProductPage from "./pages/ProductPage";
 import CashierDash from "./pages/cashier/Dashboard";
-
+import DashServices from "./components/Services/DashServices"; // Adjust the import path as necessary
+import UpdateService from "./components/Services/UpdateService";
+import Updateemergencyservices from "./components/EmergencyService/Updateemergencyservices";
+import ResetPassword from "./components/ResetPassword";
 import UpdateIncome from "./components/Incomes/UpdateIncome";
 import UpdateExpense from "./components/Expenses/UpdateExpense";
 import NetIncome from "./components/NetIncome";
+
 
 export default function App() {
   return (
@@ -49,8 +53,13 @@ export default function App() {
         
           <Route path="/updateleave/:id" element={<UpdateLeave />} />
           <Route path="/updatesalary/:id" element={<UpdateSalary />} />
+
+          <Route path="/dash-services" element={<DashServices />} />
+          <Route path="/update-service/:serviceId" element={<UpdateService />} />
+          <Route path="/Updateemergencyservices/:emergencyId"element={<Updateemergencyservices/>} />
         </Route>
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
+        <Route path="/reset-password/:token" element={<ResetPassword/>}/>
 
         <Route element={<OnlyAdminPrivateRoute />}>
         <Route path="/create-product" element={<CreateProduct />} />

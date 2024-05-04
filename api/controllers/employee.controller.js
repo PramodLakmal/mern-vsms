@@ -56,7 +56,13 @@ const createEmployee = async (req, res) => {
         await newEmployee.save();
         res.status(201).json(newEmployee);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        if (error.name === 'ValidationError') {
+            const errorMessages = Object.values(error.errors).map(err => err.message);
+            return res.status(400).json({ errors: errorMessages });// Return validation errors 
+          } else {
+            console.error("Error creating employee:", error);
+            res.status(500).json({ message: 'Failed to create employee. Please try again.' });
+          }
     }
 };
 
@@ -103,10 +109,33 @@ const updateEmployee = async (req, res) => {
     }
 };
 
+// Search employees by first or last name
+const searchEmployees = async (req, res) => {
+    const { query } = req.params;
+  
+    try {
+      const employees = await Employee.find({
+        $or: [
+          { firstname: new RegExp(query, 'i') },
+          { lastname: new RegExp(query, 'i') },
+        ],
+      });
+  
+      if (employees.length === 0) {
+        return res.status(404).json({ error: 'No employees found' });
+      }
+  
+      res.status(200).json(employees);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to search employees' });
+    }
+  };
+
 export {
     getEmployees,
     getEmployee,
     createEmployee,
     deleteEmployee,
-    updateEmployee
+    updateEmployee,
+    searchEmployees,
 };

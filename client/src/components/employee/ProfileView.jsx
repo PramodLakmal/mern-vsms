@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaEye, FaEdit, FaTrashAlt, FaDollarSign, FaSearch } from 'react-icons/fa'; // Import the new icon
+import { FaEye,FaSearch } from 'react-icons/fa'; // Import the new icon
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function EmployeeList() {
+export default function ProfileView() {
   const [employees, setEmployees] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
@@ -20,28 +20,6 @@ export default function EmployeeList() {
 
     fetchEmployees();
   }, []);
-
-  const handleDelete = async (employeeId) => {
-    try {
-      const response = await axios.delete(`/api/employee/${employeeId}`);
-      if (response.status === 200) {
-        setEmployees(employees.filter((employee) => employee._id !== employeeId));
-        alert('Employee deleted successfully');
-      } else {
-        alert('Error deleting employee. Please try again.');
-      }
-    } catch (error) {
-      alert('Error deleting employee:', error);
-    }
-  };
-
-  const handleUpdate = (employeeId) => {
-    navigate(`/UpdateEmployee/${employeeId}`);
-  };
-
-  const handleAddSalary = (employeeId) => {
-    navigate(`/dashboard?tab=AddSalary&employeeId=${employeeId}`); // Pass employee ID as a query parameter
-  };
 
   const filteredEmployees = employees.filter(
     (employee) =>
@@ -72,13 +50,7 @@ export default function EmployeeList() {
                   className="absolute right-3 top-3 text-gray-500 cursor-pointer"
                 />
               </div>
-              <button
-                type="button"
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                onClick={() => navigate('/dashboard?tab=AddEmployee')}
-              >
-                Add New Employee
-              </button>
+              
             </div>
 
             <table className="w-full sm:w-auto max-w-[90%] bg-white text-xs">
@@ -117,17 +89,6 @@ export default function EmployeeList() {
                         <Link to={`/ViewEmployee/${employee._id}`}>
                           <FaEye className="mr-2 cursor-pointer text-green-500 hover-text-green-700" />
                         </Link>
-                        <Link to={`/UpdateEmployee/${employee._id}`}>
-                          <FaEdit
-                            className="mr-2 cursor-pointer text-blue-500 hover-text-blue-700"
-                            onClick={() => handleUpdate(employee._id)}
-                          />
-                        </Link>
-                        <FaTrashAlt
-                          className="cursor-pointer text-red-500 hover-text-red-700"
-                          onClick={() => handleDelete(employee._id)}
-                        />
-
                       </div>
                     </td>
                   </tr>

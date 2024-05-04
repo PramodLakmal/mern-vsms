@@ -14,7 +14,7 @@ import leaveRoutes from "./routes/leave.route.js";
 import salaryRoutes from "./routes/salary.route.js";
 import authRoutes from "./routes/auth.route.js";
 import expenserouter from "./routes/expense.route.js";
-import incomerouter from "./routes/expense.route.js";
+import incomerouter from "./routes/income.route.js";
 import feedbackRoutes from "./routes/feedback.route.js";
 import couponRoutes from "./routes/coupon.route.js";
 import cookieParser from "cookie-parser";
