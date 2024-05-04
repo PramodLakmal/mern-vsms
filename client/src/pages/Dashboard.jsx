@@ -20,6 +20,7 @@ import IncomeForm from '../components/Incomes/IncomeForm';
 import Incomes from '../components/Incomes/Incomes';
 import NetIncome from '../components/NetIncome';
 import DashNotice from '../components/DashNotice';
+import IncomeChart from '../components/IncomeChart';
 
 
 export default function Dashboard() {
@@ -76,6 +77,8 @@ export default function Dashboard() {
        {tab === 'Incomes' && <Incomes/>}
         {/* Net Income Chart */}
         {tab === 'NetIncome' && <NetIncome/>}
+        {/* Pie Chart */}
+        {tab === 'IncomeChart' && <IncomeChart/>}
 
       {/* Notice List */}
       {tab === 'notices' && <DashNotice/>}

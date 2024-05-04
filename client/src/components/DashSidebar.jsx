@@ -397,6 +397,16 @@ export default function DashSidebar() {
                   Net Income
                 </Sidebar.Item>
               </Link>
+
+              <Link to="/dashboard?tab=IncomeChart">
+                <Sidebar.Item
+                  active={tab === "IncomeChart"}
+                  icon={HiOutlineClock}
+                  as="div"
+                >
+                  Chart
+                </Sidebar.Item>
+              </Link>
 </>
           )}
 
