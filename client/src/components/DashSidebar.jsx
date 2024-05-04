@@ -22,6 +22,7 @@ import {
   HiBookmarkAlt,
   HiOutlineViewBoards,
   HiShieldCheck,
+  HiOutlineSupport,
 } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -29,6 +30,7 @@ import { signoutSuccess } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RiBookLine, RiCoupon2Fill, RiNotification4Fill } from "react-icons/ri";
+
 
 export default function DashSidebar() {
   const location = useLocation();
@@ -39,6 +41,7 @@ export default function DashSidebar() {
   const [isLeaveOpen, setIsLeaveOpen] = useState(false); // State for leave submenu visibility
   const [isSalaryOpen, setIsSalaryOpen] = useState(false); // State for salary submenu visibility
   const { currentUser } = useSelector((state) => state.user);
+  const [isSupplierOpen, setIsSupplierOpen] = useState(false); // State for supplier submenu visibility
 
 
   useEffect(() => {
@@ -68,6 +71,7 @@ export default function DashSidebar() {
   const toggleEmployeeSubmenu = () => setIsEmployeeOpen(!isEmployeeOpen);
   const toggleLeaveSubmenu = () => setIsLeaveOpen(!isLeaveOpen);
   const toggleSalarySubmenu = () => setIsSalaryOpen(!isSalaryOpen);
+  const toggleSupplierSubmenu = () => setIsSupplierOpen(!isSupplierOpen);
 
   return (
     <Sidebar className="w-full md:w-56">
@@ -117,6 +121,60 @@ export default function DashSidebar() {
               </Sidebar.Item>
             </Link>
             </div>
+            {/* ............change this ItemRequest to DashItemRequest.......... */}
+           
+
+                <Link to="/dashboard?tab=DashItemRequest">
+                  <Sidebar.Item
+                    active={tab === "DashItemRequest"}
+                    icon={HiViewList}
+                    as="div"
+                  >
+                    Request Item
+                  </Sidebar.Item>
+                </Link>
+{/* .................supplier and request item  */}
+                <div className="relative">
+                  <div
+                    onClick={toggleSupplierSubmenu}
+                    className="flex items-center cursor-pointer"
+                  >
+                    <Sidebar.Item
+                      active={tab === "AddSupplier"}
+                      icon={HiOutlineSupport}
+                      as="div"
+                    >
+                      Supplier
+                    </Sidebar.Item>
+                    {isSupplierOpen ? (
+                      <HiChevronDown className="ml-2" />
+                    ) : (
+                      <HiChevronRight className="ml-2" />
+                    )}
+                  </div>
+                  {isSupplierOpen && (
+                    <div className="absolute top-full left-0 mt-2 bg-gray-800 rounded py-1 px-2 z-10">
+                      <Link to="/dashboard?tab=AddSupplier">
+                        <Sidebar.Item
+                          active={tab === "AddSupplier"}
+                          icon={HiPlusCircle}
+                          as="div"
+                        >
+                          New Supplier
+                        </Sidebar.Item>
+                      </Link>
+                      <Link to="/dashboard?tab=SupplierList">
+                        <Sidebar.Item
+                          active={tab === "SupplierList"}
+                          icon={HiViewList}
+                          as="div"
+                        >
+                          Supplier List
+                        </Sidebar.Item>
+                      </Link>
+                    </div>
+                  )}
+                </div>
 
             <div>
             {currentUser.isCustomerServiceAgent && (
@@ -157,7 +215,8 @@ export default function DashSidebar() {
                 >
                   Coupons
                 </Sidebar.Item>
-              </Link><Link to="/dashboard?tab=notices">
+              </Link>
+              <Link to="/dashboard?tab=notices">
                   <Sidebar.Item
                     active={tab === "notices"}
                     icon={RiNotification4Fill}
@@ -165,7 +224,8 @@ export default function DashSidebar() {
                   >
                     Notice
                   </Sidebar.Item>
-                </Link><div className="relative">
+                </Link>
+                <div className="relative">
                   <div
                     onClick={toggleEmployeeSubmenu} // Toggle employee submenu on click
                     className="flex items-center cursor-pointer"

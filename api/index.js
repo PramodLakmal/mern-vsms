@@ -22,6 +22,7 @@ import webhookRouter from "./routes/webhook.route.js";
 import refundRoutes from "./routes/refund.route.js";
 import transactionRoutes from "./routes/transaction.route.js";
 import itemRoutes from "./routes/item.route.js";
+import ItemRequest from "./models/itemRequest.model.js";
 
 
 import Stripe from "stripe";
@@ -69,6 +70,8 @@ app.use("/api/emergencies", emergencyRouter);
 
 app.use("/api/appointment", AppointmentRoutes);
 app.use("/api/notice", NoticeRoutes);
+// request item api connect
+app.use("/api/ItemRequest", ItemRequest);
 
 app.use("/api/employee", employeeRoutes);
 app.use("/api/leave", leaveRoutes);

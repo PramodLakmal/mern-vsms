@@ -15,6 +15,11 @@ import DashCoupons from '../components/DashCoupons';
 import DashMyAppointments from '../components/DashMyAppointments';
 import DashPosts from '../components/DashPosts';
 import DashNotice from '../components/DashNotice';
+import DashItemRequest from '../components/supplier/DashItemRequest';
+import AddSupplier from '../components/supplier/AddSupplier';
+import SupplierList from '../components/supplier/SupplierList';
+
+import ItemRequest from '../../../api/models/itemRequest.model';
 
 
 export default function Dashboard() {
@@ -63,6 +68,14 @@ export default function Dashboard() {
       {tab === 'myAppointments' && <DashMyAppointments/>}
       {/* Notice List */}
       {tab === 'notices' && <DashNotice/>}
+      {/* Item Request List */}
+      {tab === 'itemRequests' && <DashItemRequest/>}
+       {/* Add Supplier */}
+       {tab === 'AddSupplier' && <AddSupplier/>}
+      {/* Supplier List */}
+      {tab === 'SupplierList' && <SupplierList/>}
+      {/* Request items */}
+      {tab === 'itemRequest' && <ItemRequest/>}
     
     
       

@@ -26,6 +26,12 @@ import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
 import PostPage from "./pages/PostPage";
 import Search from "./pages/Search";
 import CashierDash from "./pages/cashier/Dashboard";
+import AddSupplier from "./components/supplier/AddSupplier";
+import SupplierList from "./components/supplier/SupplierList";
+import UpdateSupplier from "./components/supplier/UpdateSupplier";
+import ViewSupplier from "./components/supplier/ViewSupplier";
+import ItemRequest from "./components/supplier/ItemRequests";
+
 
 export default function App() {
   return (
@@ -39,7 +45,7 @@ export default function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route element={<PrivateRoute />}>
-          {" "}
+          
           {/* PrivateRoute is a placeholder */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="feedback" element={<Feedback />} />
@@ -63,6 +69,12 @@ export default function App() {
         <Route path="/ViewSalary/:id" element={<ViewSalary />} />
         <Route path="/ViewEmployee/:employeeId" element={<ViewEmployee />} /> 
         <Route path="/UpdateEmployee/:employeeId" element={<UpdateEmployee />} />
+        <Route path="/AddSupplier/:SupplierId" element={<AddSupplier/>}/>
+        <Route path="/ViewSupplier/:SupplierId" element={<ViewSupplier/>}/>
+        <Route path="/UpdateSupplier/:SupplierId" element={<UpdateSupplier/>}/>
+        <Route path="/ViewSupplier/:SupplierId" element={<ViewSupplier/>}/>
+        <Route path="/SupplierList/:SupplierId" element={<SupplierList/>}/>
+        <Route path="/ItemRequest/:ItemCode" element={<ItemRequest/>}/>
       </Routes>
       <Footer />
     </BrowserRouter>
