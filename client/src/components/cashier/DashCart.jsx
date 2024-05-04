@@ -452,25 +452,67 @@ export default function DashCart() {
               />
               {filteredItems && filteredItems.length > 0 ? (
                 filteredItems.map((item) => (
-                  <div key={item._id} className="cursor-pointer">
-                    <img
-                      src={item.picture}
-                      alt={item.name}
-                      style={{ width: "100px", height: "100px" }}
-                    />
-                    <p>{item.name}</p>
-                    <input
-                      type="number"
-                      min="0"
-                      value={selectedItems[item._id] || 0}
-                      onChange={(e) =>
-                        handleQuantityChange(item._id, e.target.value)
-                      }
-                    />
-                    <Button onClick={() => handleSelectItem(item)}>Add</Button>
-                    <Button onClick={() => handleRemoveItem(item._id)}>
-                      Remove
-                    </Button>
+                  <div
+                    key={item._id}
+                    className="flex items-center justify-between mb-4"
+                  >
+                    <div className="flex items-center">
+                      <img
+                        src={item.picture}
+                        alt={item.name}
+                        className="w-16 h-16 mr-4"
+                      />
+                      <p>{item.name}</p>
+                    </div>
+                    <div className="flex items-center">
+                      <input
+                        type="number"
+                        min="0"
+                        value={selectedItems[item._id] || 0}
+                        onChange={(e) =>
+                          handleQuantityChange(item._id, e.target.value)
+                        }
+                        className="border p-2 rounded w-20 mr-4" // Adjusted width here
+                      />
+                      <button
+                        onClick={() => handleSelectItem(item)}
+                        className="flex items-center justify-center bg-green-500 text-white rounded p-2 mr-2"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => handleRemoveItem(item._id)}
+                        className="flex items-center justify-center bg-red-500 text-white rounded p-2"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 ))
               ) : (
@@ -480,41 +522,48 @@ export default function DashCart() {
           </Modal>
 
           <Modal
-            show={showServiceModal}
-            onClose={() => setShowServiceModal(false)}
-            popup
-            size="lg"
+  show={showServiceModal}
+  onClose={() => setShowServiceModal(false)}
+  popup
+  size="lg"
+>
+  <Modal.Header></Modal.Header>
+  <Modal.Body>
+    <input
+      type="text"
+      placeholder="Search services..."
+      className="border p-2 rounded w-full mb-4"
+      value={searchQuery}
+      onChange={handleSearch}
+    />
+    {filteredServices && filteredServices.length > 0 ? (
+      filteredServices.map((service) => (
+        <div key={service._id} className="flex items-center justify-between border-b pb-4">
+          <div className="flex items-center">
+            <img
+              src={service.imageUrl}
+              alt={service.name}
+              className="w-16 h-16 mr-4 rounded"
+            />
+            <div>
+              <p className="font-bold">{service.name}</p>
+              <p className="text-gray-700">Price: LKR {service.price}</p>
+            </div>
+          </div>
+          <button
+            onClick={() => handleServiceSelect(service)}
+            className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition duration-300"
           >
-            <Modal.Header></Modal.Header>
-            <Modal.Body>
-              <input
-                type="text"
-                placeholder="Search services..."
-                className="border p-2 rounded w-full mb-4"
-                value={searchQuery}
-                onChange={handleSearch}
-              />
-              {filteredServices && filteredServices.length > 0 ? (
-                filteredServices.map((service) => (
-                  <div key={service._id} className="cursor-pointer">
-                    <img
-                      src={service.image}
-                      alt={service.name}
-                      style={{ width: "100px", height: "100px" }}
-                    />
-                    <p>{service.name}</p>
-                    <p>{service.description}</p>
-                    <p>Price: {service.price}</p>
-                    <Button onClick={() => handleServiceSelect(service)}>
-                      Select
-                    </Button>
-                  </div>
-                ))
-              ) : (
-                <p>No services available</p>
-              )}
-            </Modal.Body>
-          </Modal>
+            Select
+          </button>
+        </div>
+      ))
+    ) : (
+      <p className="text-center">No services available</p>
+    )}
+  </Modal.Body>
+</Modal>
+
 
           <Modal
             show={showBillModal}
@@ -583,18 +632,18 @@ export default function DashCart() {
               <div>
                 <h3 className="text-lg font-semibold mb-2">Total Amount</h3>
                 <p className="mb-1">
-                  Total Amount without Discounts: $
+                  Total Amount: LKR 
                   {calculateTotalAmount().totalAmountWithoutDiscounts.toFixed(
                     2
                   )}
                 </p>
                 <p className="mb-1">
-                  Discount Amount: $
+                  Discount Amount: LKR 
                   {calculateTotalAmount().discountAmount.toFixed(2)}
                 </p>
                 <p className="mb-1">
                   <span className="text-xl font-bold text-purple-600">
-                    Final Amount: $
+                    Final Amount: LKR 
                     {calculateTotalAmount().finalAmount.toFixed(2)}
                   </span>
                 </p>
@@ -654,8 +703,8 @@ export default function DashCart() {
                       <div className="flex items-center">
                         <p className="mr-4">{item.name}</p>
                         <p className="mr-4">Qty: {selectedItems[itemId]}</p>
-                        <p className="mr-4">Price: ${item.price}</p>
-                        <p>Total: ${totalPrice}</p>
+                        <p className="mr-4">Price: LKR {item.price}</p>
+                        <p>Total: LKR {totalPrice}</p>
                       </div>
                       <div className="flex items-center">
                         <button
@@ -697,7 +746,7 @@ export default function DashCart() {
                 >
                   <div className="flex items-center">
                     <p className="mr-4">{service.name} </p>
-                    <p>Price: ${service.price}</p>
+                    <p>Price: LKR {service.price}</p>
                   </div>
                   <div>
                     <Button onClick={() => handleRemoveService(service._id)}>
@@ -748,15 +797,15 @@ export default function DashCart() {
           <div className="mb-6">
             <p className="text-lg font-bold mb-2">Total Amount</p>
             <p className="mb-1">
-              Total Amount: $
+              Total Amount: LKR 
               {calculateTotalAmount().totalAmountWithoutDiscounts.toFixed(2)}
             </p>
             <p className="mb-1">
-              Discount Amount: $
+              Discount Amount: LKR 
               {calculateTotalAmount().discountAmount.toFixed(2)}
             </p>
             <p className="mb-1">
-              Final Amount: ${calculateTotalAmount().finalAmount.toFixed(2)}
+              Final Amount: LKR {calculateTotalAmount().finalAmount.toFixed(2)}
             </p>
           </div>
 
