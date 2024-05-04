@@ -114,13 +114,7 @@ app.post("/api/create-payment-session", async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: `http://localhost:5173/payment-success?vehicleNo=${
-        appointment.vehicleNo
-      }&contactNo=${appointment.ContactNo}&date=${encodeURIComponent(
-        appointment.date
-      )}&timeSlot=${appointment.TimeSlot}&serviceName=${encodeURIComponent(
-        appointment.serviceId.name
-      )}&amountPaid=${encodeURIComponent(appointment.amount)}`, // Redirect URL after successful payment
+      success_url: `http://localhost:5173/payment-success`, // Redirect URL after successful payment
       cancel_url:
         "http://localhost:5173/dashboard?tab=myAppointments&cancelled=true", // Redirect URL if payment is canceled
       allow_promotion_codes: true,
