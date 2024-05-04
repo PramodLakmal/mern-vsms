@@ -24,6 +24,7 @@ import DashServices from "../components/Services/DashServices";
 import Addemergencyservices from '../components/EmergencyService/Addemergencyservices'; // Correct
 import Dashemergency from '../components/EmergencyService/Dashemergency';
 import Addservices from '../components/Services/Addservices'
+import ProfileView from '../components/employee/ProfileView';
 
 
 export default function Dashboard() {
@@ -58,6 +59,9 @@ export default function Dashboard() {
       {tab === 'AddEmployee' && <AddEmployee/>}
       {/* Employee List */}
       {tab === 'EmployeeList' && <EmployeeList/>}
+      {/* Add Leave */}
+      {/* Profile View */}
+      {tab === 'ProfileView' && <ProfileView/>}
       {/* Add Leave */}
       {tab === 'AddLeave' && <AddLeave/>}
       {/* Leave List */}
