@@ -53,47 +53,47 @@ export default function LeaveList() {
             <div className="ml-8 flex-1 pr-8">
                 <div className="newContainer">
                     <div className="top shadow-md py-2 px-4 my-4 flex justify-between items-center">
-                        <h1 className="text-gray-600 font-bold text-lg">Employee Leave Evaluation</h1>   
+                        <h1 className="text-gray-600 font-bold text-lg">Employee Leave Evaluation</h1>
                     </div>
-                    <div className="flex justify-between items-center mb-4"> 
-  <div className="flex items-center">
-    <div className="relative w-64"> 
-      <input
-        type="text"
-        placeholder="Search by Employee ID..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        className="border p-2 rounded-full w-full pr-8 pl-4 text-gray-700"
-      />
-      <FaSearch
-        className="absolute right-3 top-2 text-gray-500 cursor-pointer"
-      />
-    </div>
-  </div>
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="flex items-center">
+                            <div className="relative w-64">
+                                <input
+                                    type="text"
+                                    placeholder="Search by Employee ID..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="border p-2 rounded-full w-full pr-8 pl-4 text-gray-700"
+                                />
+                                <FaSearch
+                                    className="absolute right-3 top-2 text-gray-500 cursor-pointer"
+                                />
+                            </div>
+                        </div>
 
-  <select
-  value={filterStatus}
-  onChange={(e) => setFilterStatus(e.target.value)}
-  className="border p-2 rounded-full text-gray-700 w-1/4" // Adjusted width to increase length
->
-<option value="" disabled>Select the Filter Category</option>
-  <option value="">All</option>
-  <option value="Pending">Pending</option>
-  <option value="Approved">Approved</option>
-  <option value="Rejected">Rejected</option>
-</select>
+                        <select
+                            value={filterStatus}
+                            onChange={(e) => setFilterStatus(e.target.value)}
+                            className="border p-2 rounded-full text-gray-700 w-1/4" // Adjusted width to increase length
+                        >
+                            <option value="" disabled>Select the Filter Category</option>
+                            <option value="">All</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
 
 
-  <button
-    type="button"
-    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-    onClick={() => navigate('/dashboard?tab=AddLeave')}
-  >
-    Add New Leave
-  </button>
-</div>
+                        <button
+                            type="button"
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            onClick={() => navigate('/dashboard?tab=AddLeave')}
+                        >
+                            Add New Leave
+                        </button>
+                    </div>
 
-                    <div className="overflow-x-auto"> // Table content
+                    <div className="overflow-x-auto">
                         <table className="w-full bg-white">
                             <thead className="bg-gray-300">
                                 <tr>
@@ -122,17 +122,17 @@ export default function LeaveList() {
                                         <td class="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">
                                             <div className="flex">
                                                 <Link to={`/ViewLeave/${leave._id}`}>
-                                                    <FaEye 
-                                                      className="mr-2 cursor-pointer text-green-500 hover=text-green-700" 
+                                                    <FaEye
+                                                        className="mr-2 cursor-pointer text-green-500 hover=text-green-700"
                                                     />
                                                 </Link>
-                                                <FaEdit 
-                                                  class="mr-2 cursor-pointer text-blue-500 hover=text-blue-700" 
-                                                  onClick={() => handleUpdate(leave._id)}
+                                                <FaEdit
+                                                    class="mr-2 cursor-pointer text-blue-500 hover=text-blue-700"
+                                                    onClick={() => handleUpdate(leave._id)}
                                                 />
-                                                <FaTrashAlt 
-                                                  class="cursor-pointer text-red-500 hover=text-red-700" 
-                                                  onClick={() => handleDelete(leave._id)}
+                                                <FaTrashAlt
+                                                    class="cursor-pointer text-red-500 hover=text-red-700"
+                                                    onClick={() => handleDelete(leave._id)}
                                                 />
                                             </div>
                                         </td>

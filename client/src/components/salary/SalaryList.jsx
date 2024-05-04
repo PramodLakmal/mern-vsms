@@ -241,7 +241,7 @@ export default function SalaryList() {
                                                     className="cursor-pointer text-red-500 hover-text-red-700"
                                                     onClick={() => handleDelete(salary._id)}
                                                 />
-                                               
+
                                             </div>
                                         </td>
                                     </tr>

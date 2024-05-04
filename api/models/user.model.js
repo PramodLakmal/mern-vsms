@@ -59,6 +59,12 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
+    isEmployee: {
+      type: Boolean,
+      default: false,
+    },
+
   },
   { timestamps: true }
 );

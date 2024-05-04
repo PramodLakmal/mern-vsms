@@ -5,7 +5,8 @@ import {
     getEmployee,
     createEmployee,
     deleteEmployee,
-    updateEmployee
+    updateEmployee,
+    searchEmployees,
 } from "../controllers/employee.controller.js"
 
 
@@ -16,6 +17,9 @@ router.get('/', getEmployees)
 
 // GET a single employee
 router.get('/:id', getEmployee)
+
+// Search employees by first or last name
+router.get('/search/:query', searchEmployees);
 
 // POST a new employee
 router.post('/', createEmployee)

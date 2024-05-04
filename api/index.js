@@ -8,7 +8,7 @@ import NoticeRoutes from "./routes/notice.route.js";
 
 import serviceRoutes from "./routes/service.route.js";
 import emergencyRouter from "./routes/emergency.route.js";
-import PostRoutes from "./routes/post.route.js";
+import ProductRoutes from "./routes/product.route.js";
 import employeeRoutes from "./routes/employee.route.js";
 import leaveRoutes from "./routes/leave.route.js";
 import salaryRoutes from "./routes/salary.route.js";
@@ -136,7 +136,7 @@ app.post("/api/create-payment-session", async (req, res) => {
   }
 });
 
-app.use('/api/post', PostRoutes);
+app.use('/api/product', ProductRoutes);
 app.use("/api/refunds", refundRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/items", itemRoutes);
