@@ -112,7 +112,7 @@ export default function AdminDashboardComponenet() {
                         <HiArrowNarrowUp/>
                         {lastMonthFeedbacks}
                     </span>
-                    <div className='text-gray-500'>Users joined last month</div>
+                    <div className='text-gray-500'>Feddbacks in last month</div>
                 </div>
         </div>
 
