@@ -196,14 +196,14 @@ function UpdateLeave() {
 
                                 <div className="flex items-center space-x-6">
                                     <center>
-                                        <Button
-                                            type='submit'
+                                        <button
+                                            type="submit"
+                                            className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-${loading ? 'auto' : 'auto'} ${loading ? 'inline-block' : 'inline-block'}`}
                                             disabled={loading}
-                                            color="red" // Set the color prop to "red" to change the button color to red
-                                            className={`text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-${loading ? 'auto' : 'auto'} ${loading ? 'inline-block' : 'inline-block'}`}
                                         >
                                             {loading ? "Loading..." : "Save Changes"}
-                                        </Button>
+                                        </button>
+
                                     </center>
                                 </div>
 

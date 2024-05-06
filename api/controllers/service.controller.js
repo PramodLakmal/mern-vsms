@@ -1,75 +1,93 @@
 import Service from '../models/service.model.js';
-import mongoose from 'mongoose'; // Make sure to import mongoose since you're using it
+import mongoose from 'mongoose';
 
 const getServices = async (req, res) => {
-    const services = await Service.find({}).sort({createdAt: -1}); // Changed variable name to avoid conflict with the model import
-  
-    res.status(200).json(services);
+    try {
+        const services = await Service.find({}).sort({ createdAt: -1 });
+        res.status(200).json(services);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
 };
-  
+
 const getService = async (req, res) => {
     const { id } = req.params;
-  
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({error: 'No such service'});
+        return res.status(404).json({ error: 'No such service' });
     }
-  
-    const service = await Service.findById(id); // Changed variable name to avoid conflict
-  
+
+    const service = await Service.findById(id);
+
     if (!service) {
-      return res.status(404).json({error: 'No such service'});
+        return res.status(404).json({ error: 'No such service' });
     }
-  
-    res.status(200).json(service); 
+
+    res.status(200).json(service);
 };
-  
-// create a new service
+
 const createService = async (req, res) => {
-    const {name, type, vehiclename, price, image} = req.body;
-  
+    const { name, type, vehiclename, price, imageUrl } = req.body;
+
+    if (!name || !type || !vehiclename || !price || !imageUrl) {
+        return res.status(400).json({ message: "All fields are required." });
+    }
+
     try {
-      const service = await Service.create({ name, type, vehiclename, price, image}); // Changed variable name to avoid conflict
-      res.status(200).json(service);
+        const newService = new Service({
+            name,
+            type,
+            vehiclename,
+            price,
+            imageUrl // Assuming your Service model has an 'imageUrl' field
+        });
+
+        await newService.save();
+        res.status(201).json(newService);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+        res.status(500).json({ message: error.message });
     }
 };
 
-// delete a service
 const deleteService = async (req, res) => {
     const { id } = req.params;
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({error: 'No such service'})
+        return res.status(400).json({ error: 'No such service' });
     }
 
-    const service = await Service.findOneAndDelete({_id: id});
+    const service = await Service.findOneAndDelete({ _id: id });
 
     if (!service) {
-        return res.status(400).json({error: 'No such service'})
+        return res.status(400).json({ error: 'No such service' });
     }
 
     res.status(200).json(service);
 };
 
-// update a service
 const updateService = async (req, res) => {
     const { id } = req.params;
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({error: 'No such service'})
+        return res.status(400).json({ error: 'No such service' });
     }
 
-    const service = await Service.findOneAndUpdate({_id: id}, {
-        ...req.body
-    }, { new: true }); // Using { new: true } to return the document after update
+    let update = { ...req.body };
 
-    if (!service) {
-        return res.status(400).json({error: 'No such service'})
+    try {
+        const service = await Service.findOneAndUpdate({ _id: id }, update, { new: true });
+
+        if (!service) {
+            return res.status(404).json({ error: 'No such service' });
+        }
+
+        res.status(200).json(service);
+    } catch (error) {
+        console.error("Error updating service:", error);
+        res.status(500).json({ error: "Failed to update service" });
     }
-
-    res.status(200).json(service);
 };
 
-// Using ES6 export syntax
 export {
     getServices,
     getService,
@@ -78,6 +96,9 @@ export {
     updateService
 };
 
+
+
+// Controller function to get all services for cashier
 export const getAllServices = async (req, res, next) => {
     try {
       const services = await Service.find();

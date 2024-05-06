@@ -45,10 +45,16 @@ const employeeSchema = new mongoose.Schema(
         message: props => `${props.value} is not a valid NIC number! Please enter a valid NIC number in the format xxxxxxxxxV or xxxxxxxxxxxx.`
       }
     },
-    
     dob: {
       type: Date,
       required: true,
+      validate: {
+        validator: function (value) {
+          // Check if the date is in the future
+          return value <= new Date();
+        },
+        message: (props) => `Date of birth (${props.value}) cannot be a future date.`
+      }
     },
     gender: {
       type: String,

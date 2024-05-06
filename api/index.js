@@ -8,13 +8,13 @@ import NoticeRoutes from "./routes/notice.route.js";
 
 import serviceRoutes from "./routes/service.route.js";
 import emergencyRouter from "./routes/emergency.route.js";
-import PostRoutes from "./routes/post.route.js";
+import ProductRoutes from "./routes/product.route.js";
 import employeeRoutes from "./routes/employee.route.js";
 import leaveRoutes from "./routes/leave.route.js";
 import salaryRoutes from "./routes/salary.route.js";
 import authRoutes from "./routes/auth.route.js";
 import expenserouter from "./routes/expense.route.js";
-import incomerouter from "./routes/expense.route.js";
+import incomerouter from "./routes/income.route.js";
 import feedbackRoutes from "./routes/feedback.route.js";
 import couponRoutes from "./routes/coupon.route.js";
 import cookieParser from "cookie-parser";
@@ -117,13 +117,7 @@ app.post("/api/create-payment-session", async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: `http://localhost:5173/payment-success?vehicleNo=${
-        appointment.vehicleNo
-      }&contactNo=${appointment.ContactNo}&date=${encodeURIComponent(
-        appointment.date
-      )}&timeSlot=${appointment.TimeSlot}&serviceName=${encodeURIComponent(
-        appointment.serviceId.name
-      )}&amountPaid=${encodeURIComponent(appointment.amount)}`, // Redirect URL after successful payment
+      success_url: `http://localhost:5173/payment-success`, // Redirect URL after successful payment
       cancel_url:
         "http://localhost:5173/dashboard?tab=myAppointments&cancelled=true", // Redirect URL if payment is canceled
       allow_promotion_codes: true,
@@ -139,7 +133,7 @@ app.post("/api/create-payment-session", async (req, res) => {
   }
 });
 
-app.use('/api/post', PostRoutes);
+app.use('/api/product', ProductRoutes);
 app.use("/api/refunds", refundRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/items", itemRoutes);

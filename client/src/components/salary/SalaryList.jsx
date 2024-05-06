@@ -1,34 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { FaEye, FaEdit, FaTrashAlt, FaSearch, FaDownload } from 'react-icons/fa'; // Import FaFilePdf for the new button
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 
 export default function SalaryList() {
     const [salaries, setSalaries] = useState([]);
+    const [searchQuery, setSearchQuery] = useState(''); // State for the search query
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchSalaries = async () => {
             try {
                 const response = await axios.get('/api/salary');
-                // Reverse the array to display newly added data at the top
-                setSalaries(response.data.reverse());
+                setSalaries(response.data.reverse()); // Display recent data at the top
             } catch (error) {
                 console.error('Error fetching salaries:', error);
             }
         };
 
-        fetchSalaries();
+        fetchSalaries(); // Fetch salaries on component mount
     }, []);
 
     const handleDelete = async (id) => {
-        console.log('Delete salary with ID:', id);
         try {
             await axios.delete(`/api/salary/${id}`);
-            const updatedSalaries = salaries.filter(salary => salary._id !== id);
-            setSalaries(updatedSalaries);
+            setSalaries(salaries.filter((salary) => salary._id !== id));
             alert('Salary deleted successfully');
         } catch (error) {
             alert('Error deleting salary:', error);
@@ -75,21 +73,107 @@ export default function SalaryList() {
         }
     };
 
+
+    const generateIndividualSalaryReport = (employeeId) => {
+        try {
+            const employeeSalary = salaries.find(
+                (salary) => salary.employeeid === employeeId
+            );
+
+            if (employeeSalary) {
+                const doc = new jsPDF();
+                doc.setFontSize(12);
+                doc.text('Employee Salary Report', 10, 10);
+
+                const data = [
+                    {
+                        key: 'Employee ID',
+                        value: employeeSalary.employeeid,
+                    },
+                    {
+                        key: 'Month',
+                        value: employeeSalary.month,
+                    },
+                    {
+                        key: 'Year',
+                        value: employeeSalary.year,
+                    },
+                    {
+                        key: 'Basic Salary',
+                        value: employeeSalary.basicsalary,
+                    },
+                    {
+                        key: 'OT Hours',
+                        value: employeeSalary.othours,
+                    },
+                    {
+                        key: 'OT Rate',
+                        value: employeeSalary.otrate,
+                    },
+                    {
+                        key: 'OT Total',
+                        value: employeeSalary.ottotal,
+                    },
+                    {
+                        key: 'Bonus',
+                        value: employeeSalary.bonus,
+                    },
+                    {
+                        key: 'Reduction',
+                        value: employeeSalary.reduction,
+                    },
+                    {
+                        key: 'Net Salary',
+                        value: employeeSalary.netsalary,
+                    },
+                ];
+
+                doc.autoTable({
+                    startY: 15,
+                    head: [['Key', 'Value']],
+                    body: data.map((item) => [item.key, item.value]),
+                });
+
+                doc.save(`salary_report_${employeeId}.pdf`);
+            } else {
+                console.error('Employee salary not found');
+            }
+        } catch (error) {
+            console.error('Error generating salary report:', error);
+        }
+    };
+
+    const filteredSalaries = salaries.filter(
+        (salary) =>
+            salary.employeeid.toLowerCase().includes(searchQuery.toLowerCase())
+    ); // Case-insensitive search
+
     return (
         <div className="flex bg-gray-200">
-            <div className="min-h-screen flex">
-
-            </div>
             <div className="ml-8 flex-1 pr-8">
                 <div className="newContainer">
-                    <div className="top shadow-md py-2 px-4 my-4">
+                    <div className="top shadow-md py-2 px-4 my-4 flex justify-between items-center">
                         <h1 className="text-gray-600 font-bold text-lg">Employee Salary List</h1>
                     </div>
-                    <div className="overflow-x-auto">
-                        <div className="flex justify-end items-center mb-4">
+
+                    <div className="flex justify-between items-center">
+                        <div className="relative w-64">
+                            <input
+                                type="text"
+                                placeholder="Search by Employee ID..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)} // Update search query on input
+                                className="border p-2 rounded-full w-full pr-8 pl-4 text-gray-700"
+                            />
+                            <FaSearch
+                                className="absolute right-3 top-2 text-gray-500 cursor-pointer"
+                            />
+                        </div>
+
+                        <div className="flex items-center">
                             <button
                                 type="button"
-                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4"
                                 onClick={generateSalaryReport}
                             >
                                 Generate Salary Report
@@ -102,6 +186,9 @@ export default function SalaryList() {
                                 Add New Salary
                             </button>
                         </div>
+                    </div>
+
+                    <div className="overflow-x-auto">
                         <table className="w-full bg-white">
                             <thead className="bg-gray-300">
                                 <tr>
@@ -120,7 +207,7 @@ export default function SalaryList() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {salaries.map((salary) => (
+                                {filteredSalaries.map((salary) => (
                                     <tr key={salary._id}>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{salary._id}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{salary.employeeid}</td>
@@ -129,19 +216,32 @@ export default function SalaryList() {
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">{salary.basicsalary}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">{salary.othours}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">{salary.otrate}</td>
-                                        <td className="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">{salary.ottotal}</td>
+                                        <td className="px-4 py-2 border-b border-gray-300 text-center text-sm text-gray-900">{salary.ottotal}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">{salary.bonus}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">{salary.reduction}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">{salary.netsalary}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">
                                             <div className="flex">
-                                            <Link to={`/ViewSalary/${salary._id}`}>
-                                                    <FaEye className="mr-2 cursor-pointer text-green-500 hover:text-green-700" />
+                                                <Link to={`/ViewSalary/${salary._id}`}>
+                                                    <FaEye
+                                                        className="mr-2 cursor-pointer text-green-500 hover-text-green-700"
+                                                    />
                                                 </Link>
                                                 <Link to={`/updatesalary/${salary._id}`}>
-                                                    <FaEdit className="mr-2 cursor-pointer text-blue-500 hover:text-blue-700" />
+                                                    <FaEdit
+                                                        className="mr-2 cursor-pointer text-blue-500 hover-text-blue-700"
+                                                        onClick={() => handleUpdate(salary._id)}
+                                                    />
                                                 </Link>
-                                                <FaTrashAlt className="cursor-pointer text-red-500 hover:text-red-700" onClick={() => handleDelete(salary._id)} />
+                                                <FaDownload
+                                                    className="cursor-pointer text-grey-500 hover-text-red-700"
+                                                    onClick={() => generateIndividualSalaryReport(salary.employeeid)}
+                                                />
+                                                <FaTrashAlt
+                                                    className="cursor-pointer text-red-500 hover-text-red-700"
+                                                    onClick={() => handleDelete(salary._id)}
+                                                />
+
                                             </div>
                                         </td>
                                     </tr>
