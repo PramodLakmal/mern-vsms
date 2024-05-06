@@ -94,7 +94,7 @@ export default function UpdateSalary() {
     };
 
     return (
-        <div className="flex justify-center bg-gray-200 w-full">
+        <div className="flex justify-center  w-full">
             <div className="min-h-screen flex">
                 <DashSidebar />
             </div>

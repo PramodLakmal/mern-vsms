@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEdit, FaTrashAlt, FaSearch } from 'react-icons/fa'; // Import FaSearch for search icon
 
-export default function LeaveList() {
+export default function ViewStatus() {
     const [leaves, setLeaves] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [filterStatus, setFilterStatus] = useState(''); // Filter by status
@@ -22,9 +22,7 @@ export default function LeaveList() {
         fetchLeaves(); // Fetch leaves when component mounts
     }, []);
 
-    const handleUpdate = (id) => {
-        navigate(`/updateleave/${id}`); // Navigate to update page with leave ID
-    };
+    
 
     const handleDelete = async (id) => {
         try {
@@ -53,7 +51,7 @@ export default function LeaveList() {
             <div className="ml-8 flex-1 pr-8">
                 <div className="newContainer">
                     <div className="top shadow-md py-2 px-4 my-4 flex justify-between items-center">
-                        <h1 className="text-gray-600 font-bold text-lg">Employee Leave Evaluation</h1>
+                        <h1 className="text-gray-600 font-bold text-lg">Employee Leave List</h1>
                     </div>
                     <div className="flex justify-between items-center mb-4">
                         <div className="flex items-center">
@@ -111,20 +109,13 @@ export default function LeaveList() {
                                         <td class="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{leave.reason}</td>
                                         <td class="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{leave.status}</td>
                                         <td class="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">
-                                            <div className="flex">
+                                            <div className="flex justify-center">
                                                 <Link to={`/ViewLeave/${leave._id}`}>
                                                     <FaEye
                                                         className="mr-2 cursor-pointer text-green-500 hover=text-green-700"
                                                     />
                                                 </Link>
-                                                <FaEdit
-                                                    class="mr-2 cursor-pointer text-blue-500 hover=text-blue-700"
-                                                    onClick={() => handleUpdate(leave._id)}
-                                                />
-                                                <FaTrashAlt
-                                                    class="cursor-pointer text-red-500 hover=text-red-700"
-                                                    onClick={() => handleDelete(leave._id)}
-                                                />
+                                                
                                             </div>
                                         </td>
                                     </tr>
