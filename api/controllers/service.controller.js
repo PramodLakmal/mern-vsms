@@ -95,3 +95,15 @@ export {
     deleteService,
     updateService
 };
+
+
+
+// Controller function to get all services for cashier
+export const getAllServices = async (req, res, next) => {
+    try {
+      const services = await Service.find();
+      res.status(200).json({services});
+    } catch (error) {
+      next(error); 
+    }
+  };

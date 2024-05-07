@@ -3,6 +3,8 @@ import { Modal, Button, Table } from "flowbite-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HiOutlineSearch, HiOutlineExclamationCircle } from "react-icons/hi";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const DashNotice = () => {
   const [notices, setNotices] = useState([]);
@@ -29,9 +31,10 @@ const DashNotice = () => {
         throw new Error(`Error fetching notices: ${response.statusText}`);
       }
       const data = await response.json();
-      setNotices(data.notices.map((notice) => ({ ...notice })));
+      setNotices(data.notices || []);
     } catch (error) {
       console.error("Error fetching notices:", error);
+      toast.error("Error fetching notices. Please try again later.");
     }
   };
 
@@ -49,7 +52,7 @@ const DashNotice = () => {
 
   const handleAddModalOpen = () => {
     setShowAddModal(true);
-    setSelectedNotice(null); // Reset selected notice when opening add modal
+    setSelectedNotice(null);
     setNewNotice({
       NoticeID: "",
       Title: "",
@@ -78,39 +81,40 @@ const DashNotice = () => {
         showToast("Notice added successfully!");
       } else {
         console.error("Failed to add notice");
+        toast.error("Failed to add notice. Please try again.");
       }
     } catch (error) {
       console.error("Error adding notice:", error);
+      toast.error("Error adding notice. Please try again later.");
     }
   };
 
   const handleUpdateModalOpen = (notice) => {
     setSelectedNotice(notice);
     setShowAddModal(true);
-    setNewNotice(notice); // Set newNotice state to the selected notice
+    setNewNotice(notice);
   };
 
   const handleUpdateNotice = async () => {
     try {
-      const response = await fetch(
-        `/api/notice/update/${selectedNotice._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newNotice),
-        }
-      );
+      const response = await fetch(`/api/notice/update/${selectedNotice._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newNotice),
+      });
       if (response.ok) {
         fetchNotices();
         handleAddModalClose();
         showToast("Notice updated successfully!");
       } else {
         console.error("Failed to update notice");
+        toast.error("Failed to update notice. Please try again.");
       }
     } catch (error) {
       console.error("Error updating notice:", error);
+      toast.error("Error updating notice. Please try again later.");
     }
   };
 
@@ -130,9 +134,11 @@ const DashNotice = () => {
         showToast("Notice deleted successfully!");
       } else {
         console.error("Failed to delete notice");
+        toast.error("Failed to delete notice. Please try again.");
       }
     } catch (error) {
       console.error("Error deleting notice:", error);
+      toast.error("Error deleting notice. Please try again later.");
     }
   };
 
@@ -149,12 +155,11 @@ const DashNotice = () => {
   };
 
   const handleSearch = () => {
-    // Filter notices based on the search query
     const filteredNotices = notices.filter((notice) =>
       notice.Date.includes(searchQuery)
     );
     setNotices(filteredNotices);
-    setSearchQuery(""); // Clear search input field
+    setSearchQuery("");
   };
 
   const handleKeyPress = (e) => {
@@ -163,6 +168,60 @@ const DashNotice = () => {
     }
   };
 
+  const generateCsvData = (data) => {
+    const header = ["Notice ID", "Title", "Date", "Notice Type", "Description"];
+    const csvRows = [];
+    csvRows.push(header.join(","));
+    data.forEach((notice) => {
+      const row = [
+        notice.NoticeID,
+        `"${notice.Title}"`,
+        notice.Date,
+        notice.NoticeType,
+        `"${notice.Description}"`,
+      ];
+      csvRows.push(row.join(","));
+    });
+    return csvRows.join("\n");
+  };
+
+  const generateReport = async () => {
+    try {
+      if (notices.length === 0) {
+        throw new Error("No notices to generate report.");
+      }
+  
+      const pdf = new jsPDF("p", "pt", "letter");
+      const table = document.querySelector("table");
+  
+      // Remove the last column (actions) from the table
+      const rows = table.querySelectorAll("tr");
+      rows.forEach((row) => row.deleteCell(-1));
+  
+      // Change table style for PDF
+      table.style.backgroundColor = "white"; // Change background color
+      table.style.color = "black"; // Change text color
+  
+      // Render table as image using html2canvas
+      const canvas = await html2canvas(table);
+      const imgData = canvas.toDataURL("image/png");
+  
+      // Calculate dimensions to fit entire table in PDF
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+  
+      // Add image to PDF
+      pdf.addImage(imgData, "PNG", 40, 40, pdfWidth - 80, pdfHeight - 100);
+  
+      // Save PDF
+      pdf.save("notices_report.pdf");
+    } catch (error) {
+      console.error("Error generating report:", error);
+      toast.error("Error generating report. Please try again.");
+    }
+  };
+  
+  
   return (
     <div className="container mx-auto p-5 relative">
       <ToastContainer />
@@ -193,6 +252,12 @@ const DashNotice = () => {
           className="bg-green-500 text-white hover:bg-green-700 ml-2"
         >
           Search
+        </Button>
+        <Button
+          onClick={generateReport}
+          className="bg-yellow-500 text-white hover:bg-yellow-700 ml-2"
+        >
+          Generate Report
         </Button>
       </div>
 
@@ -364,16 +429,10 @@ const DashNotice = () => {
               Are you sure you want to delete this notice?
             </h3>
             <div className="flex justify-center gap-4">
-              <Button
-                color="red"
-                onClick={handleConfirmDelete}
-              >
+              <Button color="red" onClick={handleConfirmDelete}>
                 Yes, I'm sure
               </Button>
-              <Button
-                color="gray"
-                onClick={handleCancelDelete}
-              >
+              <Button color="gray" onClick={handleCancelDelete}>
                 No, cancel
               </Button>
             </div>
