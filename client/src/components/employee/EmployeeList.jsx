@@ -50,7 +50,7 @@ export default function EmployeeList() {
   );
 
   return (
-    <div className="flex bg-gray-200">
+    <div className="flex ">
       <div className="min-h-screen flex"></div>
       <div className="ml-8 flex-1 pr-8">
         <div className="newContainer">
@@ -60,7 +60,7 @@ export default function EmployeeList() {
 
           <div className="overflow-x-auto">
             <div className="flex justify-between items-center mb-4">
-              <div className="relative w-64">
+              <div className="relative w-64 mt-3 ml-1">
                 <input
                   type="text"
                   placeholder="Search by Name..."
@@ -74,7 +74,7 @@ export default function EmployeeList() {
               </div>
               <button
                 type="button"
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mt-3 rounded focus:outline-none focus:shadow-outline"
                 onClick={() => navigate('/dashboard?tab=AddEmployee')}
               >
                 Add New Employee
