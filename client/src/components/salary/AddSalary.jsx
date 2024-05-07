@@ -129,7 +129,7 @@ export default function AddSalary() {
     };
 
     return (
-        <div className="flex justify-center bg-gray-200 w-full">
+        <div className="flex justify-center  w-full">
             <div className="min-h-screen flex"></div>
             <div className="ml-8 flex-1 pr-8">
                 <div className="newContainer ml-0">

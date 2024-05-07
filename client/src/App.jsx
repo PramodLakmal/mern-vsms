@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import News from "./pages/news";
 import BookNow from "./pages/Book";
 import Inventory from "./pages/Inventory";
 import SignUp from "./pages/SignUp";
@@ -20,17 +21,19 @@ import ViewEmployee from "./components/employee/ViewEmployee";
 import Feedback from "./pages/Feedback";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import ForgotPassword from "./pages/ForgotPassword";
-import CreatePost from "./pages/CreatePost";
-import UpdatePost from "./pages/UpdatePost";
+import CreateProduct from "./pages/CreateProduct";
+import UpdateProduct from "./pages/UpdateProduct";
 import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
-import PostPage from "./pages/PostPage";
-import Search from "./pages/Search";
+import ProductPage from "./pages/ProductPage";
 import CashierDash from "./pages/cashier/Dashboard";
-import AddSupplier from "./components/supplier/AddSupplier";
-import SupplierList from "./components/supplier/SupplierList";
-import UpdateSupplier from "./components/supplier/UpdateSupplier";
-import ViewSupplier from "./components/supplier/ViewSupplier";
-import ItemRequest from "./components/supplier/ItemRequests";
+import DashServices from "./components/Services/DashServices"; // Adjust the import path as necessary
+import UpdateService from "./components/Services/UpdateService";
+import Updateemergencyservices from "./components/EmergencyService/Updateemergencyservices";
+import ResetPassword from "./components/ResetPassword";
+import UpdateIncome from "./components/Incomes/UpdateIncome";
+import UpdateExpense from "./components/Expenses/UpdateExpense";
+import NetIncome from "./components/NetIncome";
+import FeedbackSuccess from "./components/FeedbackSuccess";
 
 
 export default function App() {
@@ -40,41 +43,44 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/news" element={<News />} />
         <Route path="/inventory" element={<Inventory />} />
-        <Route path="/search" element={<Search />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route element={<PrivateRoute />}>
-          
+          {" "}
           {/* PrivateRoute is a placeholder */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="feedback" element={<Feedback />} />
-          <Route path="/feedbackSuccess">"Feedback Success"</Route>
+          <Route path="/feedbackSuccess" element={<FeedbackSuccess/>}></Route>
         
           <Route path="/updateleave/:id" element={<UpdateLeave />} />
           <Route path="/updatesalary/:id" element={<UpdateSalary />} />
+
+          <Route path="/dash-services" element={<DashServices />} />
+          <Route path="/update-service/:serviceId" element={<UpdateService />} />
+          <Route path="/Updateemergencyservices/:emergencyId"element={<Updateemergencyservices/>} />
         </Route>
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
+        <Route path="/reset-password/:token" element={<ResetPassword/>}/>
 
         <Route element={<OnlyAdminPrivateRoute />}>
-        <Route path="/create-post" element={<CreatePost />} />
-        <Route path="/update-post/:postId" element={<UpdatePost />} />
+        <Route path="/create-product" element={<CreateProduct />} />
+        <Route path="/update-product/:productId" element={<UpdateProduct />} />
         <Route path="/cashierDashboard" element={<CashierDash />} />
         </Route>
-        <Route path="post/:postSlug" element={<PostPage />} />
+        <Route path="product/:productId" element={<ProductPage />} />
         <Route path="/services" element={<Services />} />
         <Route path="/book" element={<BookNow />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
+
+        <Route path="/UpdateIncome/:id" element={<UpdateIncome/>} />
+        <Route path="/UpdateExpense/:id" element={<UpdateExpense/>} />
+        <Route path="/NetIncome" element={<NetIncome/>} />
         <Route path="/ViewLeave/:id" element={<ViewLeave />} />
         <Route path="/ViewSalary/:id" element={<ViewSalary />} />
         <Route path="/ViewEmployee/:employeeId" element={<ViewEmployee />} /> 
         <Route path="/UpdateEmployee/:employeeId" element={<UpdateEmployee />} />
-        <Route path="/AddSupplier/:SupplierId" element={<AddSupplier/>}/>
-        <Route path="/ViewSupplier/:SupplierId" element={<ViewSupplier/>}/>
-        <Route path="/UpdateSupplier/:SupplierId" element={<UpdateSupplier/>}/>
-        <Route path="/ViewSupplier/:SupplierId" element={<ViewSupplier/>}/>
-        <Route path="/SupplierList/:SupplierId" element={<SupplierList/>}/>
-        <Route path="/ItemRequest/:ItemCode" element={<ItemRequest/>}/>
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -13,13 +13,21 @@ import SalaryList from '../components/salary/SalaryList';
 import AddSalary from '../components/salary/AddSalary';
 import DashCoupons from '../components/DashCoupons';
 import DashMyAppointments from '../components/DashMyAppointments';
-import DashPosts from '../components/DashPosts';
+import DashProducts from '../components/DashProducts';
+import ExpenseForm from '../components/Expenses/ExpenseForm';
+import Expenses from '../components/Expenses/Expenses';
+import IncomeForm from '../components/Incomes/IncomeForm';
+import Incomes from '../components/Incomes/Incomes';
+import NetIncome from '../components/NetIncome';
 import DashNotice from '../components/DashNotice';
-import DashItemRequest from '../components/supplier/DashItemRequest';
-import AddSupplier from '../components/supplier/AddSupplier';
-import SupplierList from '../components/supplier/SupplierList';
-
-import ItemRequest from '../../../api/models/itemRequest.model';
+import IncomeChart from '../components/IncomeChart';
+import DashServices from "../components/Services/DashServices"; 
+import Addemergencyservices from '../components/EmergencyService/Addemergencyservices'; // Correct
+import Dashemergency from '../components/EmergencyService/Dashemergency';
+import Addservices from '../components/Services/Addservices'
+import ProfileView from '../components/employee/ProfileView';
+import ViewStatus from '../components/leave/ViewStatus';
+import Salary from '../components/salary/Salary';
 
 
 export default function Dashboard() {
@@ -41,7 +49,7 @@ export default function Dashboard() {
       </div> 
 
       {/* Posts/products.... */} 
-      {tab === 'posts' && <DashPosts/>}
+      {tab === 'products' && <DashProducts/>}
       {/* Profile.... */} 
       {tab === 'profile' && <DashProfile/>}
       {/* CuAgentFeedbacks.... */}
@@ -55,27 +63,44 @@ export default function Dashboard() {
       {/* Employee List */}
       {tab === 'EmployeeList' && <EmployeeList/>}
       {/* Add Leave */}
+      {/* Profile View */}
+      {tab === 'ProfileView' && <ProfileView/>}
+      {/* Add Leave */}
       {tab === 'AddLeave' && <AddLeave/>}
       {/* Leave List */}
       {tab === 'LeaveList' && <LeaveList/>}
+      {/* View Leave Status */}
+      {tab === 'ViewStatus' && <ViewStatus/>}
       {/* Add Salary */}
       {tab === 'AddSalary' && <AddSalary/>}
       {/* Salary List */}
       {tab === 'SalaryList' && <SalaryList/>}
+      {/* Salary */}
+      {tab === 'Salary' && <Salary/>}
       {/* coupons */}
       {tab === "coupons" && <DashCoupons />}
       {/* My Appointments */}
       {tab === 'myAppointments' && <DashMyAppointments/>}
+       {/* Add Expense */}
+       {tab === 'ExpenseForm' && <ExpenseForm/>}
+       {/* Expense List */}
+       {tab === 'Expenses' && <Expenses/>}
+       {/* Add Income */}
+       {tab === 'IncomeForm' && <IncomeForm/>}
+       {/* Expense List */}
+       {tab === 'Incomes' && <Incomes/>}
+        {/* Net Income Chart */}
+        {tab === 'NetIncome' && <NetIncome/>}
+        {/* Pie Chart */}
+        {tab === 'IncomeChart' && <IncomeChart/>}
+
       {/* Notice List */}
       {tab === 'notices' && <DashNotice/>}
-      {/* Item Request List */}
-      {tab === 'itemRequests' && <DashItemRequest/>}
-       {/* Add Supplier */}
-       {tab === 'AddSupplier' && <AddSupplier/>}
-      {/* Supplier List */}
-      {tab === 'SupplierList' && <SupplierList/>}
-      {/* Request items */}
-      {tab === 'itemRequest' && <ItemRequest/>}
+      {tab === 'Addservices' && <Addservices/>}
+      {tab === 'DashServices' && <DashServices/>}
+      {tab === 'updateService' && <UpdateService />}
+      {tab === 'Addemergencyservices'&& <Addemergencyservices/>}
+      {tab === 'Dashemergency'&& <Dashemergency/>}
     
     
       

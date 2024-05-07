@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HiOutlineSearch, HiOutlineExclamationCircle } from "react-icons/hi";
 import jsPDF from "jspdf";
+import "jspdf-autotable"; // Import jspdf-autotable for table generation
 import html2canvas from "html2canvas";
 
 const DashNotice = () => {
@@ -185,40 +186,46 @@ const DashNotice = () => {
     return csvRows.join("\n");
   };
 
-  const generateReport = async () => {
+  const generateReport = () => {
     try {
-      if (notices.length === 0) {
-        throw new Error("No notices to generate report.");
-      }
+      const doc = new jsPDF(); // Initialize jsPDF
+      doc.setFontSize(11);
+      doc.text('Notices Report', 12, 12);
   
-      const pdf = new jsPDF("p", "pt", "letter");
-      const table = document.querySelector("table");
+      // Add report generation date
+      const currentDate = new Date().toLocaleDateString('en-US');
+      doc.text(`Report Generation Date: ${currentDate}`, 12, 20);
   
-      // Remove the last column (actions) from the table
-      const rows = table.querySelectorAll("tr");
-      rows.forEach((row) => row.deleteCell(-1));
+      // Add table header row
+      const headerCols = [
+        "Notice ID", "Title", "Date", "Notice Type", "Description"
+      ];
+      const headerRowHeight = 5;
+      const headerYPos = 30; // Adjusted position for the date
   
-      // Change table style for PDF
-      table.style.backgroundColor = "white"; // Change background color
-      table.style.color = "black"; // Change text color
-  
-      // Render table as image using html2canvas
-      const canvas = await html2canvas(table);
-      const imgData = canvas.toDataURL("image/png");
-  
-      // Calculate dimensions to fit entire table in PDF
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-  
-      // Add image to PDF
-      pdf.addImage(imgData, "PNG", 40, 40, pdfWidth - 80, pdfHeight - 100);
+      const tableBody = notices.map(notice => ([
+        notice.NoticeID, notice.Title, formatDate(notice.Date), notice.NoticeType, notice.Description
+      ]));
+      doc.autoTable({
+        head: [headerCols],
+        body: tableBody,
+        startY: headerYPos + headerRowHeight,
+        styles: { overflow: 'linebreak' },
+        columnStyles: { 0: { cellWidth: 20 }, 1: { cellWidth: 35 }, 2: { cellWidth: 25 }, 3: { cellWidth: 25 }, 4: { cellWidth: 80 } },
+        margin: { top: headerYPos + headerRowHeight + 100 }
+      });
   
       // Save PDF
-      pdf.save("notices_report.pdf");
+      doc.save("notices_report.pdf");
     } catch (error) {
-      console.error("Error generating report:", error);
-      toast.error("Error generating report. Please try again.");
+      console.error("Error generating notices report:", error);
+      toast.error("Error generating notices report. Please try again.");
     }
+  };
+  
+  // Helper function to format date
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString('en-US');
   };
   
   

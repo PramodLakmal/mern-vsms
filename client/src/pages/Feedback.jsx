@@ -43,7 +43,7 @@ export default function Feedback() {
       
       if (res.ok){
         setPublishError(null)
-        navigate('/feedback/feedbackSuccess');
+        navigate('/feedbackSuccess');
       }
         
     } catch (error) {
@@ -121,22 +121,20 @@ const handleDelete = async (feedbackId) => {
 };
   
   return (
-    <div className='min-h-screen mt-20 '>
-      <div className='flex p-3 max-w-6xl mx-auto flex-col md:flex-row md:items-center gap-5'>
+    <div className='mt-0'>
+      <div className='flex max-w-500 mx-auto flex-col md:flex-row md:items-center'>
         {/* Left */}
         <div className='flex-1'>
-        <span className="px-2 py-1">
-        <img src="https://firebasestorage.googleapis.com/v0/b/mern-vsms.appspot.com/o/Logo%20and%20Other%2FSighe%20Auto.png?alt=media&token=95f727f5-dfdf-4d56-be9e-b4eabd8cf42d" alt="logo" />
+        <span className="">
+        <img src={"https://firebasestorage.googleapis.com/v0/b/mern-vsms.appspot.com/o/Logo%20and%20Other%2FService%20Feedback.png?alt=media&token=1f7e2a50-170b-41c7-a8b4-dd04902aa9da"} alt="Preview" style={{ maxWidth: '100%', maxHeight: '570px', width: '670px', height: '1500px' }} className="object-cover" />
         </span>
-      <p className='text-sm mt-5'>
-        Welcome to Singhe Auto. Please give a feedback about our services.
-      </p>
+      
         </div>
 
         {/* Right */}
         <div className='flex-1'>
           <div className='p-6 text-center'><h1 className='dark:text-white text-3xl font-semibold'>Give Your Honnest Feedback Here</h1></div>
-          <form className='flex flex-col gap-4 border border-red-500 rounded-md p-8' onSubmit={handleSubmit}>
+          <form className='flex flex-col gap-4 border border-red-500 rounded-md p-8 mr-5' onSubmit={handleSubmit}>
           <div className='flex items-center gap-1 my-5 text-gray-500 text-sm'>
                 <p>sign in as: </p>
                 <img className="h-5 w-5 object-cover rounded-full" src= {currentUser.profilePicture} alt=""  />
@@ -176,7 +174,7 @@ const handleDelete = async (feedbackId) => {
           <p>No feedbacks yet</p>
         ) : (
           <>
-          <div className='text-sm my-8 flex items-center gap-2 justify-center'>
+          <div className='text-sm my-8 flex items-center gap-2 justify-center mt-20'>
             <p className='font-bold'>Total Feedbacks</p>
             <div className='border border-red-400 font-bold py-1 px-2 text-lg rounded-sm'>
             <p>{totalFeedbacks}</p>

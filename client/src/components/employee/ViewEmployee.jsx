@@ -58,7 +58,7 @@ export default function ViewEmployee() {
     }, [employee.imageUrl]);
 
     return (
-        <div className="flex bg-gray-200">
+        <div className="flex ">
             <div className="min-h-screen flex">
                 <DashSidebar />
             </div>
