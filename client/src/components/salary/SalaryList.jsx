@@ -77,7 +77,7 @@ export default function SalaryList() {
     const generateIndividualSalaryReport = (employeeId) => {
         try {
             const employeeSalary = salaries.find(
-                (salary) => salary.employeeid === employeeId
+                (salary) => salary._id === employeeId
             );
     
             if (employeeSalary) {
@@ -88,6 +88,7 @@ export default function SalaryList() {
                 // Creating key-value data array for the report
                 const data = [
                     { key: 'Employee ID', value: employeeSalary.employeeid },
+                    { key: 'Salary ID', value: employeeSalary._id },
                     { key: 'Month', value: employeeSalary.month },
                     { key: 'Year', value: employeeSalary.year },
                     { key: 'Basic Salary', value: employeeSalary.basicsalary },
@@ -190,7 +191,7 @@ export default function SalaryList() {
                             </thead>
                             <tbody>
                                 {filteredSalaries.map((salary) => (
-                                    <tr key={salary._id}>
+                                    <tr key={salary._id} className='hover:bg-gray-100'>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{salary._id}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{salary.employeeid}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">{salary.month}</td>
@@ -217,7 +218,7 @@ export default function SalaryList() {
                                                 </Link>
                                                 <FaDownload
                                                     className="cursor-pointer text-grey-500 hover-text-red-700"
-                                                    onClick={() => generateIndividualSalaryReport(salary.employeeid)}
+                                                    onClick={() => generateIndividualSalaryReport(salary._id)}
                                                 />
                                                 <FaTrashAlt
                                                     className="cursor-pointer text-red-500 hover-text-red-700"

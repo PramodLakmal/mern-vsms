@@ -99,7 +99,7 @@ export default function ViewStatus() {
                             </thead>
                             <tbody>
                                 {filteredLeaves.map((leave) => (
-                                    <tr key={leave._id}>
+                                    <tr key={leave._id} className='hover:bg-gray-100'>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{leave._id}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{leave.employeeid}</td>
                                         <td class="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{leave.leavetype}</td>
@@ -115,7 +115,7 @@ export default function ViewStatus() {
                                                         className="mr-2 cursor-pointer text-green-500 hover=text-green-700"
                                                     />
                                                 </Link>
-                                                
+                                               
                                             </div>
                                         </td>
                                     </tr>
