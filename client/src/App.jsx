@@ -33,6 +33,7 @@ import ResetPassword from "./components/ResetPassword";
 import UpdateIncome from "./components/Incomes/UpdateIncome";
 import UpdateExpense from "./components/Expenses/UpdateExpense";
 import NetIncome from "./components/NetIncome";
+import FeedbackSuccess from "./components/FeedbackSuccess";
 
 
 export default function App() {
@@ -51,7 +52,7 @@ export default function App() {
           {/* PrivateRoute is a placeholder */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="feedback" element={<Feedback />} />
-          <Route path="/feedbackSuccess">"Feedback Success"</Route>
+          <Route path="/feedbackSuccess" element={<FeedbackSuccess/>}></Route>
         
           <Route path="/updateleave/:id" element={<UpdateLeave />} />
           <Route path="/updatesalary/:id" element={<UpdateSalary />} />
