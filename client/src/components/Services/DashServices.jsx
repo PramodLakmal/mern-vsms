@@ -2,10 +2,10 @@
   import axios from 'axios'; 
   import { useNavigate } from 'react-router-dom';
   import { getStorage, ref, getDownloadURL } from 'firebase/storage';
-
+  import { FaSearch } from 'react-icons/fa';
   
     function DashServices() {
- 
+           const [searchQuery, setSearchQuery] = useState('');
            const [services, setServices] = useState([]);
            const navigate = useNavigate();
 
@@ -57,45 +57,57 @@
           return 'https://via.placeholder.com/150';
         }
       };
-      
+   
+      const filteredServices = services.filter(service =>
+        service.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
 
-    
-  return (
+    return (
     <div className='ml-8 flexx-1 pr-10'>
       <div className='flex flex-col w-full max-w-8xl'>
         <h1 className="text-3xl font-bold text-blue-500 tracking-wide uppercase mb-4 text-center">
-            View Services
+          View Services
         </h1>
+        <div className="relative w-64">
+          <input
+            type="text"
+            placeholder="Search by Name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="border p-2 rounded-full w-full pr-10 pl-4 text-gray-700"
+          />
+          <FaSearch className="absolute right-3 top-3 text-gray-500 cursor-pointer" />
+        </div>
         {services.length > 0 ? (
           <div className='overflow-x-auto relative shadow-md sm:rounded-lg'>
             <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
               <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
                 <tr>
                   <th scope='col' className='py-3 px-6'>Date Updated</th>
-                  <th scope='col' className='py-3 px-6'>service_id</th>
+                  <th scope='col' className='py-3 px-6'>Service ID</th>
                   <th scope='col' className='py-3 px-6'>Service Image</th>
                   <th scope='col' className='py-3 px-6'>Service Name</th>
                   <th scope='col' className='py-3 px-6'>Service Type</th>
-                  <th scope='col' className='py-3 px-6'>vehicle name</th>
-                  <th scope='col' className='py-3 px-6'>price</th>
+                  <th scope='col' className='py-3 px-6'>Vehicle Name</th>
+                  <th scope='col' className='py-3 px-6'>Price</th>
                   <th scope='col' className='py-3 px-6'>Delete</th>
                   <th scope='col' className='py-3 px-6'>Edit</th>
                 </tr>
               </thead>
               <tbody>
-                {services.map((service) => (
+                {filteredServices.map((service) => (
                   <tr key={service._id} className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
                     <td className='py-4 px-6'>{new Date(service.updatedAt).toLocaleDateString()}</td>
                     <td className='py-4 px-6'>{service._id}</td>
                     <td className='py-4 px-6'>
-                    <img src={service.imageUrl} alt='Service' className='w-12 h-12 rounded-full' />
+                      <img src={service.imageUrl || 'https://via.placeholder.com/150'} alt='Service' className='w-12 h-12 rounded-full' />
                     </td>
                     <td className='py-4 px-6'>{service.name}</td>
                     <td className='py-4 px-6'>{service.type}</td>
                     <td className='py-4 px-6'>{service.vehiclename}</td>
                     <td className='py-4 px-6'>{service.price}</td>
                     <td className='py-4 px-6'>
-                      <button  onClick={() => deleteService(service._id)} className ='font-medium text-blue-600 dark:text-blue-500 hover:underline'>Delete</button>
+                      <button onClick={() => deleteService(service._id)} className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>Delete</button>
                     </td>
                     <td className='py-4 px-6'>
                       <button onClick={() => handleEdit(service._id)} className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>Edit</button>

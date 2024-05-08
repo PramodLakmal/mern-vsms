@@ -9,10 +9,10 @@ export default function AddEmergencyServices() {
         othertype: '',
         cusname: '',
         phone: '',
-        date: '',
+        date: new Date().toISOString().split('T')[0], // Default to today's date in YYYY-MM-DD
         area: '',
         status: '',
-        images:[]
+        images: []
     });
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -39,8 +39,8 @@ export default function AddEmergencyServices() {
         }
     };
     const handleUpload = async () => {
-        setLoading(true); 
-        let uploadUrls = []; 
+        setLoading(true);
+        let uploadUrls = [];
         try {
             const uploadPromises = images.map((image) => {
                 const imageRef = ref(storage, `images/${Date.now()}_${image.name}`);
@@ -50,22 +50,22 @@ export default function AddEmergencyServices() {
             uploadUrls = await Promise.all(uploadPromises); // Wait for all uploads to complete
             setUrls(uploadUrls); // Save URLs to state
             setProgress(100); // Update progress to 100% when all uploads are complete
-            console.log("All images uploaded:", uploadUrls); 
-            alert("All images uploaded"); 
+            console.log("All images uploaded:", uploadUrls);
+            alert("All images uploaded");
         } catch (err) {
-            console.error("Error uploading images:", err); 
+            console.error("Error uploading images:", err);
             setErrorMessage("Failed to upload images");
         } finally {
-            setLoading(false); 
+            setLoading(false);
             return uploadUrls; // Return URLs for use in form submission
         }
     };
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const imageUrls = await handleUpload(); // Ensure images are uploaded before submitting form
         const dataWithUrls = { ...formData, images: imageUrls }; // Append the uploaded image URLs to formData
-       
+
         try {
             const response = await axios.post("/api/emergencies", dataWithUrls, {
                 headers: { 'Content-Type': 'application/json' },
@@ -84,7 +84,7 @@ export default function AddEmergencyServices() {
             setLoading(false);
         }
     };
-    
+
     return (
         <>
             <div className="flex justify-center bg-gray-200 w-full">
@@ -136,26 +136,26 @@ export default function AddEmergencyServices() {
                                         />
                                     </div>
                                     <div className="flex flex-col items-center justify-center bg-grey-lighter mb-6">
-                             <label className="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-purple-500 hover:text-white">
-                          <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16.88 2.88A3 3 0 0014 2H6a3 3 0 00-3 3v10a3 3 0 003 3h8a3 3 0 003-3V6a3 3 0 00-.88-2.12zM14 4a1 1 0 011 1v.38l-4 4-3-3-4 4V7a1 1 0 011-1h6V4h2zm-3 5l3-3v2a1 1 0 001 1h2l-4 4-2-2zm4 7H6a1 1 0 01-1-1v-1l4-4 3 3 4-4v5a1 1 0 01-1 1z" /></svg>
-                         <span className="mt-2 text-base leading-normal">Select images</span>
-                         <input       
-                         
-                                     id="images"
-                                     name="images"
-                                     type="file"
-                                     required
-                                     accept="image/*"
-                                    multiple onChange={handleImageChange}
-                                 className="w-full cursor-pointer opacity-0"
-              />
-                        </label>
-                </div>
-                <div className="flex flex-wrap mb-6">
-                         {filePreviews.map((src, index) => (
-                          <img key={index} src={src} alt={`Preview ${index + 1}`} className="w-32 h-32 m-1 rounded-md shadow" />
-                 ))}
-                </div>
+                                        <label className="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-purple-500 hover:text-white">
+                                            <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16.88 2.88A3 3 0 0014 2H6a3 3 0 00-3 3v10a3 3 0 003 3h8a3 3 0 003-3V6a3 3 0 00-.88-2.12zM14 4a1 1 0 011 1v.38l-4 4-3-3-4 4V7a1 1 0 011-1h6V4h2zm-3 5l3-3v2a1 1 0 001 1h2l-4 4-2-2zm4 7H6a1 1 0 01-1-1v-1l4-4 3 3 4-4v5a1 1 0 01-1 1z" /></svg>
+                                            <span className="mt-2 text-base leading-normal">Select images</span>
+                                            <input
+
+                                                id="images"
+                                                name="images"
+                                                type="file"
+                                                required
+                                                accept="image/*"
+                                                multiple onChange={handleImageChange}
+                                                className="w-full cursor-pointer opacity-0"
+                                            />
+                                        </label>
+                                    </div>
+                                    <div className="flex flex-wrap mb-6">
+                                        {filePreviews.map((src, index) => (
+                                            <img key={index} src={src} alt={`Preview ${index + 1}`} className="w-32 h-32 m-1 rounded-md shadow" />
+                                        ))}
+                                    </div>
                                 </div>
                                 <div className="pl-5">
                                     {/* Customer Telephone */}
@@ -180,7 +180,7 @@ export default function AddEmergencyServices() {
                                             id="date"
                                             name="date"
                                             value={formData.date}
-                                            onChange={handleChange}
+                                            readOnly
                                             className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                         />
                                     </div>
@@ -201,55 +201,55 @@ export default function AddEmergencyServices() {
                                     <div className="flex flex-col mb-10 mt-9">
                                         <label className="mb-6 font-semibold text-gray-700">Emergency Service Status:</label>
                                         <div className="flex flex-row justify-start space-x-4">
-                                                                    <label className="inline-flex items-center">
-                                        <input
-                                            type="radio"
-                                            name="status"
-                                            value="pending"
-                                            checked={formData.status === 'pending'}
-                                            onChange={handleChange}
-                                            className="form-radio h-5 w-5 text-indigo-600"
-                                        />
-                                        <span className="ml-2">Pending</span>
-                                    </label>
-                                    <label className="inline-flex items-center">
-                                        <input
-                                            type="radio"
-                                            name="status"
-                                            value="accept"
-                                            checked={formData.status === 'accept'}
-                                            onChange={handleChange}
-                                            disabled={true}  // Disable the Accept button
-                                            className="form-radio h-5 w-5 text-indigo-600"
-                                        />
-                                        <span className="ml-2">Accept</span>
-                                    </label>
-                                    <label className="inline-flex items-center">
-                                        <input
-                                            type="radio"
-                                            name="status"
-                                            value="deny"
-                                            checked={formData.status === 'deny'}
-                                            onChange={handleChange}
-                                            disabled={true}  // Disable the Deny button
-                                            className="form-radio h-5 w-5 text-indigo-600"
-                                        />
-                                        <span className="ml-2">Deny</span>
-                                    </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="w-full flex justify-center mt-6">
-                                                            <button type="submit" disabled={loading} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                                                {loading ? 'Adding...' : 'Add Service'}
-                                                            </button>
-                                                        </div>
-                                                        {errorMessage && <p className="text-red-500 text-xs italic mt-4">{errorMessage}</p>}
-                                                    </form>
-                                                </div>
-                                            </div>
+                                            <label className="inline-flex items-center">
+                                                <input
+                                                    type="radio"
+                                                    name="status"
+                                                    value="pending"
+                                                    checked={formData.status === 'pending'}
+                                                    onChange={handleChange}
+                                                    className="form-radio h-5 w-5 text-indigo-600"
+                                                />
+                                                <span className="ml-2">Pending</span>
+                                            </label>
+                                            <label className="inline-flex items-center">
+                                                <input
+                                                    type="radio"
+                                                    name="status"
+                                                    value="accept"
+                                                    checked={formData.status === 'accept'}
+                                                    onChange={handleChange}
+                                                    disabled={true}  // Disable the Accept button
+                                                    className="form-radio h-5 w-5 text-indigo-600"
+                                                />
+                                                <span className="ml-2">Accept</span>
+                                            </label>
+                                            <label className="inline-flex items-center">
+                                                <input
+                                                    type="radio"
+                                                    name="status"
+                                                    value="deny"
+                                                    checked={formData.status === 'deny'}
+                                                    onChange={handleChange}
+                                                    disabled={true}  // Disable the Deny button
+                                                    className="form-radio h-5 w-5 text-indigo-600"
+                                                />
+                                                <span className="ml-2">Deny</span>
+                                            </label>
                                         </div>
-                                    </>
-                                );
-                            }
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="w-full flex justify-center mt-6">
+                                <button type="submit" disabled={loading} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                    {loading ? 'Adding...' : 'Add Service'}
+                                </button>
+                            </div>
+                            {errorMessage && <p className="text-red-500 text-xs italic mt-4">{errorMessage}</p>}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+}
