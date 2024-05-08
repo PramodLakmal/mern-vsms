@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 
+// Assuming these are your specific user and service IDs
+const defaultUserId = "660d26d62f2d9a9ed78bb293";
+const defaultServiceId = "6614f033eaaa3a8a7c6f86eb";
+
 const appointmentSchema = new mongoose.Schema(
   {
     name: {
@@ -30,11 +34,13 @@ const appointmentSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: false,
+      default: () => new mongoose.Types.ObjectId(defaultUserId)
     },
     serviceId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Service",
       required: false,
+      default: () => new mongoose.Types.ObjectId(defaultServiceId)
     },
     isPaid: {
       type: Boolean,
@@ -64,4 +70,4 @@ const appointmentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("appointment", appointmentSchema);
+export default mongoose.model("Appointment", appointmentSchema);
