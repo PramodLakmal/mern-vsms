@@ -131,19 +131,7 @@ export default function DashSidebar() {
           <div>
 
             {currentUser.isEmployee && (
-              <Link to="/dashboard?tab=AddLeave">
-                <Sidebar.Item
-                  active={tab === "AddLeave"}
-                  icon={HiOutlineClock}
-                >
-                  Add Leave
-                </Sidebar.Item>
-              </Link>
-            )}
-          </div>
-          <div>
-
-            {currentUser.isEmployee && (
+              <>
               <Link to="/dashboard?tab=ProfileView">
                 <Sidebar.Item
                   active={tab === "ProfileView"}
@@ -152,6 +140,34 @@ export default function DashSidebar() {
                   Employee List
                 </Sidebar.Item>
               </Link>
+
+              <Link to="/dashboard?tab=AddLeave">
+                <Sidebar.Item
+                  active={tab === "AddLeave"}
+                  icon={HiOutlineClock}
+                >
+                  Add Leave
+                </Sidebar.Item>
+              </Link>
+
+              <Link to="/dashboard?tab=ViewStatus">
+                <Sidebar.Item
+                  active={tab === "ViewStatus"}
+                  icon={HiViewList}
+                >
+                  Leave List
+                </Sidebar.Item>
+              </Link>
+
+              <Link to="/dashboard?tab=Salary">
+                <Sidebar.Item
+                  active={tab === "Salary"}
+                  icon={HiCurrencyDollar}
+                >
+                  Salary List
+                </Sidebar.Item>
+              </Link>
+              </>
             )}
           </div>
 
@@ -317,7 +333,6 @@ export default function DashSidebar() {
                     </Sidebar.Item>
                   </div>
                 </Link>
-
 
               </>
             )}
