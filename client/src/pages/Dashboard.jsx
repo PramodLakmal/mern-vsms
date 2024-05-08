@@ -26,6 +26,7 @@ import Addemergencyservices from '../components/EmergencyService/Addemergencyser
 import Dashemergency from '../components/EmergencyService/Dashemergency';
 import Addservices from '../components/Services/Addservices'
 import ProfileView from '../components/employee/ProfileView';
+import ManageAppointments from '../components/ManageAppointments';
 
 
 export default function Dashboard() {
@@ -83,13 +84,16 @@ export default function Dashboard() {
        {tab === 'IncomeForm' && <IncomeForm/>}
        {/* Expense List */}
        {tab === 'Incomes' && <Incomes/>}
-        {/* Net Income Chart */}
-        {tab === 'NetIncome' && <NetIncome/>}
-        {/* Pie Chart */}
-        {tab === 'IncomeChart' && <IncomeChart/>}
-
+       {/* Net Income Chart */}
+      {tab === 'NetIncome' && <NetIncome/>}
+      {/* Pie Chart */}
+      {tab === 'IncomeChart' && <IncomeChart/>}
       {/* Notice List */}
       {tab === 'notices' && <DashNotice/>}
+      {/* Manage Appointments */}
+      {tab === 'appointments' && <ManageAppointments/>}
+
+
       {tab === 'Addservices' && <Addservices/>}
       {tab === 'DashServices' && <DashServices/>}
       {tab === 'updateService' && <UpdateService />}
