@@ -3,6 +3,9 @@ import { Modal, Button, Table } from "flowbite-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HiOutlineSearch, HiOutlineExclamationCircle } from "react-icons/hi";
+import jsPDF from "jspdf";
+import "jspdf-autotable"; // Import jspdf-autotable for table generation
+import html2canvas from "html2canvas";
 
 const DashNotice = () => {
   const [notices, setNotices] = useState([]);
@@ -29,9 +32,10 @@ const DashNotice = () => {
         throw new Error(`Error fetching notices: ${response.statusText}`);
       }
       const data = await response.json();
-      setNotices(data.notices.map((notice) => ({ ...notice })));
+      setNotices(data.notices || []);
     } catch (error) {
       console.error("Error fetching notices:", error);
+      toast.error("Error fetching notices. Please try again later.");
     }
   };
 
@@ -49,7 +53,7 @@ const DashNotice = () => {
 
   const handleAddModalOpen = () => {
     setShowAddModal(true);
-    setSelectedNotice(null); // Reset selected notice when opening add modal
+    setSelectedNotice(null);
     setNewNotice({
       NoticeID: "",
       Title: "",
@@ -78,39 +82,40 @@ const DashNotice = () => {
         showToast("Notice added successfully!");
       } else {
         console.error("Failed to add notice");
+        toast.error("Failed to add notice. Please try again.");
       }
     } catch (error) {
       console.error("Error adding notice:", error);
+      toast.error("Error adding notice. Please try again later.");
     }
   };
 
   const handleUpdateModalOpen = (notice) => {
     setSelectedNotice(notice);
     setShowAddModal(true);
-    setNewNotice(notice); // Set newNotice state to the selected notice
+    setNewNotice(notice);
   };
 
   const handleUpdateNotice = async () => {
     try {
-      const response = await fetch(
-        `/api/notice/update/${selectedNotice._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newNotice),
-        }
-      );
+      const response = await fetch(`/api/notice/update/${selectedNotice._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newNotice),
+      });
       if (response.ok) {
         fetchNotices();
         handleAddModalClose();
         showToast("Notice updated successfully!");
       } else {
         console.error("Failed to update notice");
+        toast.error("Failed to update notice. Please try again.");
       }
     } catch (error) {
       console.error("Error updating notice:", error);
+      toast.error("Error updating notice. Please try again later.");
     }
   };
 
@@ -130,9 +135,11 @@ const DashNotice = () => {
         showToast("Notice deleted successfully!");
       } else {
         console.error("Failed to delete notice");
+        toast.error("Failed to delete notice. Please try again.");
       }
     } catch (error) {
       console.error("Error deleting notice:", error);
+      toast.error("Error deleting notice. Please try again later.");
     }
   };
 
@@ -149,12 +156,11 @@ const DashNotice = () => {
   };
 
   const handleSearch = () => {
-    // Filter notices based on the search query
     const filteredNotices = notices.filter((notice) =>
       notice.Date.includes(searchQuery)
     );
     setNotices(filteredNotices);
-    setSearchQuery(""); // Clear search input field
+    setSearchQuery("");
   };
 
   const handleKeyPress = (e) => {
@@ -163,6 +169,66 @@ const DashNotice = () => {
     }
   };
 
+  const generateCsvData = (data) => {
+    const header = ["Notice ID", "Title", "Date", "Notice Type", "Description"];
+    const csvRows = [];
+    csvRows.push(header.join(","));
+    data.forEach((notice) => {
+      const row = [
+        notice.NoticeID,
+        `"${notice.Title}"`,
+        notice.Date,
+        notice.NoticeType,
+        `"${notice.Description}"`,
+      ];
+      csvRows.push(row.join(","));
+    });
+    return csvRows.join("\n");
+  };
+
+  const generateReport = () => {
+    try {
+      const doc = new jsPDF(); // Initialize jsPDF
+      doc.setFontSize(11);
+      doc.text('Notices Report', 12, 12);
+  
+      // Add report generation date
+      const currentDate = new Date().toLocaleDateString('en-US');
+      doc.text(`Report Generation Date: ${currentDate}`, 12, 20);
+  
+      // Add table header row
+      const headerCols = [
+        "Notice ID", "Title", "Date", "Notice Type", "Description"
+      ];
+      const headerRowHeight = 5;
+      const headerYPos = 30; // Adjusted position for the date
+  
+      const tableBody = notices.map(notice => ([
+        notice.NoticeID, notice.Title, formatDate(notice.Date), notice.NoticeType, notice.Description
+      ]));
+      doc.autoTable({
+        head: [headerCols],
+        body: tableBody,
+        startY: headerYPos + headerRowHeight,
+        styles: { overflow: 'linebreak' },
+        columnStyles: { 0: { cellWidth: 20 }, 1: { cellWidth: 35 }, 2: { cellWidth: 25 }, 3: { cellWidth: 25 }, 4: { cellWidth: 80 } },
+        margin: { top: headerYPos + headerRowHeight + 100 }
+      });
+  
+      // Save PDF
+      doc.save("notices_report.pdf");
+    } catch (error) {
+      console.error("Error generating notices report:", error);
+      toast.error("Error generating notices report. Please try again.");
+    }
+  };
+  
+  // Helper function to format date
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString('en-US');
+  };
+  
+  
   return (
     <div className="container mx-auto p-5 relative">
       <ToastContainer />
@@ -193,6 +259,12 @@ const DashNotice = () => {
           className="bg-green-500 text-white hover:bg-green-700 ml-2"
         >
           Search
+        </Button>
+        <Button
+          onClick={generateReport}
+          className="bg-yellow-500 text-white hover:bg-yellow-700 ml-2"
+        >
+          Generate Report
         </Button>
       </div>
 
@@ -364,16 +436,10 @@ const DashNotice = () => {
               Are you sure you want to delete this notice?
             </h3>
             <div className="flex justify-center gap-4">
-              <Button
-                color="red"
-                onClick={handleConfirmDelete}
-              >
+              <Button color="red" onClick={handleConfirmDelete}>
                 Yes, I'm sure
               </Button>
-              <Button
-                color="gray"
-                onClick={handleCancelDelete}
-              >
+              <Button color="gray" onClick={handleCancelDelete}>
                 No, cancel
               </Button>
             </div>

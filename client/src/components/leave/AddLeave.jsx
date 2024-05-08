@@ -13,23 +13,67 @@ export default function AddLeave() {
         enddate: '',
         numofdays: '',
         reason: '',
-        status: ''
+        status: 'Pending'
     });
+    const [errorMessages, setErrorMessages] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
+
+    const handleSearch = async (e) => {
+        const query = e.target.value;
+        if (query.length > 2) {
+            try {
+                const response = await axios.get(`/api/employee/search/${query}`);
+                setSearchResults(response.data);
+            } catch (error) {
+                console.error('Error searching employees:', error);
+                setSearchResults([]);
+            }
+        } else {
+            setSearchResults([]);
+        }
+    };
+
+    const handleSelectEmployee = (employee) => {
+        setLeaveData({ ...leaveData, employeeid: employee._id });
+        setSearchResults([]);
+    };
 
     const handleChange = (e) => {
-        setLeaveData({ ...leaveData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        let updatedLeaveData = { ...leaveData, [name]: value };
+
+        if (name === 'startdate' || name === 'enddate') {
+            const startDate = new Date(updatedLeaveData.startdate);
+            const endDate = new Date(updatedLeaveData.enddate);
+
+            if (startDate && endDate) {
+                const diffInDays = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+                updatedLeaveData.numofdays = diffInDays >= 1 ? diffInDays : '';
+            } else {
+                updatedLeaveData.numofdays = '';
+            }
+        }
+
+        setLeaveData(updatedLeaveData);
+        setErrorMessages([]);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrorMessages([]);
         try {
             const response = await axios.post('/api/leave', leaveData);
             console.log('Leave added successfully:', response.data);
             window.alert('Leave added successfully!');
             navigate('/dashboard?tab=LeaveList');
         } catch (error) {
-            console.error('Error adding leave:', error);
-            window.alert('Error adding leave. Please try again.');
+            if (error.response && error.response.status === 400) {
+                const errors = error.response.data.error;
+                setErrorMessages([errors]); // Capture validation error message
+            } else {
+                console.error('Error adding leave:', error);
+                setErrorMessages(['An unexpected error occurred. Please try again.']);
+            }
         }
     };
 
@@ -41,12 +85,13 @@ export default function AddLeave() {
             enddate: '',
             numofdays: '',
             reason: '',
-            status: ''
+            status: 'Pending'
         });
+        setErrorMessages([]);
     };
 
     return (
-        <div className="flex bg-gray-200">
+        <div className="flex ">
             <div className="min-h-screen flex">
 
             </div>
@@ -58,6 +103,36 @@ export default function AddLeave() {
                     <div className="bottom shadow-md p-4 flex">
                         <div className="ml-3">
                             <form onSubmit={handleSubmit} className="justify-left">
+                                {/* Search field for Employee ID */}
+                                <div className="mb-4">
+                                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="employeeSearch">
+                                        Search Employee
+                                    </label>
+                                    <input
+                                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="employeeSearch"
+                                        type="text"
+                                        name="employeeSearch"
+                                        placeholder="Search by first or last name"
+                                        onChange={handleSearch}
+                                    />
+                                    {/* Display search results */}
+                                    {searchResults.length > 0 && (
+                                        <div className="border rounded bg-white shadow mt-2">
+                                            {searchResults.map((employee) => (
+                                                <div
+                                                    key={employee._id}
+                                                    className="p-2 hover:bg-gray-200 cursor-pointer"
+                                                    onClick={() => handleSelectEmployee(employee)}
+                                                >
+                                                    {employee.firstname} {employee.lastname}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Display Employee ID */}
                                 <div className="mb-4">
                                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="employeeid">
                                         Employee ID
@@ -68,10 +143,10 @@ export default function AddLeave() {
                                         type="text"
                                         name="employeeid"
                                         value={leaveData.employeeid}
-                                        onChange={handleChange}
-                                        required
+                                        read-only
                                     />
                                 </div>
+
                                 <div className="mb-4">
                                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="leavetype">
                                         Leave Type
@@ -129,8 +204,7 @@ export default function AddLeave() {
                                             type="number"
                                             name="numofdays"
                                             value={leaveData.numofdays}
-                                            onChange={handleChange}
-                                            required
+                                            read-only
                                         />
                                     </div>
                                 </div>
@@ -187,6 +261,14 @@ export default function AddLeave() {
                                         </label>
                                     </div>
                                 </div>
+                                {/* Display validation error messages */}
+                                {errorMessages.length > 0 && (
+                                    <div className="text-red-500 mb-4">
+                                        {errorMessages.map((msg, index) => (
+                                            <p key={index}>{msg}</p>
+                                        ))}
+                                    </div>
+                                )}
 
                                 <div className="flex items-center space-x-6">
                                     <button

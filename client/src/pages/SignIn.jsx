@@ -8,7 +8,7 @@ import OAuth from '../components/OAuth';
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
-  const {loading, error: errorMessage} = useSelector(state => state.user);
+  const [errorMessage, setErrorMessage] = useState(null)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -17,7 +17,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if(!formData.email || !formData.password) {
-      return dispatch(signInFailure('Please fill in all fields.'));
+      return setErrorMessage('Please fill in all fields.');
     }
     try {
       dispatch(signInStart());
@@ -41,21 +41,19 @@ export default function SignIn() {
     }
   };
   return (
-    <div className='min-h-screen mt-20 '>
-      <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
+    <div className='mt-0'>
+      <div className='flex max-w-500 mx-auto flex-col md:flex-row md:items-center gap-5'>
         {/* Left */}
         <div className='flex-1'>
-        <span className="px-2 py-1">
-        <img src="https://firebasestorage.googleapis.com/v0/b/mern-vsms.appspot.com/o/Logo%20and%20Other%2FSighe%20Auto.png?alt=media&token=95f727f5-dfdf-4d56-be9e-b4eabd8cf42d" alt="logo" />
+        <span className="">
+        <img src={"https://firebasestorage.googleapis.com/v0/b/mern-vsms.appspot.com/o/Logo%20and%20Other%2Fportrait-mechanic-checking-car-parts.jpg?alt=media&token=67ef11ad-db19-418c-96ed-b9a489b7bfc6"} alt="Preview" style={{ maxWidth: '100%', maxHeight: '600px', width: '1500px', height: '1500px' }} className="object-cover" />
         </span>
-      <p className='text-sm mt-5'>
-        Welcome to Singhe Auto. Please sign into continue.
-      </p>
+      
         </div>
         {/* Right */}
-        <div className='flex-1'>
+        <div className='flex-1 p-4 max-w-xl mr-40 ml-40 mb-10'>
           <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
-            
+            <p className='font-bold text-2xl text-center mb-5'>Welcome Back to Sighe Automotive</p>
             <div>
               <Label value= 'Your email'/>
               <TextInput
@@ -75,12 +73,8 @@ export default function SignIn() {
                 Forgot Password?
               </Link>
             </div>
-            <Button gradientMonochrome="failure" type='submit' disabled={loading}>
-              {
-                loading ? (
-                          <><Spinner size='sm'/>
-                          <span className='pl-3'>Loading...</span></>
-                          ) : ('Sign In')}
+            <Button gradientMonochrome="failure" type='submit'>
+              Sign In
             </Button>
             <OAuth />
           </form>

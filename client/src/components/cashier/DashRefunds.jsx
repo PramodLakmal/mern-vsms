@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "flowbite-react";
 import { FiDownload } from "react-icons/fi";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const DashRefunds = () => {
   const [refunds, setRefunds] = useState([]);
@@ -37,20 +39,31 @@ const DashRefunds = () => {
     }
   };
 
-  const handleDownloadPDFReport = async () => {
-    try {
-      const response = await fetch("/api/refunds/pdf-report");
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(new Blob([blob]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "refunds_report.pdf");
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode.removeChild(link);
-    } catch (error) {
-      console.error("Error downloading PDF report:", error);
-    }
+  const generatePDFReport = () => {
+    // Fetch data or use existing data
+    const data = filteredRefunds.map((refund) => [
+      refund.appointmentId.userId.username,
+      refund.appointmentId.serviceId.name,
+      refund.refundedAmount,
+      new Date(refund.dateIssued).toLocaleDateString(),
+    ]);
+
+    // Initialize jsPDF
+    const doc = new jsPDF();
+
+    // Set document properties
+    doc.setFontSize(18);
+    doc.text("Refund Details Report", 14, 20);
+
+    // Add a table to the document
+    doc.autoTable({
+      startY: 30, // Adjust startY to add space below the title
+      head: [["User Name", "Service Name", "Refund Amount", "Refund Date"]],
+      body: data,
+    });
+
+    // Save the PDF
+    doc.save("refund_report.pdf");
   };
 
   const handleSearch = (event) => {
@@ -78,6 +91,10 @@ const DashRefunds = () => {
 
   // Get today's date in YYYY-MM-DD format
   const today = new Date().toISOString().split("T")[0];
+
+  const handleDownloadPDFReport = () => {
+    generatePDFReport();
+  };
 
   return (
     <div className="container mx-auto p-4">
