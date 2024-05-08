@@ -133,7 +133,7 @@ export default function Search() {
         <h1 className='text-3xl font-semibold sm:border-b border-gray-500 p-3 mt-5 '>
           Results:
         </h1>
-        <div className='p-7 flex flex-wrap gap-4'>
+        <div className='p-10 flex flex-wrap gap-5 justify-center'>
           {!loading && products.length === 0 && (
             <p className='text-xl text-gray-500'>No products found.</p>
           )}

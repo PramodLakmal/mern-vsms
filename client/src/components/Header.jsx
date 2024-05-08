@@ -66,6 +66,7 @@ export default function Header() {
           </span>
         </Link>
       </div>
+
       <form onSubmit={handleSubmit} >
         <TextInput
           type="text"
