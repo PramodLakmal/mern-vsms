@@ -112,25 +112,25 @@ export default function DashUsers() {
   const generateUserReport = () => {
     try {
         const doc = new jsPDF(); // Initialize jsPDF
-        doc.setFontSize(11);
+        doc.setFontSize(8);
         doc.text('Users Report', 10, 10);
 
         // Add table header row
         const headerCols = [
-            'User ID', 'Username', 'Fullname', 'Email', 'Admin', 'CuS Agent'
+            'Username', 'Fullname', 'Email', 'Admin', 'CuS Agent', 'Fin Manager', 'Employee'
         ];
         const headerRowHeight = 5;
         const headerYPos = 15;
 
         const tableBody = users.map(user => ([
-            user._id , user.username, user.fullName, user.email, user.isAdmin, user.isCustomerServiceAgent
+            user.username, user.fullName, user.email, user.isAdmin, user.isCustomerServiceAgent, user.isFinanceManager, user.isEmployee
         ]));
         autoTable(doc, {
             head: [headerCols],
             body: tableBody,
             startY: headerYPos + headerRowHeight,
             styles: { overflow: 'linebreak' },
-            columnStyles: { 0: { cellWidth: 40 }, 1: { cellWidth: 24 }, 2: { cellWidth: 35 }, 3: { cellWidth: 47 }, 4: { cellWidth: 16 }, 5: { cellWidth: 18 } },
+            columnStyles: { 0: { cellWidth: 24 }, 1: { cellWidth: 35 }, 2: { cellWidth: 49 }, 3: { cellWidth: 16 }, 4: { cellWidth: 16 }, 5: { cellWidth: 18 }, 6: { cellWidth: 20 } },
             margin: { top: headerYPos + headerRowHeight + 5 }
         });
 
@@ -162,9 +162,9 @@ export default function DashUsers() {
         className="p-2 mb-4 rounded border dark:border-gray-700 dark:bg-gray-800 dark:text-white border-gray-300 bg-white text-black"
       />
       
-      <span className="text-sm text-gray-500 dark:text-gray-400"><button
+      <span className="text-sm text-gray-500 dark:text-gray-400 ml-80"><button
                  type="button"
-                 className="outline-red-500 hover:bg-red-300 outline  font-bold py-2 px-4 rounded flex items-center ml-80"
+                 className="outline-red-500 hover:bg-red-300 outline  font-bold py-2 px-4 rounded flex items-center ml-20"
                  onClick={generateUserReport}
                 >
                    <FiDownload className="mr-2" />
@@ -184,7 +184,9 @@ export default function DashUsers() {
               <Table.HeadCell className='text-center'>Username</Table.HeadCell>
               <Table.HeadCell className='text-center'>Email</Table.HeadCell>
               <Table.HeadCell className='text-center'>Admin</Table.HeadCell>
-              <Table.HeadCell className='text-center'>CuS Agent</Table.HeadCell>
+              <Table.HeadCell className='text-center'>Cu.S. Agent</Table.HeadCell>
+              <Table.HeadCell className='text-center'>Fin. Manager</Table.HeadCell>
+              <Table.HeadCell className='text-center'>Employee</Table.HeadCell>
               <Table.HeadCell className='text-center'>Delete</Table.HeadCell>
             </Table.Head>
             {filteredUsers.map((user) => (
@@ -211,6 +213,20 @@ export default function DashUsers() {
                   </Table.Cell>
                   <Table.Cell>
                     {user.isCustomerServiceAgent ? (
+                      <FaCheck className='text-green-500 mx-auto' />
+                    ) : (
+                      <FaTimes className='text-red-500 mx-auto' />
+                    )}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {user.isFinanceManager ? (
+                      <FaCheck className='text-green-500 mx-auto' />
+                    ) : (
+                      <FaTimes className='text-red-500 mx-auto' />
+                    )}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {user.isEmployee ? (
                       <FaCheck className='text-green-500 mx-auto' />
                     ) : (
                       <FaTimes className='text-red-500 mx-auto' />

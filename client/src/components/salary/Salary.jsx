@@ -5,7 +5,7 @@ import { FaEye, FaEdit, FaTrashAlt, FaSearch, FaDownload } from 'react-icons/fa'
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 
-export default function SalaryList() {
+export default function Salary() {
     const [salaries, setSalaries] = useState([]);
     const [searchQuery, setSearchQuery] = useState(''); // State for the search query
     const navigate = useNavigate();
@@ -88,7 +88,6 @@ export default function SalaryList() {
                 // Creating key-value data array for the report
                 const data = [
                     { key: 'Employee ID', value: employeeSalary.employeeid },
-                    { key: 'Salary ID', value: employeeSalary._id },
                     { key: 'Month', value: employeeSalary.month },
                     { key: 'Year', value: employeeSalary.year },
                     { key: 'Basic Salary', value: employeeSalary.basicsalary },
@@ -126,6 +125,7 @@ export default function SalaryList() {
         }
     };
     
+
     const filteredSalaries = salaries.filter(
         (salary) =>
             salary.employeeid.toLowerCase().includes(searchQuery.toLowerCase())
@@ -153,22 +153,7 @@ export default function SalaryList() {
                             />
                         </div>
 
-                        <div className="flex items-center">
-                            <button
-                                type="button"
-                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4"
-                                onClick={generateSalaryReport}
-                            >
-                                Generate Salary Report
-                            </button>
-                            <button
-                                type="button"
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                onClick={() => navigate('/dashboard?tab=AddSalary')}
-                            >
-                                Add New Salary
-                            </button>
-                        </div>
+                       
                     </div>
 
                     <div className="overflow-x-auto">
@@ -204,26 +189,18 @@ export default function SalaryList() {
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">{salary.reduction}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">{salary.netsalary}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">
-                                            <div className="flex">
+                                            <div className="flex justify-center">
                                                 <Link to={`/ViewSalary/${salary._id}`}>
                                                     <FaEye
                                                         className="mr-2 cursor-pointer text-green-500 hover-text-green-700"
                                                     />
                                                 </Link>
-                                                <Link to={`/updatesalary/${salary._id}`}>
-                                                    <FaEdit
-                                                        className="mr-2 cursor-pointer text-blue-500 hover-text-blue-700"
-                                                        onClick={() => handleUpdate(salary._id)}
-                                                    />
-                                                </Link>
+                                                
                                                 <FaDownload
                                                     className="cursor-pointer text-grey-500 hover-text-red-700"
                                                     onClick={() => generateIndividualSalaryReport(salary._id)}
                                                 />
-                                                <FaTrashAlt
-                                                    className="cursor-pointer text-red-500 hover-text-red-700"
-                                                    onClick={() => handleDelete(salary._id)}
-                                                />
+                                               
 
                                             </div>
                                         </td>

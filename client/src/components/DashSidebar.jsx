@@ -126,8 +126,53 @@ export default function DashSidebar() {
                 My Appointments
               </Sidebar.Item>
             </Link>
-            </div>
+          </div>
 
+          <div>
+
+            {currentUser.isEmployee && (
+              <>
+              <Link to="/dashboard?tab=ProfileView">
+                <Sidebar.Item
+                  active={tab === "ProfileView"}
+                  icon={HiUserGroup}
+                >
+                  Employee List
+                </Sidebar.Item>
+              </Link>
+
+              <Link to="/dashboard?tab=AddLeave">
+                <Sidebar.Item
+                  active={tab === "AddLeave"}
+                  icon={HiOutlineClock}
+                >
+                  Add Leave
+                </Sidebar.Item>
+              </Link>
+
+              <Link to="/dashboard?tab=ViewStatus">
+                <Sidebar.Item
+                  active={tab === "ViewStatus"}
+                  icon={HiViewList}
+                >
+                  Leave List
+                </Sidebar.Item>
+              </Link>
+
+              <Link to="/dashboard?tab=Salary">
+                <Sidebar.Item
+                  active={tab === "Salary"}
+                  icon={HiCurrencyDollar}
+                >
+                  Salary List
+                </Sidebar.Item>
+              </Link>
+              </>
+            )}
+          </div>
+
+          <div>
+            
             <div>
             {currentUser.isCustomerServiceAgent && (
               <Link to="/dashboard?tab=feedbacks">
@@ -308,7 +353,10 @@ export default function DashSidebar() {
                     </>
                   )}
                 </div>
+              </>
+            )}
 
+          </div>
 
           {currentUser.isFinanceManager && (
 

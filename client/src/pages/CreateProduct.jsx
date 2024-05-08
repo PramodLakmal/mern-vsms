@@ -177,7 +177,7 @@ export default function CreateProduct() {
           />
         </div>
 
-        <Button type='submit' gradientDuoTone='purpleToPink'>
+        <Button type='submit' gradientDuoTone='purpleToBlue'>
           Create
         </Button>
         {publishError && (
