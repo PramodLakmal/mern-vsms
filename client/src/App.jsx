@@ -9,6 +9,7 @@ import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
 import Header from "./components/Header";
 import Services from "./pages/Services";
+import Serviceview from "./pages/Serviceview";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
 import UpdateLeave from "./components/leave/UpdateLeave";
@@ -68,6 +69,7 @@ export default function App() {
         </Route>
         <Route path="product/:productId" element={<ProductPage />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/Serviceview" element={<Serviceview />} />
         <Route path="/book" element={<BookNow />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
 
