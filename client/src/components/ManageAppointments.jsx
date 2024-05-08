@@ -126,7 +126,7 @@ export default function ManageAppointments() {
 
   const handleDelete = async (appointmentId) => {
     try {
-      const response = await fetch(`/api/delete-appointment/${appointmentId}`, {
+      const response = await fetch(`/api/appointment/${appointmentId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -134,17 +134,21 @@ export default function ManageAppointments() {
       });
   
       if (response.ok) {
+        // Update local state to remove the deleted appointment
         setAppointments(appointments.filter((appointment) => appointment._id !== appointmentId));
         toast.success("Appointment deleted successfully.");
       } else {
+        // Handle unsuccessful deletion
         console.error("Failed to delete appointment:", response.statusText);
         toast.error("Failed to delete appointment.");
       }
     } catch (error) {
+      // Handle network errors or other exceptions
       console.error("Failed to delete appointment:", error);
       toast.error("Failed to delete appointment.");
     }
   };
+  
 
   const showToast = (message) => {
     toast.error(message, {
