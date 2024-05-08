@@ -13,14 +13,26 @@ import {
 
 const router = express.Router();
 
-// Public routes
-router.get('/', getAppointments);
+//GET all appointments
+router.get('/',getAppointments)
+
+router.get('/cashier', getAppointmentsCashier);
+
+router.put('/cashier/:appointmentId/markCompleted', markAppointmentCompleted)
+router.put('/cashier/:appointmentId/cancel', cancelAppointment);
+
+// GET Single appointment
 router.get('/:id', getAppointment);
 
-// Private routes (require authentication)
+// Post a new appointment
 router.post('/', createAppointment);
+
+//DELETE an appointment
 router.delete('/:id', deleteAppointment);
-router.put('/:id', updateAppointment);
+
+//UPDATE an appointment
+router.patch('/:id', updateAppointment);
+
 
 // Additional routes
 router.get('/user/:userId', getAppointmentsByUser);
