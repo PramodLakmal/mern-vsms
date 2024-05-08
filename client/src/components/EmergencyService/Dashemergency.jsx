@@ -187,14 +187,15 @@ export default function DashEmergency() {
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 {emergency.area}
                             </td>
-                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                {emergency.status}
-                            </td>
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm flex">
                                 {emergency.images && emergency.images.slice(0, 3).map((image, index) => (
                                     <img key={index} src={image} alt="Emergency" className="w-20 h-20 mr-2" />
                                 ))}
                             </td>
+                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                {emergency.status}
+                            </td>
+                            
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <button
                                     onClick={() => deleteEmergency(emergency._id)}
