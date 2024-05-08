@@ -211,7 +211,7 @@ export default function UpdateProduct() {
           />
         </div>
 
-        <Button type='submit' gradientDuoTone='purpleToPink'>
+        <Button type='submit' gradientDuoTone='purpleToBlue'>
           Update Product
         </Button>
         {publishError && (

@@ -49,7 +49,7 @@ export default function LeaveList() {
         });
 
     return (
-        <div className="flex bg-gray-200">
+        <div className="flex ">
             <div className="ml-8 flex-1 pr-8">
                 <div className="newContainer">
                     <div className="top shadow-md py-2 px-4 my-4 flex justify-between items-center">
@@ -82,15 +82,6 @@ export default function LeaveList() {
                             <option value="Approved">Approved</option>
                             <option value="Rejected">Rejected</option>
                         </select>
-
-
-                        <button
-                            type="button"
-                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            onClick={() => navigate('/dashboard?tab=AddLeave')}
-                        >
-                            Add New Leave
-                        </button>
                     </div>
 
                     <div className="overflow-x-auto">
@@ -110,13 +101,13 @@ export default function LeaveList() {
                             </thead>
                             <tbody>
                                 {filteredLeaves.map((leave) => (
-                                    <tr key={leave._id}>
+                                    <tr key={leave._id} className='hover:bg-gray-100'>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{leave._id}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{leave.employeeid}</td>
                                         <td class="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{leave.leavetype}</td>
                                         <td class="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">{new Date(leave.startdate).toLocaleDateString()}</td>
                                         <td class="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">{new Date(leave.enddate).toLocaleDateString()}</td>
-                                        <td class="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{leave.numofdays}</td>
+                                        <td class="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">{leave.numofdays}</td>
                                         <td class="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{leave.reason}</td>
                                         <td class="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{leave.status}</td>
                                         <td class="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">

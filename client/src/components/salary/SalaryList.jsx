@@ -77,63 +77,46 @@ export default function SalaryList() {
     const generateIndividualSalaryReport = (employeeId) => {
         try {
             const employeeSalary = salaries.find(
-                (salary) => salary.employeeid === employeeId
+                (salary) => salary._id === employeeId
             );
-
+    
             if (employeeSalary) {
-                const doc = new jsPDF();
+                const doc = new jsPDF(); // Initialize jsPDF
                 doc.setFontSize(12);
-                doc.text('Employee Salary Report', 10, 10);
-
+                doc.text('Employee Salary Report', 10, 10); // Title for the report
+    
+                // Creating key-value data array for the report
                 const data = [
-                    {
-                        key: 'Employee ID',
-                        value: employeeSalary.employeeid,
-                    },
-                    {
-                        key: 'Month',
-                        value: employeeSalary.month,
-                    },
-                    {
-                        key: 'Year',
-                        value: employeeSalary.year,
-                    },
-                    {
-                        key: 'Basic Salary',
-                        value: employeeSalary.basicsalary,
-                    },
-                    {
-                        key: 'OT Hours',
-                        value: employeeSalary.othours,
-                    },
-                    {
-                        key: 'OT Rate',
-                        value: employeeSalary.otrate,
-                    },
-                    {
-                        key: 'OT Total',
-                        value: employeeSalary.ottotal,
-                    },
-                    {
-                        key: 'Bonus',
-                        value: employeeSalary.bonus,
-                    },
-                    {
-                        key: 'Reduction',
-                        value: employeeSalary.reduction,
-                    },
-                    {
-                        key: 'Net Salary',
-                        value: employeeSalary.netsalary,
-                    },
+                    { key: 'Employee ID', value: employeeSalary.employeeid },
+                    { key: 'Salary ID', value: employeeSalary._id },
+                    { key: 'Month', value: employeeSalary.month },
+                    { key: 'Year', value: employeeSalary.year },
+                    { key: 'Basic Salary', value: employeeSalary.basicsalary },
+                    { key: 'OT Hours', value: employeeSalary.othours },
+                    { key: 'OT Rate', value: employeeSalary.otrate },
+                    { key: 'OT Total', value: employeeSalary.ottotal },
+                    { key: 'Bonus', value: employeeSalary.bonus },
+                    { key: 'Reduction', value: employeeSalary.reduction },
+                    { key: 'Net Salary', value: employeeSalary.netsalary },
                 ];
-
+    
+                // Adding data to the PDF table
                 doc.autoTable({
                     startY: 15,
-                    head: [['Key', 'Value']],
-                    body: data.map((item) => [item.key, item.value]),
+                    head: [['Key', 'Value']], // Header for the table
+                    body: data.map((item) => [item.key, item.value]), // Converting data to rows
                 });
-
+    
+                // Get the current date in a readable format
+                const reportDate = new Date().toLocaleDateString();
+    
+                // Add the report generation date at the bottom of the PDF
+                const lastTableEndY = doc.lastAutoTable.finalY; // Get the end Y position of the last autoTable
+                const additionalInfoYPos = lastTableEndY + 10; // Place the text below the table
+    
+                doc.text(`Report generated on: ${reportDate}`, 10, additionalInfoYPos);
+    
+                // Save the report with a unique filename
                 doc.save(`salary_report_${employeeId}.pdf`);
             } else {
                 console.error('Employee salary not found');
@@ -142,14 +125,14 @@ export default function SalaryList() {
             console.error('Error generating salary report:', error);
         }
     };
-
+    
     const filteredSalaries = salaries.filter(
         (salary) =>
             salary.employeeid.toLowerCase().includes(searchQuery.toLowerCase())
     ); // Case-insensitive search
 
     return (
-        <div className="flex bg-gray-200">
+        <div className="flex ">
             <div className="ml-8 flex-1 pr-8">
                 <div className="newContainer">
                     <div className="top shadow-md py-2 px-4 my-4 flex justify-between items-center">
@@ -189,7 +172,7 @@ export default function SalaryList() {
                     </div>
 
                     <div className="overflow-x-auto">
-                        <table className="w-full bg-white">
+                        <table className="w-full bg-white mt-3">
                             <thead className="bg-gray-300">
                                 <tr>
                                     <th className="px-4 py-2 border-b border-gray-300 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Salary ID</th>
@@ -208,7 +191,7 @@ export default function SalaryList() {
                             </thead>
                             <tbody>
                                 {filteredSalaries.map((salary) => (
-                                    <tr key={salary._id}>
+                                    <tr key={salary._id} className='hover:bg-gray-100'>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{salary._id}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-gray-900">{salary.employeeid}</td>
                                         <td className="px-4 py-2 border-b border-gray-300 text-sm text-center text-gray-900">{salary.month}</td>
@@ -235,7 +218,7 @@ export default function SalaryList() {
                                                 </Link>
                                                 <FaDownload
                                                     className="cursor-pointer text-grey-500 hover-text-red-700"
-                                                    onClick={() => generateIndividualSalaryReport(salary.employeeid)}
+                                                    onClick={() => generateIndividualSalaryReport(salary._id)}
                                                 />
                                                 <FaTrashAlt
                                                     className="cursor-pointer text-red-500 hover-text-red-700"

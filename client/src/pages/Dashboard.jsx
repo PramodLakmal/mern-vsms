@@ -27,6 +27,8 @@ import Dashemergency from '../components/EmergencyService/Dashemergency';
 import Addservices from '../components/Services/Addservices'
 import ProfileView from '../components/employee/ProfileView';
 import ManageAppointments from '../components/ManageAppointments';
+import ViewStatus from '../components/leave/ViewStatus';
+import Salary from '../components/salary/Salary';
 
 
 export default function Dashboard() {
@@ -68,10 +70,14 @@ export default function Dashboard() {
       {tab === 'AddLeave' && <AddLeave/>}
       {/* Leave List */}
       {tab === 'LeaveList' && <LeaveList/>}
+      {/* View Leave Status */}
+      {tab === 'ViewStatus' && <ViewStatus/>}
       {/* Add Salary */}
       {tab === 'AddSalary' && <AddSalary/>}
       {/* Salary List */}
       {tab === 'SalaryList' && <SalaryList/>}
+      {/* Salary */}
+      {tab === 'Salary' && <Salary/>}
       {/* coupons */}
       {tab === "coupons" && <DashCoupons />}
       {/* My Appointments */}
