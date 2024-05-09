@@ -355,6 +355,7 @@ export default function DashCart() {
         <div className="">
           <Link to="#">
             <Button
+              className="my-2"
               gradientDuoTone="purpleToBlue"
               outline
               onClick={() => setShowUserModal(true)}
@@ -362,35 +363,36 @@ export default function DashCart() {
               Select Customer
             </Button>
           </Link>
-          <div className="grid justify-stretch">
-            <FloatingLabel
-              variant="outlined"
-              label="Name"
-              value={manualName}
-              onChange={(e) => setManualName(e.target.value)}
-            />
-            <FloatingLabel
-              variant="outlined"
-              label="Mobile Number"
-              value={manualMobile}
-              onChange={(e) => setManualMobile(e.target.value)}
-            />
-            <Button
-              gradientDuoTone="purpleToBlue"
-              outline
-              onClick={handleAddManualCustomer}
-            >
-              Add Customer
-            </Button>
-            <Button
-              gradientDuoTone="purpleToBlue"
-              outline
-              onClick={() => setShowItemModal(true)}
-            >
-              Select Item
-            </Button>
-          </div>
+          <FloatingLabel
+            variant="outlined"
+            label="Name"
+            value={manualName}
+            onChange={(e) => setManualName(e.target.value)}
+          />
+          <FloatingLabel
+            variant="outlined"
+            label="Mobile Number"
+            value={manualMobile}
+            onChange={(e) => setManualMobile(e.target.value)}
+          />
           <Button
+            className="mb-2"
+            gradientDuoTone="purpleToBlue"
+            outline
+            onClick={handleAddManualCustomer}
+          >
+            Add Customer
+          </Button>
+          <Button
+            className="mb-2"
+            gradientDuoTone="purpleToBlue"
+            outline
+            onClick={() => setShowItemModal(true)}
+          >
+            Select Products
+          </Button>
+          <Button
+            className="mb-2"
             gradientDuoTone="purpleToBlue"
             outline
             onClick={() => setShowServiceModal(true)}
@@ -522,48 +524,52 @@ export default function DashCart() {
           </Modal>
 
           <Modal
-  show={showServiceModal}
-  onClose={() => setShowServiceModal(false)}
-  popup
-  size="lg"
->
-  <Modal.Header></Modal.Header>
-  <Modal.Body>
-    <input
-      type="text"
-      placeholder="Search services..."
-      className="border p-2 rounded w-full mb-4"
-      value={searchQuery}
-      onChange={handleSearch}
-    />
-    {filteredServices && filteredServices.length > 0 ? (
-      filteredServices.map((service) => (
-        <div key={service._id} className="flex items-center justify-between border-b pb-4">
-          <div className="flex items-center">
-            <img
-              src={service.imageUrl}
-              alt={service.name}
-              className="w-16 h-16 mr-4 rounded"
-            />
-            <div>
-              <p className="font-bold">{service.name}</p>
-              <p className="text-gray-700">Price: LKR {service.price}</p>
-            </div>
-          </div>
-          <button
-            onClick={() => handleServiceSelect(service)}
-            className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition duration-300"
+            show={showServiceModal}
+            onClose={() => setShowServiceModal(false)}
+            popup
+            size="lg"
           >
-            Select
-          </button>
-        </div>
-      ))
-    ) : (
-      <p className="text-center">No services available</p>
-    )}
-  </Modal.Body>
-</Modal>
-
+            <Modal.Header></Modal.Header>
+            <Modal.Body>
+              <input
+                type="text"
+                placeholder="Search services..."
+                className="border p-2 rounded w-full mb-4"
+                value={searchQuery}
+                onChange={handleSearch}
+              />
+              {filteredServices && filteredServices.length > 0 ? (
+                filteredServices.map((service) => (
+                  <div
+                    key={service._id}
+                    className="flex items-center justify-between border-b pb-4"
+                  >
+                    <div className="flex items-center">
+                      <img
+                        src={service.imageUrl}
+                        alt={service.name}
+                        className="w-16 h-16 mr-4 rounded"
+                      />
+                      <div>
+                        <p className="font-bold">{service.name}</p>
+                        <p className="text-gray-700">
+                          Price: LKR {service.price}
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handleServiceSelect(service)}
+                      className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition duration-300"
+                    >
+                      Select
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <p className="text-center">No services available</p>
+              )}
+            </Modal.Body>
+          </Modal>
 
           <Modal
             show={showBillModal}
@@ -632,18 +638,18 @@ export default function DashCart() {
               <div>
                 <h3 className="text-lg font-semibold mb-2">Total Amount</h3>
                 <p className="mb-1">
-                  Total Amount: LKR 
+                  Total Amount: LKR
                   {calculateTotalAmount().totalAmountWithoutDiscounts.toFixed(
                     2
                   )}
                 </p>
                 <p className="mb-1">
-                  Discount Amount: LKR 
+                  Discount Amount: LKR
                   {calculateTotalAmount().discountAmount.toFixed(2)}
                 </p>
                 <p className="mb-1">
                   <span className="text-xl font-bold text-purple-600">
-                    Final Amount: LKR 
+                    Final Amount: LKR
                     {calculateTotalAmount().finalAmount.toFixed(2)}
                   </span>
                 </p>
@@ -797,11 +803,11 @@ export default function DashCart() {
           <div className="mb-6">
             <p className="text-lg font-bold mb-2">Total Amount</p>
             <p className="mb-1">
-              Total Amount: LKR 
+              Total Amount: LKR
               {calculateTotalAmount().totalAmountWithoutDiscounts.toFixed(2)}
             </p>
             <p className="mb-1">
-              Discount Amount: LKR 
+              Discount Amount: LKR
               {calculateTotalAmount().discountAmount.toFixed(2)}
             </p>
             <p className="mb-1">

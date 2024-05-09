@@ -30,7 +30,7 @@ export const createProduct = async (req, res, next) => {
 export const getProducts = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
-    const limit = parseInt(req.query.limit) || 15;
+    const limit = parseInt(req.query.limit) || 30;
     const sortDirection = req.query.order === 'asc' ? 1 : -1;
     const products = await Product.find({
       ...(req.query.userId && { userId: req.query.userId }),
