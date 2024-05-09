@@ -59,7 +59,7 @@ router.post(
             from: "vehicleservicemanagementsystem@gmail.com",
             to: userEmail, 
             subject: "Payment Confirmation",
-            text: `Your payment of $${amountPaid} was successfully received.`,
+            text: `Your payment of LKR ${amountPaid} was successfully received.`,
           };
 
           await transporter.sendMail(mailOptions);

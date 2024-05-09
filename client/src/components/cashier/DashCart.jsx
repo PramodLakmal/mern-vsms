@@ -307,7 +307,7 @@ export default function DashCart() {
         // Total Amount
         doc.text("Total Amount:", 15, y);
         doc.text(
-          `$${calculateTotalAmount().finalAmount.toFixed(2)}`,
+          `LKR ${calculateTotalAmount().finalAmount.toFixed(2)}`,
           150,
           y,
           null,
