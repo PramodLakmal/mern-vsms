@@ -34,6 +34,8 @@ import UpdateIncome from "./components/Incomes/UpdateIncome";
 import UpdateExpense from "./components/Expenses/UpdateExpense";
 import NetIncome from "./components/NetIncome";
 import FeedbackSuccess from "./components/FeedbackSuccess";
+import UpdateSupplier from "./components/supplier/UpdateSupplier";
+import ViewSupplier from "./components/supplier/ViewSupplier";
 
 
 export default function App() {
@@ -81,6 +83,8 @@ export default function App() {
         <Route path="/ViewSalary/:id" element={<ViewSalary />} />
         <Route path="/ViewEmployee/:employeeId" element={<ViewEmployee />} /> 
         <Route path="/UpdateEmployee/:employeeId" element={<UpdateEmployee />} />
+        <Route path="/UpdateSupplier/:id" element={<UpdateSupplier/>}/>
+        <Route path="/ViewSupplier/:id" element = {<ViewSupplier/>}/>
       </Routes>
       <Footer />
     </BrowserRouter>

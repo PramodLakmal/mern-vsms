@@ -1,7 +1,7 @@
 import express from 'express';
 import {
     getSuppliers,
-    getSupplierById, // Renamed from getSupplier
+    getSupplierById,
     createSupplier,
     deleteSupplier,
     updateSupplier
@@ -13,7 +13,7 @@ const router = express.Router();
 router.get('/', getSuppliers);
 
 // GET a single supplier by ID
-router.get('/:id', getSupplierById); // Renamed from getSupplier
+router.get('/:id', getSupplierById);
 
 // POST a new supplier
 router.post('/', createSupplier);

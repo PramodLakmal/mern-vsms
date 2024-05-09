@@ -19,7 +19,7 @@
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "firebase": "^10.10.0",
-    "flowbite-react": "^0.7.2",
+    "flowbite-react": "^0.7.8",
     "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.10.1",
     "json2csv": "^6.0.0-alpha.2",

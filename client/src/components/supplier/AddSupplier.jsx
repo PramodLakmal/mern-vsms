@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { storage } from '../../firebase';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
+
 export default function AddSupplier() {
   const [previewImage, setPreviewImage] = useState("https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg");
   const [selectedImage, setSelectedImage] = useState(null);
@@ -39,50 +40,50 @@ export default function AddSupplier() {
     }
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setErrorMessage("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMessage("");
 
-  try {
-    let imageUrl = "";
+    try {
+      let imageUrl = "";
 
-    if (selectedImage) {
-      const imageRef = ref(storage, `supplier/${selectedImage.name}`);
-      const snapshot = await uploadBytes(imageRef, selectedImage);
-      imageUrl = await getDownloadURL(snapshot.ref);
+      if (selectedImage) {
+        const imageRef = ref(storage, `Supplier/${selectedImage.name}`);
+        const snapshot = await uploadBytes(imageRef, selectedImage);
+        imageUrl = await getDownloadURL(snapshot.ref);
+      }
+
+      const supplierInfo = {
+        firstName: info.firstName,
+        lastName: info.lastName,
+        email: info.email,
+        nic: info.nic,
+        dob: info.dob,
+        gender: info.gender,
+        address: info.address,
+        itemName: info.itemName,
+        itemCode: info.itemCode,
+        imageUrl: imageUrl
+      };
+
+      const response = await axios.post("/api/supplier", supplierInfo, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (response.status === 201) {
+        window.alert("Supplier added successfully!");
+        navigate('/dashboard?tab=SupplierList');
+      } else {
+        throw new Error("Failed to add supplier. Unexpected response from server.");
+      }
+    } catch (error) {
+      console.error("Failed to add supplier:", error);
+      setErrorMessage("Failed to add supplier. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
-    const supplierInfo = {
-      firstName: info.firstName,
-      lastName: info.lastName,
-      email: info.email,
-      nic: info.nic,
-      dob: info.dob,
-      gender: info.gender,
-      address: info.address,
-      itemName: info.itemName,
-      itemCode: info.itemCode,
-      imageUrl: imageUrl
-    };
-
-    const response = await axios.post("/api/supplier", supplierInfo, {
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    if (response.status === 201) {
-      window.alert("Supplier added successfully!");
-      navigate('/dashboard?tab=SupplierList');
-    } else {
-      throw new Error("Failed to add supplier. Unexpected response from server.");
-    }
-  } catch (error) {
-    console.error("Failed to add supplier:", error);
-    setErrorMessage("Failed to add supplier. Please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   const handleClear = () => {
     setInfo({
@@ -282,7 +283,6 @@ export default function AddSupplier() {
                 <div className="flex justify-center space-x-6">
                   <Button
                     type='submit'
-                    onClick={handleChange}
                     color="red"
                     className={`text-white font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline w-${loading ? 'auto' : 'auto'} ${loading ? 'inline-block' : 'inline-block'}`}
                   >
@@ -291,7 +291,7 @@ export default function AddSupplier() {
                   <button
                     className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline w-24"
                     type="button"
-                    onClick=''
+                    onClick={handleClear}
                   >
                     Clear
                   </button>

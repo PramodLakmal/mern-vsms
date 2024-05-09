@@ -121,7 +121,7 @@ const updateSupplier = async (req, res) => {
 
 export {
     getSuppliers,
-    getSupplierById, // Renamed from getSupplier
+    getSupplierById,
     createSupplier,
     deleteSupplier,
     updateSupplier

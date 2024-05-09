@@ -23,7 +23,9 @@ import {
   HiOutlineEmojiHappy,
   HiBookmarkAlt,
   HiOutlineViewBoards,
-  HiShieldCheck
+  HiShieldCheck,
+  HiOutlineThumbUp,
+  HiOutlineShoppingCart
 } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice";
@@ -106,6 +108,8 @@ export default function DashSidebar() {
                         ? "FManager"
                         : currentUser.isEmployee
                           ? "Emp"
+                        : currentUser.isSupplier
+                          ? "Sup"
                           : "User"
                 }
                 labelColor="dark"
@@ -483,6 +487,63 @@ export default function DashSidebar() {
 </>
 
           )}
+          <div>
+
+{currentUser.isAdmin && (
+  <>
+   <Link to="/dashboard?tab=AddSupplier">
+          <Sidebar.Item
+            active={tab === "AddSupplier"}
+            icon={HiUserGroup}
+          >
+            Add Supplier
+          </Sidebar.Item>
+        </Link>
+        {/* <Link to="/dashboard?tab=SupplierList">
+          <Sidebar.Item
+            active={tab === "SupplierList"}
+            icon={HiViewList}
+          >
+            Supplier List
+          </Sidebar.Item>
+        </Link> */}
+
+  </>
+)}
+</div>
+          	  <div>
+
+                {currentUser.isAdmin && (
+                  <>
+                  {/* <Link to="/dashboard?tab=DashItemRequest">
+                <Sidebar.Item
+                  active={tab === "DashItemRequest"}
+                  icon={HiUserGroup}
+                >
+                  Request Items
+                </Sidebar.Item>
+              </Link> */}
+              <Link to="/dashboard?tab=SupplierList">
+                <Sidebar.Item
+                  active={tab === "SupplierList"}
+                  icon={HiUserGroup}
+                >
+                  Supplier List
+                </Sidebar.Item>
+              </Link>
+              <Link to="/dashboard?tab=ItemRequests">
+                <Sidebar.Item
+                  active={tab === "ItemRequests"}
+                  icon={HiOutlineShoppingCart}
+                >
+                  Request Items
+                </Sidebar.Item>
+              </Link>
+  
+                  </>
+          )}
+</div>
+
           <div>
             <Sidebar.Item
               icon={HiArrowSmRight}

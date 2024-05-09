@@ -28,6 +28,11 @@ import Addservices from '../components/Services/Addservices'
 import ProfileView from '../components/employee/ProfileView';
 import ViewStatus from '../components/leave/ViewStatus';
 import Salary from '../components/salary/Salary';
+import AddSupplier from '../components/supplier/AddSupplier';
+import SupplierList from '../components/supplier/SupplierList';
+import ItemRequests from '../components/supplier/ItemRequests';
+import DashItemRequest from '../components/supplier/DashItemRequest';
+
 
 
 export default function Dashboard() {
@@ -93,6 +98,17 @@ export default function Dashboard() {
         {tab === 'NetIncome' && <NetIncome/>}
         {/* Pie Chart */}
         {tab === 'IncomeChart' && <IncomeChart/>}
+        {/* Add Supplier */}
+      {tab === 'AddSupplier' && <AddSupplier/>}
+      {/* Supplier List */}
+      {tab === 'SupplierList' && <SupplierList/>}
+      {/* Supplier  item request */}
+      {tab === 'ItemRequests' && <ItemRequests/>}
+      {/* DashItemRequest List */}
+      {tab === 'DashItemRequest' && <DashItemRequest/>}
+
+
+        
 
       {/* Notice List */}
       {tab === 'notices' && <DashNotice/>}
