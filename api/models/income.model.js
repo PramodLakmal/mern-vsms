@@ -19,8 +19,15 @@ const IncomeSchema = new mongoose.Schema({
     date: {
         type: Date,
         required: true,
-        trim: true
-    },
+        trim: true,
+        validate: {
+          validator: function (value) {
+            const currentDate = new Date();
+            return value <= currentDate; // Ensure the date is not in the future
+          },
+          message: "Date cannot be in the future.",
+        },
+      },
     description: {
         type: String,
         required: true,
