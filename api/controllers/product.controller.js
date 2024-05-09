@@ -30,7 +30,7 @@ export const createProduct = async (req, res, next) => {
 export const getProducts = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
-    const limit = parseInt(req.query.limit) || 15;
+    const limit = parseInt(req.query.limit) || 30;
     const sortDirection = req.query.order === 'asc' ? 1 : -1;
     const products = await Product.find({
       ...(req.query.userId && { userId: req.query.userId }),
@@ -114,6 +114,23 @@ export const getProduct = async (req, res, next) => {
       return next(errorHandler(404, 'Product not found'));
     }
     res.status(200).json({product});
+  } catch (error) {
+    next(error);
+  }
+};
+// product.controller.js
+
+export const generateProductReport = async (req, res, next) => {
+  try {
+    const productReports = await Product.aggregate([
+      {
+        $group: {
+          _id: "$category",
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+    res.status(200).json({ productReports });
   } catch (error) {
     next(error);
   }

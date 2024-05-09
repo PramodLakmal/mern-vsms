@@ -14,14 +14,16 @@ const userSchema = new mongoose.Schema(
       required: false,
     },
     phoneNumber: {
-      type: Number,
+      type: String, // Considering phone numbers may contain non-numeric characters
       required: false,
       unique: true,
       validate: {
-        validator: function (v) {
-          return /d{10}/.test(v);
+        validator: function(v) {
+          // Remove non-digit characters and check if the resulting string is 10 digits long
+          const cleaned = v.replace(/\D/g, ''); // Remove non-digit characters
+          return cleaned.length === 10;
         },
-        message: (props) => `${props.value} is not a valid phone number!`,
+        message: props => `${props.value} is not a valid phone number!`,
       },
     },
     address: {

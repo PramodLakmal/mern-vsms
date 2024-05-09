@@ -6,11 +6,13 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from '../redux/theme/themeSlice';
 import { signoutSuccess } from '../redux/user/userSlice';
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const path = useLocation().pathname;
   const location = useLocation();
   const currentUser = useSelector((state) => state.user.currentUser);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { theme } = useSelector(state => state.theme);
 
@@ -40,6 +42,14 @@ export default function Header() {
     }
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('searchTerm', searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  }
+
   return (
     <Navbar className="border-b-2 flex">
       <div>
@@ -56,12 +66,15 @@ export default function Header() {
           </span>
         </Link>
       </div>
-      <form>
+
+      <form onSubmit={handleSubmit} >
         <TextInput
           type="text"
           placeholder="Search..."
           rightIcon={AiOutlineSearch}
           className="hidden lg:inline"
+          value={searchTerm}
+          onChange={(e)=> setSearchTerm(e.target.value)}
         />
       </form>
       <Button className="w-12 h-10 lg:hidden" color="gray" pill>
@@ -120,7 +133,7 @@ export default function Header() {
           <Link to="/">Home</Link>
         </Navbar.Link>
         <Navbar.Link className="mt-1" active={path === "/inventory"} as={"div"}>
-          <Link to="/inventory">Inventory</Link>
+          <Link to="/inventory">Products</Link>
         </Navbar.Link>
         <Navbar.Link className="mt-1" active={path === "/services"} as={"div"}>
           <Link to="/services">Services</Link>

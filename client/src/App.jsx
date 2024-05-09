@@ -7,9 +7,11 @@ import BookNow from "./pages/Book";
 import Inventory from "./pages/Inventory";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
+import Search from "./pages/Search";
 import Dashboard from "./pages/Dashboard";
 import Header from "./components/Header";
 import Services from "./pages/Services";
+import Serviceview from "./pages/Serviceview";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
 import UpdateLeave from "./components/leave/UpdateLeave";
@@ -49,6 +51,7 @@ export default function App() {
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/search" element={<Search />} />
         <Route element={<PrivateRoute />}>
           {" "}
           {/* PrivateRoute is a placeholder */}
@@ -73,6 +76,7 @@ export default function App() {
         </Route>
         <Route path="product/:productId" element={<ProductPage />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/Serviceview" element={<Serviceview />} />
         <Route path="/book" element={<BookNow />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
 

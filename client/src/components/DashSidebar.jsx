@@ -120,17 +120,19 @@ export default function DashSidebar() {
             </Link>
           </div>
 
-          <div>
-            <Link to="/dashboard?tab=myAppointments">
-              <Sidebar.Item
-                active={tab === "myAppointments"}
-                icon={HiDocumentText}
-                as="div"
-              >
-                My Appointments
-              </Sidebar.Item>
-            </Link>
-          </div>
+          {!currentUser.isAdmin && !currentUser.isCashier && !currentUser.isFinanceManager && !currentUser.isCustomerServiceAgent && (
+            <div>
+              <Link to="/dashboard?tab=myAppointments">
+                <Sidebar.Item
+                  active={tab === "myAppointments"}
+                  icon={HiDocumentText}
+                  as="div"
+                >
+                  My Appointments
+                </Sidebar.Item>
+              </Link>
+            </div>
+          )}
 
           <div>
 
