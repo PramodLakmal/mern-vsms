@@ -28,7 +28,7 @@ import {
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { RiBookMarkFill, RiCoupon2Fill, RiNotification4Fill } from "react-icons/ri";
+import { RiCoupon2Fill, RiNotification4Fill } from "react-icons/ri";
 
 export default function DashSidebar() {
   const location = useLocation();
@@ -114,9 +114,9 @@ export default function DashSidebar() {
                 Profile
               </Sidebar.Item>
             </Link>
-            </div>
+          </div>
 
-            <div>
+          <div>
             <Link to="/dashboard?tab=myAppointments">
               <Sidebar.Item
                 active={tab === "myAppointments"}
@@ -172,8 +172,7 @@ export default function DashSidebar() {
           </div>
 
           <div>
-            
-            <div>
+
             {currentUser.isCustomerServiceAgent && (
               <Link to="/dashboard?tab=feedbacks">
                 <Sidebar.Item
@@ -216,13 +215,15 @@ export default function DashSidebar() {
                     View Users
                   </Sidebar.Item>
                 </Link>
-              </>
-            )}
-          </div>
-
-          <div>
-            {currentUser.isAdmin && (
-              <>
+                <Link to="/dashboard?tab=products">
+                  <Sidebar.Item
+                    active={tab === "products"}
+                    icon={HiOutlineArchive}
+                    as="div"
+                  >
+                    Products
+                  </Sidebar.Item>
+                </Link>
                 <Link to="/dashboard?tab=coupons">
                   <Sidebar.Item
                     active={tab === "coupons"}
@@ -241,21 +242,6 @@ export default function DashSidebar() {
                     Notice
                   </Sidebar.Item>
                 </Link>
-                <Link to="/dashboard?tab=appointments">
-                  <Sidebar.Item
-                    active={tab === "appointments"}
-                    icon={RiBookMarkFill}
-                    as="div"
-                  >
-                    Appointments
-                  </Sidebar.Item>
-                </Link>
-          
-              </>
-            )}
-          </div>
-
-              
                 <div className="relative">
                   <div
                     onClick={toggleEmployeeSubmenu} // Toggle employee submenu on click
@@ -339,20 +325,15 @@ export default function DashSidebar() {
                       </Link>
                     </div>
                   )}
-               </div>
-                <div>
-                  {currentUser.isAdmin && (
-                    <>
-                      <Link to="/dashboard?tab=Dashemergency">
-                        <div className="cursor-pointer">
-                          <Sidebar.Item active={tab === "Dashemergency"} icon={HiViewList}>
-                            Emergency List
-                          </Sidebar.Item>
-                        </div>
-                      </Link>
-                    </>
-                  )}
                 </div>
+                <Link to="/dashboard?tab=Dashemergency">
+                  <div className="cursor-pointer">
+                    <Sidebar.Item active={tab === "Dashemergency"} icon={HiViewList}>
+                      Emergency List
+                    </Sidebar.Item>
+                  </div>
+                </Link>
+
               </>
             )}
 
